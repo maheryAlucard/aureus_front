@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { Project, Lead, BlogPost } from '../types';
+import { Project, Lead, BlogPost, Testimonial, TeamMember, Devis } from '../types';
 import { PricingPackage, FAQItem } from '../services/mockDataService';
 
 // Store state interface
@@ -28,6 +28,21 @@ interface AppState {
   faqs: FAQItem[];
   faqsLoading: boolean;
   faqsError: string | null;
+  
+  // Testimonials
+  testimonials: Testimonial[];
+  testimonialsLoading: boolean;
+  testimonialsError: string | null;
+  
+  // Team Members
+  teamMembers: TeamMember[];
+  teamMembersLoading: boolean;
+  teamMembersError: string | null;
+  
+  // Devis
+  devis: Devis[];
+  devisLoading: boolean;
+  devisError: string | null;
   
   // Auth
   user: { username: string; email: string } | null;
@@ -78,6 +93,30 @@ interface AppActions {
   setFAQsLoading: (loading: boolean) => void;
   setFAQsError: (error: string | null) => void;
   
+  // Testimonials actions
+  setTestimonials: (testimonials: Testimonial[]) => void;
+  addTestimonial: (testimonial: Testimonial) => void;
+  updateTestimonial: (id: string, updates: Partial<Testimonial>) => void;
+  removeTestimonial: (id: string) => void;
+  setTestimonialsLoading: (loading: boolean) => void;
+  setTestimonialsError: (error: string | null) => void;
+  
+  // Team Members actions
+  setTeamMembers: (members: TeamMember[]) => void;
+  addTeamMember: (member: TeamMember) => void;
+  updateTeamMember: (id: string, updates: Partial<TeamMember>) => void;
+  removeTeamMember: (id: string) => void;
+  setTeamMembersLoading: (loading: boolean) => void;
+  setTeamMembersError: (error: string | null) => void;
+  
+  // Devis actions
+  setDevis: (devis: Devis[]) => void;
+  addDevis: (devis: Devis) => void;
+  updateDevis: (id: string, updates: Partial<Devis>) => void;
+  removeDevis: (id: string) => void;
+  setDevisLoading: (loading: boolean) => void;
+  setDevisError: (error: string | null) => void;
+  
   // Auth actions
   setUser: (user: { username: string; email: string } | null) => void;
   setAuthLoading: (loading: boolean) => void;
@@ -105,6 +144,15 @@ const initialState: AppState = {
   faqs: [],
   faqsLoading: false,
   faqsError: null,
+  testimonials: [],
+  testimonialsLoading: false,
+  testimonialsError: null,
+  teamMembers: [],
+  teamMembersLoading: false,
+  teamMembersError: null,
+  devis: [],
+  devisLoading: false,
+  devisError: null,
   user: null,
   authLoading: false,
   authError: null,
@@ -174,6 +222,42 @@ export const useAppStore = create<AppStore>((set) => ({
   })),
   setFAQsLoading: (loading) => set({ faqsLoading: loading }),
   setFAQsError: (error) => set({ faqsError: error }),
+  
+  // Testimonials actions
+  setTestimonials: (testimonials) => set({ testimonials }),
+  addTestimonial: (testimonial) => set((state) => ({ testimonials: [...state.testimonials, testimonial] })),
+  updateTestimonial: (id, updates) => set((state) => ({
+    testimonials: state.testimonials.map((t) => (t.id === id ? { ...t, ...updates } : t)),
+  })),
+  removeTestimonial: (id) => set((state) => ({
+    testimonials: state.testimonials.filter((t) => t.id !== id),
+  })),
+  setTestimonialsLoading: (loading) => set({ testimonialsLoading: loading }),
+  setTestimonialsError: (error) => set({ testimonialsError: error }),
+  
+  // Team Members actions
+  setTeamMembers: (members) => set({ teamMembers: members }),
+  addTeamMember: (member) => set((state) => ({ teamMembers: [...state.teamMembers, member] })),
+  updateTeamMember: (id, updates) => set((state) => ({
+    teamMembers: state.teamMembers.map((m) => (m.id === id ? { ...m, ...updates } : m)),
+  })),
+  removeTeamMember: (id) => set((state) => ({
+    teamMembers: state.teamMembers.filter((m) => m.id !== id),
+  })),
+  setTeamMembersLoading: (loading) => set({ teamMembersLoading: loading }),
+  setTeamMembersError: (error) => set({ teamMembersError: error }),
+  
+  // Devis actions
+  setDevis: (devis) => set({ devis }),
+  addDevis: (devis) => set((state) => ({ devis: [...state.devis, devis] })),
+  updateDevis: (id, updates) => set((state) => ({
+    devis: state.devis.map((d) => (d.id === id ? { ...d, ...updates } : d)),
+  })),
+  removeDevis: (id) => set((state) => ({
+    devis: state.devis.filter((d) => d.id !== id),
+  })),
+  setDevisLoading: (loading) => set({ devisLoading: loading }),
+  setDevisError: (error) => set({ devisError: error }),
   
   // Auth actions
   setUser: (user) => set({ user }),

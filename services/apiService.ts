@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
-import { Project, Lead, BlogPost, Division } from '../types';
+import { Project, Lead, BlogPost, Division, Testimonial, TeamMember, Devis } from '../types';
 import { PricingPackage, FAQItem } from './mockDataService';
 import { env } from '../config/env';
 
@@ -29,6 +29,20 @@ let mockFAQs: FAQItem[] = [
   { id: '1', question: 'Les prix incluent-ils les taxes ?', answer: 'Tous nos prix sont indiqués hors taxes (HT). La TVA de 20% s\'applique selon votre situation.' },
   { id: '2', question: 'Proposez-vous des paiements échelonnés ?', answer: 'Oui, pour les projets supérieurs à 5,000€, nous proposons un paiement en 2-3 fois.' },
 ];
+
+let mockTestimonials: Testimonial[] = [
+  { id: '1', name: 'Sarah Chen', role: 'CEO', company: 'TechStart', content: 'Aureus a transformé notre présence digitale. Leur expertise technique est remarquable.', rating: 5, division: Division.TECH },
+  { id: '2', name: 'Marc Dubois', role: 'Directeur Marketing', company: 'BrandCo', content: 'Production vidéo de qualité professionnelle. Un partenariat exceptionnel.', rating: 5, division: Division.STUDIO },
+  { id: '3', name: 'Emma Laurent', role: 'Fondatrice', company: 'StyleBrand', content: 'Notre identité visuelle n\'a jamais été aussi forte. Merci Aureus Brand !', rating: 5, division: Division.BRAND },
+];
+
+let mockTeamMembers: TeamMember[] = [
+  { id: '1', name: 'Alexandre Martin', role: 'Lead Developer', division: Division.TECH, bio: 'Expert en développement full-stack et architecture cloud.', photo: 'https://picsum.photos/seed/alex/200/200', expertise: ['React', 'Node.js', 'AWS'], linkedin: 'https://linkedin.com/in/alexandre-martin', email: 'alex@aureus.agency', featured: true },
+  { id: '2', name: 'Sophie Dubois', role: 'Creative Director', division: Division.STUDIO, bio: 'Passionnée par la production vidéo et les effets visuels.', photo: 'https://picsum.photos/seed/sophie/200/200', expertise: ['VFX', '3D Animation', 'Color Grading'], linkedin: 'https://linkedin.com/in/sophie-dubois', featured: true },
+  { id: '3', name: 'Thomas Leroy', role: 'Brand Strategist', division: Division.BRAND, bio: 'Spécialiste en identité de marque et growth marketing.', photo: 'https://picsum.photos/seed/thomas/200/200', expertise: ['Branding', 'Social Media', 'Growth Hacking'], linkedin: 'https://linkedin.com/in/thomas-leroy', featured: true },
+];
+
+let mockDevis: Devis[] = [];
 
 // Create axios instance
 const apiClient: AxiosInstance = axios.create({
@@ -368,6 +382,155 @@ export const apiService = {
     
     isAuthenticated: (): boolean => {
       return !!localStorage.getItem('auth_token');
+    },
+  },
+
+  // ============ TESTIMONIALS ============
+  testimonials: {
+    getAll: async (): Promise<Testimonial[]> => {
+      await delay(300);
+      // In production: return (await apiClient.get<Testimonial[]>('/testimonials')).data;
+      return [...mockTestimonials];
+    },
+    
+    getById: async (id: string): Promise<Testimonial> => {
+      await delay(300);
+      // In production: return (await apiClient.get<Testimonial>(`/testimonials/${id}`)).data;
+      const testimonial = mockTestimonials.find(t => t.id === id);
+      if (!testimonial) throw new Error('Testimonial not found');
+      return testimonial;
+    },
+    
+    getByDivision: async (division: Division): Promise<Testimonial[]> => {
+      await delay(300);
+      // In production: return (await apiClient.get<Testimonial[]>(`/testimonials?division=${division}`)).data;
+      return mockTestimonials.filter(t => t.division === division);
+    },
+    
+    create: async (testimonial: Omit<Testimonial, 'id'>): Promise<Testimonial> => {
+      await delay(500);
+      // In production: return (await apiClient.post<Testimonial>('/testimonials', testimonial)).data;
+      const newTestimonial: Testimonial = { ...testimonial, id: Date.now().toString() };
+      mockTestimonials.push(newTestimonial);
+      return newTestimonial;
+    },
+    
+    update: async (id: string, updates: Partial<Testimonial>): Promise<Testimonial> => {
+      await delay(500);
+      // In production: return (await apiClient.patch<Testimonial>(`/testimonials/${id}`, updates)).data;
+      const index = mockTestimonials.findIndex(t => t.id === id);
+      if (index === -1) throw new Error('Testimonial not found');
+      mockTestimonials[index] = { ...mockTestimonials[index], ...updates };
+      return mockTestimonials[index];
+    },
+    
+    delete: async (id: string): Promise<void> => {
+      await delay(300);
+      // In production: await apiClient.delete(`/testimonials/${id}`);
+      mockTestimonials = mockTestimonials.filter(t => t.id !== id);
+    },
+  },
+
+  // ============ TEAM MEMBERS ============
+  teamMembers: {
+    getAll: async (): Promise<TeamMember[]> => {
+      await delay(300);
+      // In production: return (await apiClient.get<TeamMember[]>('/team-members')).data;
+      return [...mockTeamMembers];
+    },
+    
+    getById: async (id: string): Promise<TeamMember> => {
+      await delay(300);
+      // In production: return (await apiClient.get<TeamMember>(`/team-members/${id}`)).data;
+      const member = mockTeamMembers.find(m => m.id === id);
+      if (!member) throw new Error('Team member not found');
+      return member;
+    },
+    
+    getByDivision: async (division: Division): Promise<TeamMember[]> => {
+      await delay(300);
+      // In production: return (await apiClient.get<TeamMember[]>(`/team-members?division=${division}`)).data;
+      return mockTeamMembers.filter(m => m.division === division);
+    },
+    
+    getFeatured: async (): Promise<TeamMember[]> => {
+      await delay(300);
+      // In production: return (await apiClient.get<TeamMember[]>('/team-members?featured=true')).data;
+      return mockTeamMembers.filter(m => m.featured);
+    },
+    
+    create: async (member: Omit<TeamMember, 'id'>): Promise<TeamMember> => {
+      await delay(500);
+      // In production: return (await apiClient.post<TeamMember>('/team-members', member)).data;
+      const newMember: TeamMember = { ...member, id: Date.now().toString() };
+      mockTeamMembers.push(newMember);
+      return newMember;
+    },
+    
+    update: async (id: string, updates: Partial<TeamMember>): Promise<TeamMember> => {
+      await delay(500);
+      // In production: return (await apiClient.patch<TeamMember>(`/team-members/${id}`, updates)).data;
+      const index = mockTeamMembers.findIndex(m => m.id === id);
+      if (index === -1) throw new Error('Team member not found');
+      mockTeamMembers[index] = { ...mockTeamMembers[index], ...updates };
+      return mockTeamMembers[index];
+    },
+    
+    delete: async (id: string): Promise<void> => {
+      await delay(300);
+      // In production: await apiClient.delete(`/team-members/${id}`);
+      mockTeamMembers = mockTeamMembers.filter(m => m.id !== id);
+    },
+  },
+
+  // ============ DEVIS ============
+  devis: {
+    getAll: async (): Promise<Devis[]> => {
+      await delay(300);
+      // In production: return (await apiClient.get<Devis[]>('/devis')).data;
+      return [...mockDevis];
+    },
+    
+    getById: async (id: string): Promise<Devis> => {
+      await delay(300);
+      // In production: return (await apiClient.get<Devis>(`/devis/${id}`)).data;
+      const devis = mockDevis.find(d => d.id === id);
+      if (!devis) throw new Error('Devis not found');
+      return devis;
+    },
+    
+    getByUserId: async (userId: string): Promise<Devis[]> => {
+      await delay(300);
+      // In production: return (await apiClient.get<Devis[]>(`/devis?userId=${userId}`)).data;
+      return mockDevis.filter(d => d.userId === userId);
+    },
+    
+    create: async (devis: Omit<Devis, 'id' | 'createdAt'>): Promise<Devis> => {
+      await delay(500);
+      // In production: return (await apiClient.post<Devis>('/devis', devis)).data;
+      const newDevis: Devis = {
+        ...devis,
+        id: Date.now().toString(),
+        createdAt: new Date().toISOString(),
+        generatedContent: devis.generatedContent || '',
+      };
+      mockDevis.push(newDevis);
+      return newDevis;
+    },
+    
+    update: async (id: string, updates: Partial<Devis>): Promise<Devis> => {
+      await delay(500);
+      // In production: return (await apiClient.patch<Devis>(`/devis/${id}`, updates)).data;
+      const index = mockDevis.findIndex(d => d.id === id);
+      if (index === -1) throw new Error('Devis not found');
+      mockDevis[index] = { ...mockDevis[index], ...updates };
+      return mockDevis[index];
+    },
+    
+    delete: async (id: string): Promise<void> => {
+      await delay(300);
+      // In production: await apiClient.delete(`/devis/${id}`);
+      mockDevis = mockDevis.filter(d => d.id !== id);
     },
   },
 };

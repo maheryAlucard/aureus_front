@@ -13,6 +13,9 @@ This document describes the API service layer for the Aureus Digital Agency appl
   - [Blog Posts](#blog-posts)
   - [Pricing Packages](#pricing-packages)
   - [FAQs](#faqs)
+  - [Testimonials](#testimonials)
+  - [Team Members](#team-members)
+  - [Devis](#devis)
   - [Auth](#auth)
 - [Hooks](#hooks)
 - [State Management](#state-management)
@@ -599,6 +602,435 @@ DELETE /api/faqs/:id
 void
 ```
 
+### Testimonials
+
+#### Get All Testimonials
+```typescript
+GET /api/testimonials
+```
+
+**Response:**
+```typescript
+Testimonial[]
+```
+
+**Hook Usage:**
+```typescript
+const { testimonials, fetchTestimonials, testimonialsLoading, testimonialsError } = useTestimonials();
+await fetchTestimonials();
+```
+
+#### Get Testimonial by ID
+```typescript
+GET /api/testimonials/:id
+```
+
+**Parameters:**
+- `id` (string): Testimonial ID
+
+**Response:**
+```typescript
+Testimonial
+```
+
+**Hook Usage:**
+```typescript
+const { fetchTestimonialById } = useTestimonials();
+const testimonial = await fetchTestimonialById('1');
+```
+
+#### Get Testimonials by Division
+```typescript
+GET /api/testimonials?division=:division
+```
+
+**Parameters:**
+- `division` (Division): Division filter (TECH, STUDIO, BRAND)
+
+**Response:**
+```typescript
+Testimonial[]
+```
+
+**Hook Usage:**
+```typescript
+const { fetchTestimonialsByDivision } = useTestimonials();
+const testimonials = await fetchTestimonialsByDivision(Division.TECH);
+```
+
+#### Create Testimonial
+```typescript
+POST /api/testimonials
+```
+
+**Request Body:**
+```typescript
+{
+  name: string;
+  role: string;
+  company: string;
+  companyLogo?: string;
+  photo?: string;
+  content: string;
+  rating: number;
+  division?: Division;
+  videoUrl?: string;
+}
+```
+
+**Response:**
+```typescript
+Testimonial
+```
+
+**Hook Usage:**
+```typescript
+const { createTestimonial } = useTestimonials();
+const newTestimonial = await createTestimonial({
+  name: 'John Doe',
+  role: 'CEO',
+  company: 'TechCorp',
+  content: 'Excellent service!',
+  rating: 5,
+  division: Division.TECH
+});
+```
+
+#### Update Testimonial
+```typescript
+PATCH /api/testimonials/:id
+```
+
+**Parameters:**
+- `id` (string): Testimonial ID
+
+**Request Body:**
+```typescript
+Partial<Testimonial>
+```
+
+**Response:**
+```typescript
+Testimonial
+```
+
+**Hook Usage:**
+```typescript
+const { updateTestimonialById } = useTestimonials();
+const updated = await updateTestimonialById('1', { rating: 5 });
+```
+
+#### Delete Testimonial
+```typescript
+DELETE /api/testimonials/:id
+```
+
+**Parameters:**
+- `id` (string): Testimonial ID
+
+**Response:**
+```typescript
+void
+```
+
+**Hook Usage:**
+```typescript
+const { deleteTestimonial } = useTestimonials();
+await deleteTestimonial('1');
+```
+
+### Team Members
+
+#### Get All Team Members
+```typescript
+GET /api/team-members
+```
+
+**Response:**
+```typescript
+TeamMember[]
+```
+
+**Hook Usage:**
+```typescript
+const { teamMembers, fetchTeamMembers, teamMembersLoading, teamMembersError } = useTeamMembers();
+await fetchTeamMembers();
+```
+
+#### Get Team Member by ID
+```typescript
+GET /api/team-members/:id
+```
+
+**Parameters:**
+- `id` (string): Team member ID
+
+**Response:**
+```typescript
+TeamMember
+```
+
+**Hook Usage:**
+```typescript
+const { fetchTeamMemberById } = useTeamMembers();
+const member = await fetchTeamMemberById('1');
+```
+
+#### Get Team Members by Division
+```typescript
+GET /api/team-members?division=:division
+```
+
+**Parameters:**
+- `division` (Division): Division filter (TECH, STUDIO, BRAND)
+
+**Response:**
+```typescript
+TeamMember[]
+```
+
+**Hook Usage:**
+```typescript
+const { fetchTeamMembersByDivision } = useTeamMembers();
+const members = await fetchTeamMembersByDivision(Division.TECH);
+```
+
+#### Get Featured Team Members
+```typescript
+GET /api/team-members?featured=true
+```
+
+**Response:**
+```typescript
+TeamMember[]
+```
+
+**Hook Usage:**
+```typescript
+const { fetchFeaturedTeamMembers } = useTeamMembers();
+const featured = await fetchFeaturedTeamMembers();
+```
+
+#### Create Team Member
+```typescript
+POST /api/team-members
+```
+
+**Request Body:**
+```typescript
+{
+  name: string;
+  role: string;
+  division: Division;
+  bio: string;
+  photo: string;
+  expertise: string[];
+  linkedin?: string;
+  email?: string;
+  featured?: boolean;
+}
+```
+
+**Response:**
+```typescript
+TeamMember
+```
+
+**Hook Usage:**
+```typescript
+const { createTeamMember } = useTeamMembers();
+const newMember = await createTeamMember({
+  name: 'Jane Smith',
+  role: 'Senior Developer',
+  division: Division.TECH,
+  bio: 'Expert in React and Node.js',
+  photo: 'https://example.com/photo.jpg',
+  expertise: ['React', 'TypeScript', 'Node.js'],
+  featured: true
+});
+```
+
+#### Update Team Member
+```typescript
+PATCH /api/team-members/:id
+```
+
+**Parameters:**
+- `id` (string): Team member ID
+
+**Request Body:**
+```typescript
+Partial<TeamMember>
+```
+
+**Response:**
+```typescript
+TeamMember
+```
+
+**Hook Usage:**
+```typescript
+const { updateTeamMemberById } = useTeamMembers();
+const updated = await updateTeamMemberById('1', { featured: true });
+```
+
+#### Delete Team Member
+```typescript
+DELETE /api/team-members/:id
+```
+
+**Parameters:**
+- `id` (string): Team member ID
+
+**Response:**
+```typescript
+void
+```
+
+**Hook Usage:**
+```typescript
+const { deleteTeamMember } = useTeamMembers();
+await deleteTeamMember('1');
+```
+
+### Devis
+
+#### Get All Devis
+```typescript
+GET /api/devis
+```
+
+**Response:**
+```typescript
+Devis[]
+```
+
+**Hook Usage:**
+```typescript
+const { devis, fetchDevis, devisLoading, devisError } = useDevis();
+await fetchDevis();
+```
+
+#### Get Devis by ID
+```typescript
+GET /api/devis/:id
+```
+
+**Parameters:**
+- `id` (string): Devis ID
+
+**Response:**
+```typescript
+Devis
+```
+
+**Hook Usage:**
+```typescript
+const { fetchDevisById } = useDevis();
+const devis = await fetchDevisById('1');
+```
+
+#### Get Devis by User ID
+```typescript
+GET /api/devis?userId=:userId
+```
+
+**Parameters:**
+- `userId` (string): User ID
+
+**Response:**
+```typescript
+Devis[]
+```
+
+**Hook Usage:**
+```typescript
+const { fetchDevisByUserId } = useDevis();
+const userDevis = await fetchDevisByUserId('user123');
+```
+
+#### Create Devis
+```typescript
+POST /api/devis
+```
+
+**Request Body:**
+```typescript
+{
+  clientName: string;
+  clientEmail: string;
+  companyName?: string;
+  division: Division;
+  projectDescription: string;
+  budget?: string;
+  deadline?: string;
+  additionalRequirements?: string;
+  generatedContent: string;
+  userId: string;
+}
+```
+
+**Response:**
+```typescript
+Devis // Includes auto-generated id and createdAt
+```
+
+**Hook Usage:**
+```typescript
+const { createDevis } = useDevis();
+const newDevis = await createDevis({
+  clientName: 'John Doe',
+  clientEmail: 'john@example.com',
+  division: Division.TECH,
+  projectDescription: 'Web application development',
+  generatedContent: 'Generated devis content...',
+  userId: 'user123'
+});
+```
+
+#### Update Devis
+```typescript
+PATCH /api/devis/:id
+```
+
+**Parameters:**
+- `id` (string): Devis ID
+
+**Request Body:**
+```typescript
+Partial<Devis>
+```
+
+**Response:**
+```typescript
+Devis
+```
+
+**Hook Usage:**
+```typescript
+const { updateDevisById } = useDevis();
+const updated = await updateDevisById('1', { budget: '10,000€' });
+```
+
+#### Delete Devis
+```typescript
+DELETE /api/devis/:id
+```
+
+**Parameters:**
+- `id` (string): Devis ID
+
+**Response:**
+```typescript
+void
+```
+
+**Hook Usage:**
+```typescript
+const { deleteDevis } = useDevis();
+await deleteDevis('1');
+```
+
 ### Auth
 
 #### Login
@@ -703,7 +1135,10 @@ Each hook returns:
 3. **useBlogPosts** - Manage blog posts
 4. **usePricingPackages** - Manage pricing packages
 5. **useFAQs** - Manage FAQs
-6. **useAuth** - Manage authentication
+6. **useTestimonials** - Manage testimonials
+7. **useTeamMembers** - Manage team members
+8. **useDevis** - Manage devis (quotes)
+9. **useAuth** - Manage authentication
 
 ### Example: Using Multiple Hooks
 
@@ -751,7 +1186,41 @@ interface AppState {
   leadsLoading: boolean;
   leadsError: string | null;
   
-  // ... (similar for other resources)
+  // Blog Posts
+  blogPosts: BlogPost[];
+  blogPostsLoading: boolean;
+  blogPostsError: string | null;
+  
+  // Pricing Packages
+  pricingPackages: PricingPackage[];
+  pricingPackagesLoading: boolean;
+  pricingPackagesError: string | null;
+  
+  // FAQs
+  faqs: FAQItem[];
+  faqsLoading: boolean;
+  faqsError: string | null;
+  
+  // Testimonials
+  testimonials: Testimonial[];
+  testimonialsLoading: boolean;
+  testimonialsError: string | null;
+  
+  // Team Members
+  teamMembers: TeamMember[];
+  teamMembersLoading: boolean;
+  teamMembersError: string | null;
+  
+  // Devis
+  devis: Devis[];
+  devisLoading: boolean;
+  devisError: string | null;
+  
+  // Auth
+  user: { username: string; email: string } | null;
+  authLoading: boolean;
+  authError: string | null;
+  isAuthenticated: boolean;
 }
 ```
 
@@ -853,7 +1322,7 @@ getAll: async (): Promise<Project[]> => {
 ## Type Definitions
 
 All types are defined in:
-- `types.ts` - Core types (Project, Lead, BlogPost, Division)
+- `types.ts` - Core types (Project, Lead, BlogPost, Division, Testimonial, TeamMember, Devis)
 - `services/mockDataService.ts` - PricingPackage, FAQItem
 
 ## Best Practices

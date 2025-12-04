@@ -5,4 +5,7 @@ export { useBlogPosts } from './useBlogPosts';
 export { usePricingPackages } from './usePricingPackages';
 export { useFAQs } from './useFAQs';
 export { useAuth } from './useAuth';
+export { useTestimonials } from './useTestimonials';
+export { useTeamMembers } from './useTeamMembers';
+export { useDevis } from './useDevis';
 
