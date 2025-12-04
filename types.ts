@@ -132,6 +132,76 @@ export interface QuizResult {
   userId?: string;
 }
 
+// Dynamic Content Types
+export interface Metric {
+  id: string;
+  value: string;
+  label: string;
+  icon?: string;
+  color?: string;
+  order: number;
+}
+
+export interface MethodologyStep {
+  id: string;
+  step: string;
+  title: string;
+  description: string;
+  icon?: string;
+  order: number;
+}
+
+export interface HomePageContent {
+  id: string;
+  heroBadge?: string;
+  heroTitle: string;
+  heroSubtitle: string;
+  heroDescription: string;
+  heroDescriptionHighlight?: string;
+  metrics: Metric[];
+  methodologyTitle?: string;
+  methodologyDescription?: string;
+  methodologySteps: MethodologyStep[];
+  techStackTitle?: string;
+  techStackItems: string[];
+  creativeStackItems: string[];
+  whyUsTitle?: string;
+  whyUsItems: Array<{
+    id: string;
+    title: string;
+    description: string;
+    icon?: string;
+    color?: string;
+  }>;
+  teamTeaserTitle?: string;
+  teamTeaserDescription?: string;
+  blogSectionTitle?: string;
+  blogSectionDescription?: string;
+}
+
+export interface SiteSettings {
+  id: string;
+  siteName: string;
+  siteDescription: string;
+  footerDescription?: string;
+  footerLinks: Array<{
+    id: string;
+    label: string;
+    url: string;
+    category: 'divisions' | 'company' | 'other';
+  }>;
+  socialLinks: {
+    twitter?: string;
+    linkedin?: string;
+    github?: string;
+    instagram?: string;
+    youtube?: string;
+  };
+  contactEmail?: string;
+  careersEmail?: string;
+  seoKeywords?: string[];
+}
+
 export const DIVISION_CONFIG = {
   [Division.TECH]: {
     color: 'text-cyan-400',

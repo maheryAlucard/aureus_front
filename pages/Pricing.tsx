@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Division, DIVISION_CONFIG } from '../types';
-import { Check, X, ChevronDown, ChevronUp, Zap, Shield, Clock, Users, TrendingUp, Sparkles, ArrowRight, HelpCircle, Star, Award, FileText, Calendar, CreditCard } from 'lucide-react';
+import { Check, X, ChevronDown, ChevronUp, Zap, Shield, Clock, Users, TrendingUp, Sparkles, ArrowRight, HelpCircle, Star, Award, FileText, Calendar, CreditCard, Loader2 } from 'lucide-react';
+import { mockDataService, PricingPackage } from '../services/mockDataService';
+import { useFAQs } from '../hooks/useFAQs';
 
 interface PricingPackage {
     title: string;
@@ -275,14 +277,29 @@ export const Pricing: React.FC = () => {
     const [activeDivision, setActiveDivision] = useState<Division>(Division.TECH);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
     const [showAddons, setShowAddons] = useState(false);
+    const [pricingPackages, setPricingPackages] = useState<PricingPackage[]>([]);
+    const [loading, setLoading] = useState(true);
+    const { faqs, fetchFAQs } = useFAQs();
+
+    useEffect(() => {
+        const loadData = async () => {
+            try {
+                const [packages, faqsData] = await Promise.all([
+                    mockDataService.getPricingPackages(),
+                    fetchFAQs()
+                ]);
+                setPricingPackages(packages);
+            } catch (error) {
+                console.error('Error loading pricing data:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        loadData();
+    }, [fetchFAQs]);
 
     const getPackages = () => {
-        switch (activeDivision) {
-            case Division.TECH: return TECH_PACKAGES;
-            case Division.STUDIO: return STUDIO_PACKAGES;
-            case Division.BRAND: return BRAND_PACKAGES;
-            default: return TECH_PACKAGES;
-        }
+        return pricingPackages.filter(pkg => pkg.division === activeDivision);
     };
 
     const getAddons = () => {
@@ -336,10 +353,15 @@ export const Pricing: React.FC = () => {
             </div>
 
             {/* Pricing Cards */}
-            <div className="mx-auto mb-20 max-w-7xl">
-                <div className="gap-8 grid grid-cols-1 md:grid-cols-3">
-                    <AnimatePresence mode="wait">
-                        {getPackages().map((pkg, idx) => (
+            {loading ? (
+                <div className="flex justify-center items-center py-20">
+                    <Loader2 className="w-8 h-8 text-blue-400 animate-spin" />
+                </div>
+            ) : (
+                <div className="mx-auto mb-20 max-w-7xl">
+                    <div className="gap-8 grid grid-cols-1 md:grid-cols-3">
+                        <AnimatePresence mode="wait">
+                            {getPackages().map((pkg, idx) => (
                             <motion.div
                                 key={`${activeDivision}-${idx}`}
                                 initial={{ opacity: 0, y: 20 }}
@@ -410,10 +432,11 @@ export const Pricing: React.FC = () => {
                                     Choisir ce Pack
                                 </Link>
                             </motion.div>
-                        ))}
-                    </AnimatePresence>
+                            ))}
+                        </AnimatePresence>
+                    </div>
                 </div>
-            </div>
+            )}
 
             {/* Add-ons Section */}
             <div className="mx-auto mb-20 max-w-7xl">
@@ -473,14 +496,15 @@ export const Pricing: React.FC = () => {
             </div>
 
             {/* FAQ Section */}
-            <div className="mx-auto mb-20 max-w-4xl">
-                <div className="mb-12 text-center">
-                    <h2 className="mb-4 font-bold text-white text-3xl md:text-4xl">Questions Fréquentes</h2>
-                    <p className="text-gray-400">Tout ce que vous devez savoir sur nos tarifs et processus.</p>
-                </div>
+            {faqs.length > 0 && (
+                <div className="mx-auto mb-20 max-w-4xl">
+                    <div className="mb-12 text-center">
+                        <h2 className="mb-4 font-bold text-white text-3xl md:text-4xl">Questions Fréquentes</h2>
+                        <p className="text-gray-400">Tout ce que vous devez savoir sur nos tarifs et processus.</p>
+                    </div>
 
-                <div className="space-y-4">
-                    {FAQ_ITEMS.map((faq, idx) => (
+                    <div className="space-y-4">
+                        {faqs.map((faq, idx) => (
                         <div
                             key={idx}
                             className="bg-[#0a0a16] border border-white/10 rounded-xl overflow-hidden"
@@ -513,10 +537,11 @@ export const Pricing: React.FC = () => {
                                     </motion.div>
                                 )}
                             </AnimatePresence>
-                        </div>
-                    ))}
+                            </div>
+                        ))}
+                    </div>
                 </div>
-            </div>
+            )}
 
             {/* CTA Section */}
             <div className="mx-auto max-w-7xl">

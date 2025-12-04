@@ -1,51 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Division, DIVISION_CONFIG, BlogPost } from '../types';
-import { ArrowRight, Code, Film, Zap, Activity, Users, Zap as ZapIcon, Terminal, Cpu, Layers, Rocket, Globe, Eye, TrendingUp } from 'lucide-react';
+import { ArrowRight, Code, Film, Zap, Activity, Users, Zap as ZapIcon, Terminal, Cpu, Layers, Rocket, Globe, Eye, TrendingUp, Loader2 } from 'lucide-react';
 import { useSEO } from '../hooks/useSEO';
 import { NewsletterSignup } from '../components/NewsletterSignup';
 import { ExitIntentPopup } from '../components/ExitIntentPopup';
 import { Testimonials } from '../components/Testimonials';
 import { Hero3DBackground } from '../components/Hero3DBackground';
+import { apiService } from '../services/apiService';
+import { useBlogPosts } from '../hooks/useBlogPosts';
+import { useTeamMembers } from '../hooks/useTeamMembers';
 
-// --- MOCK DATA FOR NEW SECTIONS ---
-const TECH_STACK = [
-  "React", "Next.js", "Python", "FastAPI", "PostgreSQL", "Docker", "AWS", "TensorFlow"
-];
-const CREATIVE_STACK = [
-  "Unreal Engine 5", "Cinema 4D", "DaVinci Resolve", "After Effects", "Figma", "Blender", "Redshift"
-];
-
-const LATEST_ARTICLES: BlogPost[] = [
-    {
-        id: '1',
-        title: 'L\'IA et le Support Client',
-        excerpt: 'Réduire vos coûts de 40% avec des agents autonomes.',
-        category: 'Tech',
-        date: '12 Oct',
-        imageUrl: 'https://picsum.photos/seed/ai/800/600',
-        slug: 'ai-agents'
-    },
-    {
-        id: '2',
-        title: 'Psychologie des Couleurs',
-        excerpt: 'L\'impact du Color Grading sur la perception de marque.',
-        category: 'Studio',
-        date: '08 Oct',
-        imageUrl: 'https://picsum.photos/seed/color/800/600',
-        slug: 'color-grading'
-    },
-    {
-        id: '3',
-        title: 'Refonte UX/UI 2024',
-        excerpt: 'Les tendances minimalistes qui convertissent.',
-        category: 'Brand',
-        date: '01 Oct',
-        imageUrl: 'https://picsum.photos/seed/next/800/600',
-        slug: 'ux-trends'
-    }
-];
+// Icon mapping helper
+const getIcon = (iconName?: string) => {
+  const icons: Record<string, any> = {
+    Globe, Terminal, Eye, TrendingUp, Users, Layers, Cpu, Rocket, Activity, Zap
+  };
+  return icons[iconName || ''] || Globe;
+};
 
 // --- COMPONENTS ---
 
@@ -127,12 +100,80 @@ const DivisionCard: React.FC<DivisionCardProps> = ({
 
 export const Home: React.FC = () => {
   const [activeDivision, setActiveDivision] = useState<Division | null>(null);
+  const [homeContent, setHomeContent] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const { blogPosts, fetchBlogPosts } = useBlogPosts();
+  const { fetchFeaturedTeamMembers, teamMembers } = useTeamMembers();
+  
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const [content, featured] = await Promise.all([
+          apiService.homePageContent.get(),
+          fetchFeaturedTeamMembers()
+        ]);
+        setHomeContent(content);
+        await fetchBlogPosts();
+      } catch (error) {
+        console.error('Error loading home content:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadData();
+  }, [fetchBlogPosts, fetchFeaturedTeamMembers]);
+
+  // Fallback to default content if not loaded
+  const content = homeContent || {
+    heroBadge: 'AGENCE DIGITALE NOUVELLE GÉNÉRATION',
+    heroTitle: 'Tech du Futur.',
+    heroSubtitle: 'Créativité Cinématique.',
+    heroDescription: "Nous ne faisons pas que coder, nous créons. Nous ne faisons pas que filmer, nous racontons des histoires.",
+    heroDescriptionHighlight: "L'intersection du Code & de l'Art.",
+    metrics: [
+      { value: '50+', label: 'Projets Livrés', icon: 'Globe', color: 'text-white' },
+      { value: '15k', label: 'Lignes de Code / jour', icon: 'Terminal', color: 'text-cyan-400' },
+      { value: '10M+', label: 'Vues Générées', icon: 'Eye', color: 'text-fuchsia-400' },
+      { value: '300%', label: 'ROI Moyen', icon: 'TrendingUp', color: 'text-white' },
+    ],
+    methodologyTitle: 'Le Protocole Aureus',
+    methodologyDescription: 'Comment nous transformons le chaos en clarté. Une méthodologie éprouvée pour les projets complexes.',
+    methodologySteps: [
+      { step: '01', title: 'Immersion', description: "Audit profond de votre marque et de vos systèmes actuels.", icon: 'Users' },
+      { step: '02', title: 'Architecture', description: "Conception technique et storyboard créatif. Rien n'est laissé au hasard.", icon: 'Layers' },
+      { step: '03', title: 'Fusion', description: 'Développement agile et production vidéo simultanée.', icon: 'Cpu' },
+      { step: '04', title: 'Déploiement', description: 'Lancement, monitoring et itération continue.', icon: 'Rocket' },
+    ],
+    techStackItems: ["React", "Next.js", "Python", "FastAPI", "PostgreSQL", "Docker", "AWS", "TensorFlow"],
+    creativeStackItems: ["Unreal Engine 5", "Cinema 4D", "DaVinci Resolve", "After Effects", "Figma", "Blender", "Redshift"],
+    whyUsTitle: 'Pourquoi Aureus ?',
+    whyUsItems: [
+      { title: 'Esprit Startup Agile', description: "Pas de bureaucratie. Nous livrons vite, itérons rapidement et nous adaptons à votre rythme.", icon: 'Activity', color: 'blue' },
+      { title: 'Expertise Transversale', description: "Un développeur qui comprend le design. Un vidéaste qui comprend le SEO. C'est notre standard.", icon: 'Users', color: 'purple' },
+      { title: 'Orienté Résultats', description: "Nous ne vendons pas des heures, nous vendons de l'impact, de l'automatisation et de la croissance.", icon: 'Zap', color: 'cyan' },
+    ],
+    teamTeaserTitle: "L'Équipe derrière la Magie",
+    teamTeaserDescription: "Des experts passionnés qui transforment vos idées en réalité.",
+    blogSectionTitle: 'Dernières Pensées',
+    blogSectionDescription: 'Analyses et prospectives.',
+  };
+
+  const latestArticles = blogPosts.slice(0, 3);
+  const featuredTeam = teamMembers.filter(m => m.featured).slice(0, 3);
   
   useSEO({
     title: "Aureus | La Rencontre de la Créativité & de l'Intelligence",
     description: "Agence digitale premium spécialisée en développement web/app, production vidéo et branding. Tech, Studio & Brand - Une approche unique pour transformer votre présence digitale.",
     type: 'website'
   });
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center bg-[#020205] min-h-screen">
+        <Loader2 className="w-8 h-8 text-blue-400 animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div className="pt-20 min-h-screen">
@@ -151,21 +192,25 @@ export const Home: React.FC = () => {
           transition={{ duration: 0.8 }}
           className="z-10 relative"
         >
-          <div className="inline-flex items-center space-x-2 bg-white/5 mb-8 px-4 py-1 border border-white/10 rounded-full">
-            <span className="bg-green-400 rounded-full w-2 h-2 animate-pulse" />
-            <span className="font-bold text-gray-300 text-xs tracking-wider">AGENCE DIGITALE NOUVELLE GÉNÉRATION</span>
-          </div>
+          {content.heroBadge && (
+            <div className="inline-flex items-center space-x-2 bg-white/5 mb-8 px-4 py-1 border border-white/10 rounded-full">
+              <span className="bg-green-400 rounded-full w-2 h-2 animate-pulse" />
+              <span className="font-bold text-gray-300 text-xs tracking-wider">{content.heroBadge}</span>
+            </div>
+          )}
 
           <h1 className="mb-6 font-bold text-white text-5xl md:text-8xl leading-tight tracking-tight">
-            Tech du Futur. <br />
+            {content.heroTitle} <br />
             <span className="bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 text-transparent">
-              Créativité Cinématique.
+              {content.heroSubtitle}
             </span>
           </h1>
           
           <p className="mx-auto mb-12 max-w-3xl font-light text-gray-400 text-xl md:text-2xl">
-            Nous ne faisons pas que coder, nous créons. Nous ne faisons pas que filmer, nous racontons des histoires.
-            <span className="block mt-2 font-medium text-white">L'intersection du Code & de l'Art.</span>
+            {content.heroDescription}
+            {content.heroDescriptionHighlight && (
+              <span className="block mt-2 font-medium text-white">{content.heroDescriptionHighlight}</span>
+            )}
           </p>
         </motion.div>
       </section>
@@ -186,115 +231,118 @@ export const Home: React.FC = () => {
       </section>
 
       {/* NEW SECTION 1: Metrics HUD */}
-      <section className="bg-[#030308] py-20 border-white/5 border-y">
-        <div className="mx-auto px-6 max-w-7xl">
-            <div className="gap-8 grid grid-cols-2 md:grid-cols-4 text-center">
-                <div className="space-y-2">
-                    <div className="font-mono font-bold text-white text-4xl md:text-5xl">50+</div>
-                    <div className="flex justify-center items-center gap-2 text-gray-500 text-xs uppercase tracking-widest">
-                         <Globe className="w-3 h-3" /> Projets Livrés
-                    </div>
-                </div>
-                <div className="space-y-2">
-                    <div className="font-mono font-bold text-cyan-400 text-4xl md:text-5xl">15k</div>
-                    <div className="flex justify-center items-center gap-2 text-gray-500 text-xs uppercase tracking-widest">
-                         <Terminal className="w-3 h-3" /> Lignes de Code / jour
-                    </div>
-                </div>
-                <div className="space-y-2">
-                    <div className="font-mono font-bold text-fuchsia-400 text-4xl md:text-5xl">10M+</div>
-                    <div className="flex justify-center items-center gap-2 text-gray-500 text-xs uppercase tracking-widest">
-                         <Eye className="w-3 h-3" /> Vues Générées
-                    </div>
-                </div>
-                <div className="space-y-2">
-                    <div className="font-mono font-bold text-white text-4xl md:text-5xl">300%</div>
-                    <div className="flex justify-center items-center gap-2 text-gray-500 text-xs uppercase tracking-widest">
-                         <TrendingUp className="w-3 h-3" /> ROI Moyen
-                    </div>
-                </div>
-            </div>
-        </div>
-      </section>
+      {content.metrics && content.metrics.length > 0 && (
+        <section className="bg-[#030308] py-20 border-white/5 border-y">
+          <div className="mx-auto px-6 max-w-7xl">
+              <div className="gap-8 grid grid-cols-2 md:grid-cols-4 text-center">
+                  {content.metrics.map((metric: any) => {
+                    const Icon = getIcon(metric.icon);
+                    return (
+                      <div key={metric.id || metric.value} className="space-y-2">
+                          <div className={`font-mono font-bold ${metric.color || 'text-white'} text-4xl md:text-5xl`}>
+                            {metric.value}
+                          </div>
+                          <div className="flex justify-center items-center gap-2 text-gray-500 text-xs uppercase tracking-widest">
+                               <Icon className="w-3 h-3" /> {metric.label}
+                          </div>
+                      </div>
+                    );
+                  })}
+              </div>
+          </div>
+        </section>
+      )}
 
       {/* NEW SECTION 2: Methodology (Workflow) */}
-      <section className="mx-auto px-6 py-24 max-w-7xl">
-        <div className="mb-16 text-center">
-            <h2 className="mb-4 font-bold text-white text-3xl md:text-4xl">Le Protocole Aureus</h2>
-            <p className="mx-auto max-w-2xl text-gray-400">Comment nous transformons le chaos en clarté. Une méthodologie éprouvée pour les projets complexes.</p>
-        </div>
-        
-        <div className="gap-8 grid grid-cols-1 md:grid-cols-4">
-            {[
-                { step: '01', title: 'Immersion', desc: 'Audit profond de votre marque et de vos systèmes actuels.', icon: Users },
-                { step: '02', title: 'Architecture', desc: 'Conception technique et storyboard créatif. Rien n\'est laissé au hasard.', icon: Layers },
-                { step: '03', title: 'Fusion', desc: 'Développement agile et production vidéo simultanée.', icon: Cpu },
-                { step: '04', title: 'Déploiement', desc: 'Lancement, monitoring et itération continue.', icon: Rocket }
-            ].map((item, idx) => (
+      {content.methodologySteps && content.methodologySteps.length > 0 && (
+        <section className="mx-auto px-6 py-24 max-w-7xl">
+          <div className="mb-16 text-center">
+              {content.methodologyTitle && (
+                <h2 className="mb-4 font-bold text-white text-3xl md:text-4xl">{content.methodologyTitle}</h2>
+              )}
+              {content.methodologyDescription && (
+                <p className="mx-auto max-w-2xl text-gray-400">{content.methodologyDescription}</p>
+              )}
+          </div>
+          
+          <div className="gap-8 grid grid-cols-1 md:grid-cols-4">
+              {content.methodologySteps.map((item: any, idx: number) => {
+                const Icon = getIcon(item.icon);
+                return (
                 <div key={idx} className="group relative">
                     <div className="top-0 left-0 -z-10 absolute font-bold text-white/5 group-hover:text-white/10 text-6xl transition-colors pointer-events-none">
                         {item.step}
                     </div>
                     <div className="z-10 relative pt-8 pl-4">
                         <div className="flex justify-center items-center bg-white/5 group-hover:bg-blue-600 mb-4 border border-white/10 rounded-lg w-12 h-12 group-hover:text-white transition-all duration-300">
-                            <item.icon className="w-6 h-6 text-gray-400 group-hover:text-white" />
+                            <Icon className="w-6 h-6 text-gray-400 group-hover:text-white" />
                         </div>
                         <h3 className="mb-2 font-bold text-white text-xl">{item.title}</h3>
-                        <p className="text-gray-500 text-sm">{item.desc}</p>
+                        <p className="text-gray-500 text-sm">{item.description || item.desc}</p>
                     </div>
                     {/* Connector Line (Desktop) */}
                     {idx !== 3 && (
                         <div className="hidden md:block top-14 right-0 -z-0 absolute bg-gradient-to-r from-transparent via-white/10 to-transparent w-1/2 h-[1px]" />
                     )}
                 </div>
-            ))}
-        </div>
-      </section>
+                );
+              })}
+          </div>
+        </section>
+      )}
 
       {/* NEW SECTION 3: The Arsenal (Tech Stack) */}
-      <section className="bg-[#020205] py-16 overflow-hidden">
-        <div className="mx-auto mb-8 px-6 max-w-7xl">
-             <h3 className="font-bold text-gray-500 text-sm uppercase tracking-widest">L'Arsenal Technologique & Créatif</h3>
-        </div>
-        
-        {/* Infinite Horizontal Scroll */}
-        <div className="flex flex-col space-y-6 opacity-60 hover:opacity-100 transition-opacity duration-500">
-            {/* Tech Row - Auto Scroll */}
-            <div className="relative overflow-hidden">
-                <div className="flex gap-8 md:gap-16 animate-scroll-left">
-                    {/* First set */}
-                    {TECH_STACK.map((tech, idx) => (
-                        <span key={`tech-1-${idx}`} className="flex-shrink-0 bg-clip-text bg-gradient-to-r from-gray-600 hover:from-cyan-400 to-gray-400 hover:to-blue-500 font-bold text-transparent text-xl md:text-2xl whitespace-nowrap transition-all cursor-default">
-                            {tech}
-                        </span>
-                    ))}
-                    {/* Duplicate for seamless loop */}
-                    {TECH_STACK.map((tech, idx) => (
-                        <span key={`tech-2-${idx}`} className="flex-shrink-0 bg-clip-text bg-gradient-to-r from-gray-600 hover:from-cyan-400 to-gray-400 hover:to-blue-500 font-bold text-transparent text-xl md:text-2xl whitespace-nowrap transition-all cursor-default">
-                            {tech}
-                        </span>
-                    ))}
-                </div>
+      {(content.techStackItems?.length > 0 || content.creativeStackItems?.length > 0) && (
+        <section className="bg-[#020205] py-16 overflow-hidden">
+          {content.techStackTitle && (
+            <div className="mx-auto mb-8 px-6 max-w-7xl">
+                 <h3 className="font-bold text-gray-500 text-sm uppercase tracking-widest">{content.techStackTitle}</h3>
             </div>
-            {/* Creative Row - Auto Scroll (Reverse) */}
-            <div className="relative overflow-hidden">
-                <div className="flex gap-8 md:gap-16 animate-scroll-right">
-                    {/* First set */}
-                    {CREATIVE_STACK.map((tool, idx) => (
-                        <span key={`creative-1-${idx}`} className="flex-shrink-0 bg-clip-text bg-gradient-to-r from-gray-600 hover:from-fuchsia-400 to-gray-400 hover:to-pink-500 font-bold text-transparent text-xl md:text-2xl whitespace-nowrap transition-all cursor-default">
-                            {tool}
-                        </span>
-                    ))}
-                    {/* Duplicate for seamless loop */}
-                    {CREATIVE_STACK.map((tool, idx) => (
-                        <span key={`creative-2-${idx}`} className="flex-shrink-0 bg-clip-text bg-gradient-to-r from-gray-600 hover:from-fuchsia-400 to-gray-400 hover:to-pink-500 font-bold text-transparent text-xl md:text-2xl whitespace-nowrap transition-all cursor-default">
-                            {tool}
-                        </span>
-                    ))}
+          )}
+          
+          {/* Infinite Horizontal Scroll */}
+          <div className="flex flex-col space-y-6 opacity-60 hover:opacity-100 transition-opacity duration-500">
+              {/* Tech Row - Auto Scroll */}
+              {content.techStackItems && content.techStackItems.length > 0 && (
+                <div className="relative overflow-hidden">
+                    <div className="flex gap-8 md:gap-16 animate-scroll-left">
+                        {/* First set */}
+                        {content.techStackItems.map((tech: string, idx: number) => (
+                            <span key={`tech-1-${idx}`} className="flex-shrink-0 bg-clip-text bg-gradient-to-r from-gray-600 hover:from-cyan-400 to-gray-400 hover:to-blue-500 font-bold text-transparent text-xl md:text-2xl whitespace-nowrap transition-all cursor-default">
+                                {tech}
+                            </span>
+                        ))}
+                        {/* Duplicate for seamless loop */}
+                        {content.techStackItems.map((tech: string, idx: number) => (
+                            <span key={`tech-2-${idx}`} className="flex-shrink-0 bg-clip-text bg-gradient-to-r from-gray-600 hover:from-cyan-400 to-gray-400 hover:to-blue-500 font-bold text-transparent text-xl md:text-2xl whitespace-nowrap transition-all cursor-default">
+                                {tech}
+                            </span>
+                        ))}
+                    </div>
                 </div>
-            </div>
-        </div>
-      </section>
+              )}
+              {/* Creative Row - Auto Scroll (Reverse) */}
+              {content.creativeStackItems && content.creativeStackItems.length > 0 && (
+                <div className="relative overflow-hidden">
+                    <div className="flex gap-8 md:gap-16 animate-scroll-right">
+                        {/* First set */}
+                        {content.creativeStackItems.map((tool: string, idx: number) => (
+                            <span key={`creative-1-${idx}`} className="flex-shrink-0 bg-clip-text bg-gradient-to-r from-gray-600 hover:from-fuchsia-400 to-gray-400 hover:to-pink-500 font-bold text-transparent text-xl md:text-2xl whitespace-nowrap transition-all cursor-default">
+                                {tool}
+                            </span>
+                        ))}
+                        {/* Duplicate for seamless loop */}
+                        {content.creativeStackItems.map((tool: string, idx: number) => (
+                            <span key={`creative-2-${idx}`} className="flex-shrink-0 bg-clip-text bg-gradient-to-r from-gray-600 hover:from-fuchsia-400 to-gray-400 hover:to-pink-500 font-bold text-transparent text-xl md:text-2xl whitespace-nowrap transition-all cursor-default">
+                                {tool}
+                            </span>
+                        ))}
+                    </div>
+                </div>
+              )}
+          </div>
+        </section>
+      )}
 
       {/* Testimonials Section */}
       <section className="mx-auto px-6 py-24 max-w-7xl">
@@ -302,13 +350,18 @@ export const Home: React.FC = () => {
       </section>
 
       {/* Team Teaser Section */}
-      <section className="bg-[#020205] py-24 border-white/5 border-y">
-        <div className="mx-auto px-6 max-w-7xl">
-          <div className="flex justify-between items-end mb-12">
-            <div>
-              <h2 className="mb-2 font-bold text-white text-3xl md:text-4xl">L'Équipe derrière la Magie</h2>
-              <p className="text-gray-400">Des experts passionnés qui transforment vos idées en réalité.</p>
-            </div>
+      {featuredTeam.length > 0 && (
+        <section className="bg-[#020205] py-24 border-white/5 border-y">
+          <div className="mx-auto px-6 max-w-7xl">
+            <div className="flex justify-between items-end mb-12">
+              <div>
+                <h2 className="mb-2 font-bold text-white text-3xl md:text-4xl">
+                  {content.teamTeaserTitle || "L'Équipe derrière la Magie"}
+                </h2>
+                <p className="text-gray-400">
+                  {content.teamTeaserDescription || "Des experts passionnés qui transforment vos idées en réalité."}
+                </p>
+              </div>
             <Link 
               to="/team" 
               className="hidden md:flex items-center space-x-1 font-bold text-white hover:text-blue-400 text-sm transition-colors"
@@ -319,29 +372,7 @@ export const Home: React.FC = () => {
           </div>
 
           <div className="gap-8 grid grid-cols-1 md:grid-cols-3 mb-8">
-            {[
-              {
-                name: 'Alexandre Dubois',
-                role: 'Lead Developer & Tech Architect',
-                division: Division.TECH,
-                photo: 'https://i.pravatar.cc/300?img=12',
-                bio: 'Expert en architecture cloud et automatisation IA.'
-              },
-              {
-                name: 'Sophie Martin',
-                role: 'Creative Director & Video Producer',
-                division: Division.STUDIO,
-                photo: 'https://i.pravatar.cc/300?img=47',
-                bio: 'Passionnée par la narration visuelle et le color grading.'
-              },
-              {
-                name: 'Thomas Leroy',
-                role: 'Brand Strategist & Growth Hacker',
-                division: Division.BRAND,
-                photo: 'https://i.pravatar.cc/300?img=33',
-                bio: 'Spécialiste en stratégie de marque et croissance.'
-              }
-            ].map((member, idx) => {
+            {featuredTeam.map((member, idx) => {
               const config = DIVISION_CONFIG[member.division];
               return (
                 <motion.div
@@ -384,22 +415,28 @@ export const Home: React.FC = () => {
           </div>
         </div>
       </section>
+      )}
 
       {/* NEW SECTION 4: Blog Preview */}
-      <section className="mx-auto px-6 py-24 max-w-7xl">
-        <div className="flex justify-between items-end mb-12">
-            <div>
-                <h2 className="mb-2 font-bold text-white text-3xl">Dernières Pensées</h2>
-                <p className="text-gray-400">Analyses et prospectives.</p>
-            </div>
+      {latestArticles.length > 0 && (
+        <section className="mx-auto px-6 py-24 max-w-7xl">
+          <div className="flex justify-between items-end mb-12">
+              <div>
+                  <h2 className="mb-2 font-bold text-white text-3xl">
+                    {content.blogSectionTitle || 'Dernières Pensées'}
+                  </h2>
+                  <p className="text-gray-400">
+                    {content.blogSectionDescription || 'Analyses et prospectives.'}
+                  </p>
+              </div>
             <Link to="/blog" className="flex items-center space-x-1 font-bold text-white hover:text-blue-400 text-sm transition-colors">
                 <span>Voir tout le Hub</span>
                 <ArrowRight className="w-4 h-4" />
             </Link>
         </div>
         
-        <div className="gap-8 grid grid-cols-1 md:grid-cols-3">
-            {LATEST_ARTICLES.map((post) => (
+          <div className="gap-8 grid grid-cols-1 md:grid-cols-3">
+              {latestArticles.map((post) => (
                 <Link to={`/blog/${post.slug}`} key={post.id} className="group block">
                     <div className="relative mb-4 border border-white/10 rounded-xl aspect-video overflow-hidden">
                         <img 
@@ -420,9 +457,10 @@ export const Home: React.FC = () => {
                         {post.title}
                     </h3>
                 </Link>
-            ))}
-        </div>
-      </section>
+              ))}
+          </div>
+        </section>
+      )}
 
       {/* Newsletter Section */}
       <section className="mx-auto px-6 py-24 max-w-7xl">
@@ -430,41 +468,36 @@ export const Home: React.FC = () => {
       </section>
 
       {/* Trust & Why Us (Existing) */}
-      <section className="bg-[#020205] py-24 border-white/5 border-t">
-        <div className="mx-auto px-6 max-w-7xl">
-          <div className="items-center gap-16 grid grid-cols-1 md:grid-cols-2">
-            <div>
-              <h3 className="mb-6 font-bold text-white text-3xl">Pourquoi Aureus ?</h3>
-              <div className="space-y-8">
-                <div className="flex items-start space-x-4">
-                  <div className="bg-blue-500/10 p-3 rounded-lg text-blue-400">
-                    <Activity className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-white text-lg">Esprit Startup Agile</h4>
-                    <p className="text-gray-400 text-sm">Pas de bureaucratie. Nous livrons vite, itérons rapidement et nous adaptons à votre rythme.</p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-4">
-                  <div className="bg-purple-500/10 p-3 rounded-lg text-purple-400">
-                    <Users className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-white text-lg">Expertise Transversale</h4>
-                    <p className="text-gray-400 text-sm">Un développeur qui comprend le design. Un vidéaste qui comprend le SEO. C'est notre standard.</p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-4">
-                  <div className="bg-cyan-500/10 p-3 rounded-lg text-cyan-400">
-                    <ZapIcon className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-white text-lg">Orienté Résultats</h4>
-                    <p className="text-gray-400 text-sm">Nous ne vendons pas des heures, nous vendons de l'impact, de l'automatisation et de la croissance.</p>
-                  </div>
+      {content.whyUsItems && content.whyUsItems.length > 0 && (
+        <section className="bg-[#020205] py-24 border-white/5 border-t">
+          <div className="mx-auto px-6 max-w-7xl">
+            <div className="items-center gap-16 grid grid-cols-1 md:grid-cols-2">
+              <div>
+                {content.whyUsTitle && (
+                  <h3 className="mb-6 font-bold text-white text-3xl">{content.whyUsTitle}</h3>
+                )}
+                <div className="space-y-8">
+                  {content.whyUsItems.map((item: any) => {
+                    const Icon = getIcon(item.icon);
+                    const colorClasses: Record<string, string> = {
+                      blue: 'bg-blue-500/10 text-blue-400',
+                      purple: 'bg-purple-500/10 text-purple-400',
+                      cyan: 'bg-cyan-500/10 text-cyan-400',
+                    };
+                    return (
+                      <div key={item.id || item.title} className="flex items-start space-x-4">
+                        <div className={`p-3 rounded-lg ${colorClasses[item.color || 'blue']}`}>
+                          <Icon className="w-6 h-6" />
+                        </div>
+                        <div>
+                          <h4 className="font-bold text-white text-lg">{item.title}</h4>
+                          <p className="text-gray-400 text-sm">{item.description}</p>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
-            </div>
             
             <div className="relative">
                 <div className="absolute inset-0 bg-gradient-to-tr from-blue-600/20 to-purple-600/20 blur-2xl rounded-2xl" />
@@ -487,6 +520,7 @@ export const Home: React.FC = () => {
           </div>
         </div>
       </section>
+      )}
       
       <ExitIntentPopup />
     </div>

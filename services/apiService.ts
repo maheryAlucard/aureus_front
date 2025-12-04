@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
-import { Project, Lead, BlogPost, Division, Testimonial, TeamMember, Devis, NewsletterSubscription, SearchQuery, ChatHistory, QuizResult } from '../types';
+import { Project, Lead, BlogPost, Division, Testimonial, TeamMember, Devis, NewsletterSubscription, SearchQuery, ChatHistory, QuizResult, HomePageContent, SiteSettings } from '../types';
 import { PricingPackage, FAQItem } from './mockDataService';
 import { env } from '../config/env';
 
@@ -51,6 +51,67 @@ let mockSearchQueries: SearchQuery[] = [];
 let mockChatHistories: ChatHistory[] = [];
 
 let mockQuizResults: QuizResult[] = [];
+
+// Dynamic Content Mock Data
+let mockHomePageContent: HomePageContent = {
+  id: '1',
+  heroBadge: 'AGENCE DIGITALE NOUVELLE GÉNÉRATION',
+  heroTitle: 'Tech du Futur.',
+  heroSubtitle: 'Créativité Cinématique.',
+  heroDescription: "Nous ne faisons pas que coder, nous créons. Nous ne faisons pas que filmer, nous racontons des histoires.",
+  heroDescriptionHighlight: "L'intersection du Code & de l'Art.",
+  metrics: [
+    { id: '1', value: '50+', label: 'Projets Livrés', icon: 'Globe', color: 'text-white', order: 1 },
+    { id: '2', value: '15k', label: 'Lignes de Code / jour', icon: 'Terminal', color: 'text-cyan-400', order: 2 },
+    { id: '3', value: '10M+', label: 'Vues Générées', icon: 'Eye', color: 'text-fuchsia-400', order: 3 },
+    { id: '4', value: '300%', label: 'ROI Moyen', icon: 'TrendingUp', color: 'text-white', order: 4 },
+  ],
+  methodologyTitle: 'Le Protocole Aureus',
+  methodologyDescription: 'Comment nous transformons le chaos en clarté. Une méthodologie éprouvée pour les projets complexes.',
+  methodologySteps: [
+    { id: '1', step: '01', title: 'Immersion', description: "Audit profond de votre marque et de vos systèmes actuels.", icon: 'Users', order: 1 },
+    { id: '2', step: '02', title: 'Architecture', description: "Conception technique et storyboard créatif. Rien n'est laissé au hasard.", icon: 'Layers', order: 2 },
+    { id: '3', step: '03', title: 'Fusion', description: 'Développement agile et production vidéo simultanée.', icon: 'Cpu', order: 3 },
+    { id: '4', step: '04', title: 'Déploiement', description: 'Lancement, monitoring et itération continue.', icon: 'Rocket', order: 4 },
+  ],
+  techStackTitle: "L'Arsenal Technologique & Créatif",
+  techStackItems: ['React', 'Next.js', 'Python', 'FastAPI', 'PostgreSQL', 'Docker', 'AWS', 'TensorFlow'],
+  creativeStackItems: ['Unreal Engine 5', 'Cinema 4D', 'DaVinci Resolve', 'After Effects', 'Figma', 'Blender', 'Redshift'],
+  whyUsTitle: 'Pourquoi Aureus ?',
+  whyUsItems: [
+    { id: '1', title: 'Esprit Startup Agile', description: "Pas de bureaucratie. Nous livrons vite, itérons rapidement et nous adaptons à votre rythme.", icon: 'Activity', color: 'blue' },
+    { id: '2', title: 'Expertise Transversale', description: "Un développeur qui comprend le design. Un vidéaste qui comprend le SEO. C'est notre standard.", icon: 'Users', color: 'purple' },
+    { id: '3', title: 'Orienté Résultats', description: "Nous ne vendons pas des heures, nous vendons de l'impact, de l'automatisation et de la croissance.", icon: 'Zap', color: 'cyan' },
+  ],
+  teamTeaserTitle: "L'Équipe derrière la Magie",
+  teamTeaserDescription: "Des experts passionnés qui transforment vos idées en réalité.",
+  blogSectionTitle: 'Dernières Pensées',
+  blogSectionDescription: 'Analyses et prospectives.',
+};
+
+let mockSiteSettings: SiteSettings = {
+  id: '1',
+  siteName: 'Aureus',
+  siteDescription: "La rencontre du code et de l'art pour bâtir la prochaine génération d'infrastructures digitales.",
+  footerDescription: "La rencontre du code et de l'art pour bâtir la prochaine génération d'infrastructures digitales.",
+  footerLinks: [
+    { id: '1', label: 'Aureus Tech', url: '/solutions?division=TECH', category: 'divisions' },
+    { id: '2', label: 'Aureus Studio', url: '/solutions?division=STUDIO', category: 'divisions' },
+    { id: '3', label: 'Aureus Brand', url: '/solutions?division=BRAND', category: 'divisions' },
+    { id: '4', label: 'À propos', url: '/about', category: 'company' },
+    { id: '5', label: 'Carrières', url: '/careers', category: 'company' },
+    { id: '6', label: 'Blog', url: '/blog', category: 'company' },
+    { id: '7', label: 'Tarifs', url: '/pricing', category: 'company' },
+  ],
+  socialLinks: {
+    twitter: '#',
+    linkedin: '#',
+    github: '#',
+  },
+  contactEmail: 'contact@aureus.digital',
+  careersEmail: 'careers@aureus.digital',
+  seoKeywords: ['Développement Web Paris', 'Agence IA', 'Production Vidéo Mariage', 'Agence Branding Startup'],
+};
 
 // Create axios instance
 const apiClient: AxiosInstance = axios.create({
@@ -739,6 +800,38 @@ export const apiService = {
       await delay(300);
       // In production: await apiClient.delete(`/quiz/results/${id}`);
       mockQuizResults = mockQuizResults.filter(r => r.id !== id);
+    },
+  },
+
+  // ============ HOME PAGE CONTENT ============
+  homePageContent: {
+    get: async (): Promise<HomePageContent> => {
+      await delay(300);
+      // In production: return (await apiClient.get<HomePageContent>('/content/home-page')).data;
+      return { ...mockHomePageContent };
+    },
+
+    update: async (content: Partial<HomePageContent>): Promise<HomePageContent> => {
+      await delay(500);
+      // In production: return (await apiClient.put<HomePageContent>('/content/home-page', content)).data;
+      mockHomePageContent = { ...mockHomePageContent, ...content };
+      return { ...mockHomePageContent };
+    },
+  },
+
+  // ============ SITE SETTINGS ============
+  siteSettings: {
+    get: async (): Promise<SiteSettings> => {
+      await delay(300);
+      // In production: return (await apiClient.get<SiteSettings>('/settings/site')).data;
+      return { ...mockSiteSettings };
+    },
+
+    update: async (settings: Partial<SiteSettings>): Promise<SiteSettings> => {
+      await delay(500);
+      // In production: return (await apiClient.put<SiteSettings>('/settings/site', settings)).data;
+      mockSiteSettings = { ...mockSiteSettings, ...settings };
+      return { ...mockSiteSettings };
     },
   },
 };

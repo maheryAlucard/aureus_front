@@ -1,59 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Star, Quote } from 'lucide-react';
-import { Division } from '../types';
-
-export interface Testimonial {
-  id: string;
-  name: string;
-  role: string;
-  company: string;
-  companyLogo?: string;
-  photo?: string;
-  content: string;
-  rating: number;
-  division?: Division;
-  videoUrl?: string;
-}
-
-const MOCK_TESTIMONIALS: Testimonial[] = [
-  {
-    id: '1',
-    name: 'Sophie Martin',
-    role: 'CEO',
-    company: 'TechStartup',
-    content: 'Aureus a transformé notre présence digitale. Leur approche technique et créative est exceptionnelle. ROI de 300% en 6 mois.',
-    rating: 5,
-    division: Division.TECH
-  },
-  {
-    id: '2',
-    name: 'Marc Dubois',
-    role: 'Directeur Marketing',
-    company: 'FashionBrand',
-    content: 'La production vidéo d\'Aureus Studio a dépassé toutes nos attentes. Leur sens du détail et leur créativité sont remarquables.',
-    rating: 5,
-    division: Division.STUDIO
-  },
-  {
-    id: '3',
-    name: 'Julie Chen',
-    role: 'Fondatrice',
-    company: 'EcoLife',
-    content: 'Le rebranding complet réalisé par Aureus Brand a revitalisé notre image de marque. Nos ventes ont augmenté de 150%.',
-    rating: 5,
-    division: Division.BRAND
-  },
-  {
-    id: '4',
-    name: 'Thomas Laurent',
-    role: 'CTO',
-    company: 'FinTech Corp',
-    content: 'L\'automatisation mise en place par Aureus Tech nous fait économiser 20 heures par semaine. Un investissement qui se rentabilise rapidement.',
-    rating: 5,
-    division: Division.TECH
-  }
-];
+import { Division, Testimonial } from '../types';
+import { useTestimonials } from '../hooks/useTestimonials';
 
 interface TestimonialsProps {
   filterByDivision?: Division;
@@ -67,10 +16,15 @@ export const Testimonials: React.FC<TestimonialsProps> = ({
   className = ''
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const { testimonials, fetchTestimonials } = useTestimonials();
+
+  useEffect(() => {
+    fetchTestimonials();
+  }, [fetchTestimonials]);
   
   const filteredTestimonials = filterByDivision
-    ? MOCK_TESTIMONIALS.filter(t => t.division === filterByDivision)
-    : MOCK_TESTIMONIALS;
+    ? testimonials.filter(t => t.division === filterByDivision)
+    : testimonials;
 
   const displayedTestimonials = showAll ? filteredTestimonials : filteredTestimonials.slice(0, 3);
   const testimonialsToShow = showAll ? displayedTestimonials : [displayedTestimonials[currentIndex]];

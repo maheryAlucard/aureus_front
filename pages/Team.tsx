@@ -1,11 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Division, DIVISION_CONFIG, TeamMember } from '../types';
-import { Linkedin, Mail, Code, Film, Zap, Filter } from 'lucide-react';
+import { Linkedin, Mail, Code, Film, Zap, Filter, Loader2 } from 'lucide-react';
 import { useSEO } from '../hooks/useSEO';
-
-// Mock team data - Replace with real data from API/service
-const TEAM_MEMBERS: TeamMember[] = [
+import { useTeamMembers } from '../hooks/useTeamMembers';
   {
     id: '1',
     name: 'Alexandre Dubois',
@@ -114,15 +112,29 @@ const getDivisionIcon = (division: Division) => {
 
 export const Team: React.FC = () => {
   const [selectedDivision, setSelectedDivision] = useState<Division | 'ALL'>('ALL');
+  const { teamMembers, fetchTeamMembers, teamMembersLoading } = useTeamMembers();
+
+  useEffect(() => {
+    fetchTeamMembers();
+  }, [fetchTeamMembers]);
+
   const filteredMembers = selectedDivision === 'ALL' 
-    ? TEAM_MEMBERS 
-    : TEAM_MEMBERS.filter(member => member.division === selectedDivision);
+    ? teamMembers 
+    : teamMembers.filter(member => member.division === selectedDivision);
 
   useSEO({
     title: 'Équipe - Agence Digitale Aureus',
     description: 'Découvrez les talents derrière Aureus. Une équipe multidisciplinaire d\'experts en Tech, Studio et Brand.',
     type: 'website'
   });
+
+  if (teamMembersLoading) {
+    return (
+      <div className="flex justify-center items-center bg-[#020205] min-h-screen">
+        <Loader2 className="w-8 h-8 text-blue-400 animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div className="pt-32 pb-20 min-h-screen">
