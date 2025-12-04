@@ -7,6 +7,7 @@ import { useSEO } from '../hooks/useSEO';
 import { NewsletterSignup } from '../components/NewsletterSignup';
 import { ExitIntentPopup } from '../components/ExitIntentPopup';
 import { Testimonials } from '../components/Testimonials';
+import { Hero3DBackground } from '../components/Hero3DBackground';
 
 // --- MOCK DATA FOR NEW SECTIONS ---
 const TECH_STACK = [
@@ -137,7 +138,10 @@ export const Home: React.FC = () => {
     <div className="pt-20 min-h-screen">
       {/* Hero Section */}
       <section className="relative mx-auto px-6 py-24 max-w-7xl overflow-hidden text-center">
-        {/* Abstract Background Elements */}
+        {/* 3D Animated Background */}
+        <Hero3DBackground />
+        
+        {/* Abstract Background Elements - Gradient Overlays */}
         <div className="top-0 left-1/2 -z-10 absolute bg-blue-600/10 blur-[120px] rounded-full w-[600px] h-[600px] -translate-x-1/2" />
         <div className="top-1/4 right-0 -z-10 absolute bg-purple-600/10 blur-[100px] rounded-full w-[300px] h-[300px]" />
 
@@ -145,6 +149,7 @@ export const Home: React.FC = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
+          className="z-10 relative"
         >
           <div className="inline-flex items-center space-x-2 bg-white/5 mb-8 px-4 py-1 border border-white/10 rounded-full">
             <span className="bg-green-400 rounded-full w-2 h-2 animate-pulse" />
