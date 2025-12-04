@@ -9,6 +9,8 @@ import { Contact } from './pages/Contact';
 import { Pricing } from './pages/Pricing';
 import { Blog } from './pages/Blog';
 import { AdminDashboard } from './pages/Admin';
+import { Login } from './pages/Login';
+import { ProtectedRoute } from './components/ProtectedRoute';
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const location = useLocation();
@@ -34,7 +36,15 @@ export default function App() {
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/admin/login" element={<Login />} />
+          <Route 
+            path="/admin" 
+            element={
+              <ProtectedRoute>
+                <AdminDashboard />
+              </ProtectedRoute>
+            } 
+          />
         </Routes>
       </Layout>
     </Router>
