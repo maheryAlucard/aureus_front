@@ -125,18 +125,18 @@ export const Team: React.FC = () => {
   });
 
   return (
-    <div className="min-h-screen pt-32 pb-20">
+    <div className="pt-32 pb-20 min-h-screen">
       {/* Hero Section */}
-      <section className="max-w-7xl mx-auto px-6 mb-16">
+      <section className="mx-auto mb-16 px-6 max-w-7xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="text-center"
         >
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
+          <h1 className="mb-6 font-bold text-white text-4xl md:text-6xl">
             L'Équipe Aureus
           </h1>
-          <p className="text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
+          <p className="mx-auto max-w-2xl text-gray-400 text-xl leading-relaxed">
             Des experts passionnés qui transforment vos idées en réalité. 
             Une fusion unique de créativité, technologie et stratégie.
           </p>
@@ -144,8 +144,8 @@ export const Team: React.FC = () => {
       </section>
 
       {/* Filter Section */}
-      <section className="max-w-7xl mx-auto px-6 mb-12">
-        <div className="flex flex-wrap items-center justify-center gap-4">
+      <section className="mx-auto mb-12 px-6 max-w-7xl">
+        <div className="flex flex-wrap justify-center items-center gap-4">
           <Filter className="w-5 h-5 text-gray-400" />
           <button
             onClick={() => setSelectedDivision('ALL')}
@@ -179,13 +179,13 @@ export const Team: React.FC = () => {
       </section>
 
       {/* Team Grid */}
-      <section className="max-w-7xl mx-auto px-6">
+      <section className="mx-auto px-6 max-w-7xl">
         {filteredMembers.length === 0 ? (
-          <div className="text-center py-20">
+          <div className="py-20 text-center">
             <p className="text-gray-400 text-lg">Aucun membre trouvé pour cette division.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="gap-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
             {filteredMembers.map((member, index) => {
               const config = DIVISION_CONFIG[member.division];
               const Icon = getDivisionIcon(member.division);
@@ -196,7 +196,7 @@ export const Team: React.FC = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  className="group relative bg-[#0a0a16] border border-white/10 rounded-2xl overflow-hidden hover:border-white/20 transition-all duration-300"
+                  className="group relative bg-[#0a0a16] border border-white/10 hover:border-white/20 rounded-2xl overflow-hidden transition-all duration-300"
                 >
                   {/* Featured Badge */}
                   {member.featured && (
@@ -206,7 +206,7 @@ export const Team: React.FC = () => {
                   )}
 
                   {/* Photo */}
-                  <div className="relative aspect-[4/5] overflow-hidden bg-gradient-to-br from-gray-800 to-gray-900">
+                  <div className="relative bg-gradient-to-br from-gray-800 to-gray-900 aspect-[4/5] overflow-hidden">
                     <img
                       src={member.photo}
                       alt={member.name}
@@ -217,21 +217,21 @@ export const Team: React.FC = () => {
 
                   {/* Content */}
                   <div className="p-6">
-                    <div className="flex items-start justify-between mb-3">
+                    <div className="flex justify-between items-start mb-3">
                       <div className="flex-1">
-                        <h3 className="text-xl font-bold text-white mb-1">{member.name}</h3>
+                        <h3 className="mb-1 font-bold text-white text-xl">{member.name}</h3>
                         <div className="flex items-center space-x-2 mb-2">
                           <Icon className={`w-4 h-4 ${config.color}`} />
                           <span className={`text-sm font-medium ${config.color}`}>
                             {config.label}
                           </span>
                         </div>
-                        <p className="text-gray-400 text-sm mb-4">{member.role}</p>
+                        <p className="mb-4 text-gray-400 text-sm">{member.role}</p>
                       </div>
                     </div>
 
                     {/* Bio */}
-                    <p className="text-gray-300 text-sm leading-relaxed mb-4 line-clamp-3">
+                    <p className="mb-4 text-gray-300 text-sm line-clamp-3 leading-relaxed">
                       {member.bio}
                     </p>
 
@@ -240,26 +240,26 @@ export const Team: React.FC = () => {
                       {member.expertise.slice(0, 3).map((skill) => (
                         <span
                           key={skill}
-                          className="px-2 py-1 bg-white/5 rounded text-xs text-gray-400"
+                          className="bg-white/5 px-2 py-1 rounded text-gray-400 text-xs"
                         >
                           {skill}
                         </span>
                       ))}
                       {member.expertise.length > 3 && (
-                        <span className="px-2 py-1 bg-white/5 rounded text-xs text-gray-500">
+                        <span className="bg-white/5 px-2 py-1 rounded text-gray-500 text-xs">
                           +{member.expertise.length - 3}
                         </span>
                       )}
                     </div>
 
                     {/* Social Links */}
-                    <div className="flex items-center space-x-3 pt-4 border-t border-white/5">
+                    <div className="flex items-center space-x-3 pt-4 border-white/5 border-t">
                       {member.linkedin && (
                         <a
                           href={member.linkedin}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="p-2 bg-white/5 hover:bg-white/10 rounded-lg text-gray-400 hover:text-blue-400 transition-colors"
+                          className="bg-white/5 hover:bg-white/10 p-2 rounded-lg text-gray-400 hover:text-blue-400 transition-colors"
                           aria-label={`LinkedIn de ${member.name}`}
                         >
                           <Linkedin className="w-4 h-4" />
@@ -268,7 +268,7 @@ export const Team: React.FC = () => {
                       {member.email && (
                         <a
                           href={`mailto:${member.email}`}
-                          className="p-2 bg-white/5 hover:bg-white/10 rounded-lg text-gray-400 hover:text-cyan-400 transition-colors"
+                          className="bg-white/5 hover:bg-white/10 p-2 rounded-lg text-gray-400 hover:text-cyan-400 transition-colors"
                           aria-label={`Email de ${member.name}`}
                         >
                           <Mail className="w-4 h-4" />
@@ -284,18 +284,18 @@ export const Team: React.FC = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="max-w-7xl mx-auto px-6 mt-24">
-        <div className="bg-gradient-to-r from-blue-600/10 to-purple-600/10 border border-white/10 rounded-2xl p-12 text-center">
-          <h2 className="text-3xl font-bold text-white mb-4">
+      <section className="mx-auto mt-24 px-6 max-w-7xl">
+        <div className="bg-gradient-to-r from-blue-600/10 to-purple-600/10 p-12 border border-white/10 rounded-2xl text-center">
+          <h2 className="mb-4 font-bold text-white text-3xl">
             Rejoignez Notre Équipe
           </h2>
-          <p className="text-gray-400 mb-8 max-w-2xl mx-auto">
+          <p className="mx-auto mb-8 max-w-2xl text-gray-400">
             Vous êtes passionné par la technologie, la créativité ou le marketing ? 
             Nous recherchons toujours des talents pour renforcer nos divisions.
           </p>
           <a
             href="mailto:careers@aureus.digital"
-            className="inline-block bg-blue-600 hover:bg-blue-700 px-8 py-3 rounded-full font-bold text-white transition-all hover:shadow-[0_0_20px_-5px_rgba(37,99,235,0.5)]"
+            className="inline-block bg-blue-600 hover:bg-blue-700 hover:shadow-[0_0_20px_-5px_rgba(37,99,235,0.5)] px-8 py-3 rounded-full font-bold text-white transition-all"
           >
             Voir les Postes Ouverts
           </a>

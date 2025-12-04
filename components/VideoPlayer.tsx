@@ -52,7 +52,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
         ref={videoRef}
         src={src}
         poster={poster}
-        className="w-full h-full object-cover rounded-xl"
+        className="rounded-xl w-full h-full object-cover"
         loop
         muted={isMuted}
         onPlay={() => setIsPlaying(true)}
@@ -63,24 +63,24 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="absolute inset-0 bg-black/30 flex items-center justify-center"
+          className="absolute inset-0 flex justify-center items-center bg-black/30"
         >
           <div className="flex items-center space-x-4">
             <button
               onClick={togglePlay}
-              className="p-4 bg-black/60 hover:bg-black/80 rounded-full text-white transition-colors"
+              className="bg-black/60 hover:bg-black/80 p-4 rounded-full text-white transition-colors"
             >
               {isPlaying ? <Pause className="w-8 h-8" /> : <Play className="w-8 h-8" />}
             </button>
             <button
               onClick={toggleMute}
-              className="p-3 bg-black/60 hover:bg-black/80 rounded-full text-white transition-colors"
+              className="bg-black/60 hover:bg-black/80 p-3 rounded-full text-white transition-colors"
             >
               {isMuted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
             </button>
             <button
               onClick={toggleFullscreen}
-              className="p-3 bg-black/60 hover:bg-black/80 rounded-full text-white transition-colors"
+              className="bg-black/60 hover:bg-black/80 p-3 rounded-full text-white transition-colors"
             >
               <Maximize className="w-5 h-5" />
             </button>

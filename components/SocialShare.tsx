@@ -67,32 +67,32 @@ export const SocialShare: React.FC<SocialShareProps> = ({
 
   return (
     <div className={`flex items-center space-x-3 ${className}`}>
-      <span className="text-gray-400 text-sm font-medium">Partager:</span>
+      <span className="font-medium text-gray-400 text-sm">Partager:</span>
       <div className="flex items-center space-x-2">
         <button
           onClick={() => handleShare('twitter', shareUrl)}
-          className="p-2 bg-white/5 hover:bg-blue-500/20 border border-white/10 hover:border-blue-500/50 rounded-lg text-gray-400 hover:text-blue-400 transition-all"
+          className="bg-white/5 hover:bg-blue-500/20 p-2 border border-white/10 hover:border-blue-500/50 rounded-lg text-gray-400 hover:text-blue-400 transition-all"
           aria-label="Partager sur Twitter"
         >
           <Twitter className="w-4 h-4" />
         </button>
         <button
           onClick={() => handleShare('linkedin', shareUrl)}
-          className="p-2 bg-white/5 hover:bg-blue-600/20 border border-white/10 hover:border-blue-600/50 rounded-lg text-gray-400 hover:text-blue-500 transition-all"
+          className="bg-white/5 hover:bg-blue-600/20 p-2 border border-white/10 hover:border-blue-600/50 rounded-lg text-gray-400 hover:text-blue-500 transition-all"
           aria-label="Partager sur LinkedIn"
         >
           <Linkedin className="w-4 h-4" />
         </button>
         <button
           onClick={() => handleShare('facebook', shareUrl)}
-          className="p-2 bg-white/5 hover:bg-blue-700/20 border border-white/10 hover:border-blue-700/50 rounded-lg text-gray-400 hover:text-blue-600 transition-all"
+          className="bg-white/5 hover:bg-blue-700/20 p-2 border border-white/10 hover:border-blue-700/50 rounded-lg text-gray-400 hover:text-blue-600 transition-all"
           aria-label="Partager sur Facebook"
         >
           <Facebook className="w-4 h-4" />
         </button>
         <button
           onClick={handleCopyLink}
-          className="p-2 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-lg text-gray-400 hover:text-white transition-all"
+          className="bg-white/5 hover:bg-white/10 p-2 border border-white/10 hover:border-white/20 rounded-lg text-gray-400 hover:text-white transition-all"
           aria-label="Copier le lien"
         >
           {copied ? <Check className="w-4 h-4 text-green-400" /> : <Link2 className="w-4 h-4" />}

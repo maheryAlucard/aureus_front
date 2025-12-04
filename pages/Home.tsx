@@ -297,7 +297,7 @@ export const Home: React.FC = () => {
       </section>
 
       {/* Team Teaser Section */}
-      <section className="bg-[#020205] py-24 border-y border-white/5">
+      <section className="bg-[#020205] py-24 border-white/5 border-y">
         <div className="mx-auto px-6 max-w-7xl">
           <div className="flex justify-between items-end mb-12">
             <div>
@@ -313,7 +313,7 @@ export const Home: React.FC = () => {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+          <div className="gap-8 grid grid-cols-1 md:grid-cols-3 mb-8">
             {[
               {
                 name: 'Alexandre Dubois',
@@ -345,9 +345,9 @@ export const Home: React.FC = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: idx * 0.1 }}
-                  className="group relative bg-[#0a0a16] border border-white/10 rounded-2xl overflow-hidden hover:border-white/20 transition-all duration-300"
+                  className="group relative bg-[#0a0a16] border border-white/10 hover:border-white/20 rounded-2xl overflow-hidden transition-all duration-300"
                 >
-                  <div className="relative aspect-[4/5] overflow-hidden bg-gradient-to-br from-gray-800 to-gray-900">
+                  <div className="relative bg-gradient-to-br from-gray-800 to-gray-900 aspect-[4/5] overflow-hidden">
                     <img
                       src={member.photo}
                       alt={member.name}
@@ -359,8 +359,8 @@ export const Home: React.FC = () => {
                     <div className="mb-2">
                       <span className={`text-xs font-bold ${config.color}`}>{config.label}</span>
                     </div>
-                    <h3 className="text-xl font-bold text-white mb-1">{member.name}</h3>
-                    <p className="text-gray-400 text-sm mb-3">{member.role}</p>
+                    <h3 className="mb-1 font-bold text-white text-xl">{member.name}</h3>
+                    <p className="mb-3 text-gray-400 text-sm">{member.role}</p>
                     <p className="text-gray-300 text-sm leading-relaxed">{member.bio}</p>
                   </div>
                 </motion.div>
@@ -368,7 +368,7 @@ export const Home: React.FC = () => {
             })}
           </div>
 
-          <div className="text-center md:hidden">
+          <div className="md:hidden text-center">
             <Link 
               to="/team" 
               className="inline-flex items-center space-x-2 font-bold text-white hover:text-blue-400 text-sm transition-colors"

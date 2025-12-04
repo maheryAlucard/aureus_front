@@ -29,7 +29,7 @@ export const ReadingProgress: React.FC<ReadingProgressProps> = ({ className = ''
   return (
     <div className={`fixed top-0 left-0 right-0 h-1 bg-white/5 z-50 ${className}`}>
       <motion.div
-        className="h-full bg-gradient-to-r from-cyan-500 to-blue-600"
+        className="bg-gradient-to-r from-cyan-500 to-blue-600 h-full"
         style={{ width: `${progress}%` }}
         initial={{ width: 0 }}
         animate={{ width: `${progress}%` }}

@@ -85,13 +85,13 @@ export const NewsletterSignup: React.FC<NewsletterSignupProps> = ({
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Votre email"
-          className="flex-1 bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 transition-colors"
+          className="flex-1 bg-white/5 px-4 py-2 border border-white/10 focus:border-blue-500 rounded-lg focus:outline-none text-white transition-colors placeholder-gray-500"
           disabled={isSubmitting || status === 'success'}
         />
         <button
           type="submit"
           disabled={isSubmitting || status === 'success'}
-          className="px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 rounded-lg text-white font-medium transition-colors disabled:cursor-not-allowed"
+          className="bg-blue-600 hover:bg-blue-700 disabled:opacity-50 px-4 py-2 rounded-lg font-medium text-white transition-colors disabled:cursor-not-allowed"
         >
           {isSubmitting ? (
             <Loader2 className="w-4 h-4 animate-spin" />
@@ -109,11 +109,11 @@ export const NewsletterSignup: React.FC<NewsletterSignupProps> = ({
     return (
       <div className={`bg-[#0a0a16] border border-white/10 rounded-xl p-6 ${className}`}>
         <div className="flex items-center space-x-3 mb-4">
-          <div className="p-2 bg-blue-500/10 rounded-lg">
+          <div className="bg-blue-500/10 p-2 rounded-lg">
             <Mail className="w-5 h-5 text-blue-400" />
           </div>
           <div>
-            <h3 className="text-white font-bold">Restez informé</h3>
+            <h3 className="font-bold text-white">Restez informé</h3>
             <p className="text-gray-400 text-sm">Recevez nos dernières actualités</p>
           </div>
         </div>
@@ -123,7 +123,7 @@ export const NewsletterSignup: React.FC<NewsletterSignupProps> = ({
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="votre@email.com"
-            className="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 transition-colors"
+            className="bg-black/20 px-4 py-3 border border-white/10 focus:border-blue-500 rounded-lg focus:outline-none w-full text-white transition-colors placeholder-gray-500"
             disabled={isSubmitting || status === 'success'}
           />
           {status === 'error' && errorMessage && (
@@ -135,7 +135,7 @@ export const NewsletterSignup: React.FC<NewsletterSignupProps> = ({
           <button
             type="submit"
             disabled={isSubmitting || status === 'success'}
-            className="w-full py-3 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 rounded-lg text-white font-bold transition-colors disabled:cursor-not-allowed"
+            className="bg-blue-600 hover:bg-blue-700 disabled:opacity-50 py-3 rounded-lg w-full font-bold text-white transition-colors disabled:cursor-not-allowed"
           >
             {isSubmitting ? 'Inscription...' : status === 'success' ? 'Inscrit !' : 'S\'inscrire à la newsletter'}
           </button>
@@ -146,14 +146,14 @@ export const NewsletterSignup: React.FC<NewsletterSignupProps> = ({
 
   return (
     <div className={`bg-gradient-to-r from-blue-900/20 to-purple-900/20 border border-white/10 rounded-2xl p-8 md:p-12 ${className}`}>
-      <div className="max-w-2xl mx-auto text-center">
+      <div className="mx-auto max-w-2xl text-center">
         <div className="inline-flex justify-center items-center bg-blue-500/10 mb-6 border border-blue-500/20 rounded-2xl w-16 h-16">
           <Mail className="w-8 h-8 text-blue-400" />
         </div>
-        <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+        <h2 className="mb-4 font-bold text-white text-3xl md:text-4xl">
           Restez à la pointe de l'innovation
         </h2>
-        <p className="text-gray-300 text-lg mb-8">
+        <p className="mb-8 text-gray-300 text-lg">
           Recevez nos analyses exclusives, tutoriels et réflexions sur le futur du digital.
         </p>
         
@@ -164,10 +164,10 @@ export const NewsletterSignup: React.FC<NewsletterSignupProps> = ({
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
-              className="flex items-center justify-center space-x-2 text-green-400"
+              className="flex justify-center items-center space-x-2 text-green-400"
             >
               <Check className="w-6 h-6" />
-              <span className="text-lg font-medium">Merci ! Vérifiez votre boîte mail.</span>
+              <span className="font-medium text-lg">Merci ! Vérifiez votre boîte mail.</span>
             </motion.div>
           ) : (
             <motion.form
@@ -176,20 +176,20 @@ export const NewsletterSignup: React.FC<NewsletterSignupProps> = ({
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               onSubmit={handleSubmit}
-              className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto"
+              className="flex sm:flex-row flex-col gap-4 mx-auto max-w-md"
             >
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="votre@email.com"
-                className="flex-1 bg-black/30 border border-white/10 rounded-lg px-6 py-4 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 transition-colors"
+                className="flex-1 bg-black/30 px-6 py-4 border border-white/10 focus:border-blue-500 rounded-lg focus:outline-none text-white transition-colors placeholder-gray-500"
                 disabled={isSubmitting}
               />
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="px-8 py-4 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 rounded-lg text-white font-bold transition-colors disabled:cursor-not-allowed whitespace-nowrap"
+                className="bg-blue-600 hover:bg-blue-700 disabled:opacity-50 px-8 py-4 rounded-lg font-bold text-white whitespace-nowrap transition-colors disabled:cursor-not-allowed"
               >
                 {isSubmitting ? (
                   <span className="flex items-center space-x-2">

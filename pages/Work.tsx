@@ -34,18 +34,18 @@ export const Work: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen pt-32 px-6 max-w-7xl mx-auto">
-      <div className="flex flex-col md:flex-row justify-between items-end mb-8 border-b border-white/10 pb-8">
+    <div className="mx-auto px-6 pt-32 max-w-7xl min-h-screen">
+      <div className="flex md:flex-row flex-col justify-between items-end mb-8 pb-8 border-white/10 border-b">
         <div>
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">Projets Sélectionnés</h1>
+          <h1 className="mb-4 font-bold text-white text-4xl md:text-6xl">Projets Sélectionnés</h1>
           <p className="text-gray-400">Études de cas en ingénierie, production et stratégie.</p>
         </div>
       </div>
 
       {/* Filters */}
-      <div className="mb-12 space-y-4">
+      <div className="space-y-4 mb-12">
         <div className="flex flex-wrap gap-2">
-          <span className="text-gray-400 text-sm font-medium self-center mr-2">Division:</span>
+          <span className="self-center mr-2 font-medium text-gray-400 text-sm">Division:</span>
           <button 
             onClick={() => setFilter('ALL')}
             className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${filter === 'ALL' ? 'bg-white text-black' : 'bg-white/5 text-gray-400 hover:text-white'}`}
@@ -64,7 +64,7 @@ export const Work: React.FC = () => {
         </div>
         {allTags.length > 0 && (
           <div className="flex flex-wrap gap-2">
-            <span className="text-gray-400 text-sm font-medium self-center mr-2">Tags:</span>
+            <span className="self-center mr-2 font-medium text-gray-400 text-sm">Tags:</span>
             <button 
               onClick={() => setTagFilter('ALL')}
               className={`px-3 py-1 rounded-full text-xs font-medium transition-all ${tagFilter === 'ALL' ? 'bg-white/10 text-white border border-white/20' : 'bg-white/5 text-gray-400 hover:text-white'}`}
@@ -84,7 +84,7 @@ export const Work: React.FC = () => {
         )}
       </div>
 
-      <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-20">
+      <motion.div layout className="gap-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 pb-20">
         <AnimatePresence>
           {filteredProjects.map((project) => (
             <motion.div
@@ -95,25 +95,25 @@ export const Work: React.FC = () => {
               key={project.id}
             >
               <Link to={`/work/${project.id}`} className="group block">
-                <div className="relative aspect-[4/3] rounded-lg overflow-hidden mb-4">
-                  <div className="absolute inset-0 bg-blue-900/20 group-hover:bg-transparent transition-colors z-10" />
+                <div className="relative mb-4 rounded-lg aspect-[4/3] overflow-hidden">
+                  <div className="z-10 absolute inset-0 bg-blue-900/20 group-hover:bg-transparent transition-colors" />
                   <img 
                     src={project.imageUrl} 
                     alt={project.title}
-                    className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 transform"
                     loading="lazy"
                   />
-                  <div className="absolute top-4 left-4 z-20">
+                  <div className="top-4 left-4 z-20 absolute">
                       <span className={`px-2 py-1 rounded text-xs font-bold bg-black/50 backdrop-blur-md ${DIVISION_CONFIG[project.division].color}`}>
                           {project.division}
                       </span>
                   </div>
                 </div>
-                <h3 className="text-xl font-bold text-white group-hover:text-blue-400 transition-colors">{project.title}</h3>
-                <p className="text-sm text-gray-500 mb-2">{project.client}</p>
+                <h3 className="font-bold text-white group-hover:text-blue-400 text-xl transition-colors">{project.title}</h3>
+                <p className="mb-2 text-gray-500 text-sm">{project.client}</p>
                 <div className="flex flex-wrap gap-2">
                   {project.tags.map(tag => (
-                      <span key={tag} className="text-xs text-gray-600 border border-white/10 px-2 py-1 rounded">
+                      <span key={tag} className="px-2 py-1 border border-white/10 rounded text-gray-600 text-xs">
                           {tag}
                       </span>
                   ))}

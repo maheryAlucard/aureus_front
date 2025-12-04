@@ -28,42 +28,42 @@ export const ROICalculator: React.FC = () => {
   const results = calculateROI();
 
   return (
-    <div className="bg-[#0a0a16] border border-white/10 rounded-2xl p-8">
+    <div className="bg-[#0a0a16] p-8 border border-white/10 rounded-2xl">
       <div className="flex items-center space-x-3 mb-6">
         <Calculator className="w-6 h-6 text-cyan-400" />
-        <h3 className="text-2xl font-bold text-white">Calculateur de ROI</h3>
+        <h3 className="font-bold text-white text-2xl">Calculateur de ROI</h3>
       </div>
 
       <div className="space-y-6">
         <div>
-          <label className="block text-gray-400 text-sm mb-2">Revenus mensuels (€)</label>
+          <label className="block mb-2 text-gray-400 text-sm">Revenus mensuels (€)</label>
           <input
             type="number"
             value={monthlyRevenue}
             onChange={(e) => setMonthlyRevenue(e.target.value)}
-            className="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-cyan-500 transition-colors"
+            className="bg-black/20 px-4 py-3 border border-white/10 focus:border-cyan-500 rounded-lg focus:outline-none w-full text-white transition-colors"
             placeholder="10000"
           />
         </div>
 
         <div>
-          <label className="block text-gray-400 text-sm mb-2">Heures automatisées par mois</label>
+          <label className="block mb-2 text-gray-400 text-sm">Heures automatisées par mois</label>
           <input
             type="number"
             value={automationHours}
             onChange={(e) => setAutomationHours(e.target.value)}
-            className="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-cyan-500 transition-colors"
+            className="bg-black/20 px-4 py-3 border border-white/10 focus:border-cyan-500 rounded-lg focus:outline-none w-full text-white transition-colors"
             placeholder="20"
           />
         </div>
 
         <div>
-          <label className="block text-gray-400 text-sm mb-2">Taux horaire (€)</label>
+          <label className="block mb-2 text-gray-400 text-sm">Taux horaire (€)</label>
           <input
             type="number"
             value={hourlyRate}
             onChange={(e) => setHourlyRate(e.target.value)}
-            className="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-cyan-500 transition-colors"
+            className="bg-black/20 px-4 py-3 border border-white/10 focus:border-cyan-500 rounded-lg focus:outline-none w-full text-white transition-colors"
           />
         </div>
 
@@ -71,28 +71,28 @@ export const ROICalculator: React.FC = () => {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-gradient-to-br from-cyan-900/20 to-blue-900/20 border border-cyan-500/20 rounded-xl p-6 space-y-4"
+            className="space-y-4 bg-gradient-to-br from-cyan-900/20 to-blue-900/20 p-6 border border-cyan-500/20 rounded-xl"
           >
             <div className="flex items-center space-x-2 mb-4">
               <TrendingUp className="w-5 h-5 text-cyan-400" />
-              <h4 className="text-white font-bold">Résultats</h4>
+              <h4 className="font-bold text-white">Résultats</h4>
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="gap-4 grid grid-cols-2">
               <div>
-                <div className="text-gray-400 text-xs mb-1">Économies mensuelles</div>
-                <div className="text-2xl font-bold text-cyan-400">{results.monthlySavings.toFixed(0)}€</div>
+                <div className="mb-1 text-gray-400 text-xs">Économies mensuelles</div>
+                <div className="font-bold text-cyan-400 text-2xl">{results.monthlySavings.toFixed(0)}€</div>
               </div>
               <div>
-                <div className="text-gray-400 text-xs mb-1">Économies annuelles</div>
-                <div className="text-2xl font-bold text-blue-400">{results.annualSavings.toFixed(0)}€</div>
+                <div className="mb-1 text-gray-400 text-xs">Économies annuelles</div>
+                <div className="font-bold text-blue-400 text-2xl">{results.annualSavings.toFixed(0)}€</div>
               </div>
               <div>
-                <div className="text-gray-400 text-xs mb-1">ROI</div>
-                <div className="text-2xl font-bold text-green-400">{results.roi}%</div>
+                <div className="mb-1 text-gray-400 text-xs">ROI</div>
+                <div className="font-bold text-green-400 text-2xl">{results.roi}%</div>
               </div>
               <div>
-                <div className="text-gray-400 text-xs mb-1">Retour sur investissement</div>
-                <div className="text-2xl font-bold text-purple-400">{results.paybackMonths} mois</div>
+                <div className="mb-1 text-gray-400 text-xs">Retour sur investissement</div>
+                <div className="font-bold text-purple-400 text-2xl">{results.paybackMonths} mois</div>
               </div>
             </div>
           </motion.div>

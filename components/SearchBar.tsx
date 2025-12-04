@@ -106,7 +106,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({ variant = 'default', onClo
     return (
       <div className="relative">
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+          <Search className="top-1/2 left-3 absolute w-5 h-5 text-gray-400 -translate-y-1/2" />
           <input
             ref={inputRef}
             type="text"
@@ -115,7 +115,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({ variant = 'default', onClo
             onFocus={() => setIsOpen(true)}
             onKeyDown={handleKeyDown}
             placeholder="Rechercher..."
-            className="w-full bg-white/5 border border-white/10 rounded-lg pl-10 pr-10 py-2 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 transition-colors"
+            className="bg-white/5 py-2 pr-10 pl-10 border border-white/10 focus:border-blue-500 rounded-lg focus:outline-none w-full text-white transition-colors placeholder-gray-500"
           />
           {query && (
             <button
@@ -124,7 +124,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({ variant = 'default', onClo
                 setResults({ posts: [], projects: [] });
                 setHasSearched(false);
               }}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white"
+              className="top-1/2 right-3 absolute text-gray-400 hover:text-white -translate-y-1/2"
             >
               <X className="w-4 h-4" />
             </button>
@@ -137,11 +137,11 @@ export const SearchBar: React.FC<SearchBarProps> = ({ variant = 'default', onClo
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              className="absolute top-full left-0 right-0 mt-2 bg-[#0a0a16] border border-white/10 rounded-xl shadow-2xl z-50 max-h-96 overflow-y-auto"
+              className="top-full right-0 left-0 z-50 absolute bg-[#0a0a16] shadow-2xl mt-2 border border-white/10 rounded-xl max-h-96 overflow-y-auto"
             >
               {isSearching ? (
                 <div className="p-8 text-center">
-                  <Loader2 className="w-6 h-6 animate-spin text-blue-400 mx-auto mb-2" />
+                  <Loader2 className="mx-auto mb-2 w-6 h-6 text-blue-400 animate-spin" />
                   <p className="text-gray-400 text-sm">Recherche en cours...</p>
                 </div>
               ) : results.posts.length === 0 && results.projects.length === 0 && hasSearched ? (
@@ -152,16 +152,16 @@ export const SearchBar: React.FC<SearchBarProps> = ({ variant = 'default', onClo
                 <div className="p-4">
                   {results.posts.length > 0 && (
                     <div className="mb-4">
-                      <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 px-2">
+                      <h3 className="mb-2 px-2 font-bold text-gray-500 text-xs uppercase tracking-wider">
                         Articles ({results.posts.length})
                       </h3>
                       {results.posts.map(post => (
                         <button
                           key={post.id}
                           onClick={() => handleResultClick('post', post.id, post.slug)}
-                          className="w-full text-left p-3 hover:bg-white/5 rounded-lg transition-colors mb-1"
+                          className="hover:bg-white/5 mb-1 p-3 rounded-lg w-full text-left transition-colors"
                         >
-                          <div className="font-medium text-white text-sm mb-1">{post.title}</div>
+                          <div className="mb-1 font-medium text-white text-sm">{post.title}</div>
                           <div className="text-gray-400 text-xs line-clamp-1">{post.excerpt}</div>
                         </button>
                       ))}
@@ -169,16 +169,16 @@ export const SearchBar: React.FC<SearchBarProps> = ({ variant = 'default', onClo
                   )}
                   {results.projects.length > 0 && (
                     <div>
-                      <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 px-2">
+                      <h3 className="mb-2 px-2 font-bold text-gray-500 text-xs uppercase tracking-wider">
                         Projets ({results.projects.length})
                       </h3>
                       {results.projects.map(project => (
                         <button
                           key={project.id}
                           onClick={() => handleResultClick('project', project.id)}
-                          className="w-full text-left p-3 hover:bg-white/5 rounded-lg transition-colors mb-1"
+                          className="hover:bg-white/5 mb-1 p-3 rounded-lg w-full text-left transition-colors"
                         >
-                          <div className="font-medium text-white text-sm mb-1">{project.title}</div>
+                          <div className="mb-1 font-medium text-white text-sm">{project.title}</div>
                           <div className="text-gray-400 text-xs line-clamp-1">{project.description}</div>
                         </button>
                       ))}
@@ -191,7 +191,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({ variant = 'default', onClo
                         setIsOpen(false);
                         if (onClose) onClose();
                       }}
-                      className="w-full mt-4 p-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-white text-sm font-medium transition-colors"
+                      className="bg-white/5 hover:bg-white/10 mt-4 p-3 border border-white/10 rounded-lg w-full font-medium text-white text-sm transition-colors"
                     >
                       Voir tous les résultats
                     </button>
@@ -208,7 +208,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({ variant = 'default', onClo
   return (
     <div className="relative w-full max-w-2xl">
       <div className="relative">
-        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+        <Search className="top-1/2 left-4 absolute w-5 h-5 text-gray-400 -translate-y-1/2" />
         <input
           ref={inputRef}
           type="text"
@@ -217,7 +217,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({ variant = 'default', onClo
           onFocus={() => setIsOpen(true)}
           onKeyDown={handleKeyDown}
           placeholder="Rechercher des articles, projets..."
-          className="w-full bg-white/5 border border-white/10 rounded-lg pl-12 pr-12 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 transition-colors"
+          className="bg-white/5 py-3 pr-12 pl-12 border border-white/10 focus:border-blue-500 rounded-lg focus:outline-none w-full text-white transition-colors placeholder-gray-500"
         />
         {query && (
           <button
@@ -226,7 +226,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({ variant = 'default', onClo
               setResults({ posts: [], projects: [] });
               setHasSearched(false);
             }}
-            className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white"
+            className="top-1/2 right-4 absolute text-gray-400 hover:text-white -translate-y-1/2"
           >
             <X className="w-5 h-5" />
           </button>
@@ -239,11 +239,11 @@ export const SearchBar: React.FC<SearchBarProps> = ({ variant = 'default', onClo
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="absolute top-full left-0 right-0 mt-2 bg-[#0a0a16] border border-white/10 rounded-xl shadow-2xl z-50 max-h-96 overflow-y-auto"
+            className="top-full right-0 left-0 z-50 absolute bg-[#0a0a16] shadow-2xl mt-2 border border-white/10 rounded-xl max-h-96 overflow-y-auto"
           >
             {isSearching ? (
               <div className="p-8 text-center">
-                <Loader2 className="w-6 h-6 animate-spin text-blue-400 mx-auto mb-2" />
+                <Loader2 className="mx-auto mb-2 w-6 h-6 text-blue-400 animate-spin" />
                 <p className="text-gray-400 text-sm">Recherche en cours...</p>
               </div>
             ) : results.posts.length === 0 && results.projects.length === 0 && hasSearched ? (
@@ -254,16 +254,16 @@ export const SearchBar: React.FC<SearchBarProps> = ({ variant = 'default', onClo
               <div className="p-4">
                 {results.posts.length > 0 && (
                   <div className="mb-4">
-                    <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 px-2">
+                    <h3 className="mb-2 px-2 font-bold text-gray-500 text-xs uppercase tracking-wider">
                       Articles ({results.posts.length})
                     </h3>
                     {results.posts.map(post => (
                       <button
                         key={post.id}
                         onClick={() => handleResultClick('post', post.id, post.slug)}
-                        className="w-full text-left p-3 hover:bg-white/5 rounded-lg transition-colors mb-1"
+                        className="hover:bg-white/5 mb-1 p-3 rounded-lg w-full text-left transition-colors"
                       >
-                        <div className="font-medium text-white text-sm mb-1">{post.title}</div>
+                        <div className="mb-1 font-medium text-white text-sm">{post.title}</div>
                         <div className="text-gray-400 text-xs line-clamp-1">{post.excerpt}</div>
                       </button>
                     ))}
@@ -271,16 +271,16 @@ export const SearchBar: React.FC<SearchBarProps> = ({ variant = 'default', onClo
                 )}
                 {results.projects.length > 0 && (
                   <div>
-                    <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 px-2">
+                    <h3 className="mb-2 px-2 font-bold text-gray-500 text-xs uppercase tracking-wider">
                       Projets ({results.projects.length})
                     </h3>
                     {results.projects.map(project => (
                       <button
                         key={project.id}
                         onClick={() => handleResultClick('project', project.id)}
-                        className="w-full text-left p-3 hover:bg-white/5 rounded-lg transition-colors mb-1"
+                        className="hover:bg-white/5 mb-1 p-3 rounded-lg w-full text-left transition-colors"
                       >
-                        <div className="font-medium text-white text-sm mb-1">{project.title}</div>
+                        <div className="mb-1 font-medium text-white text-sm">{project.title}</div>
                         <div className="text-gray-400 text-xs line-clamp-1">{project.description}</div>
                       </button>
                     ))}
@@ -293,7 +293,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({ variant = 'default', onClo
                       setIsOpen(false);
                       if (onClose) onClose();
                     }}
-                    className="w-full mt-4 p-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-white text-sm font-medium transition-colors"
+                    className="bg-white/5 hover:bg-white/10 mt-4 p-3 border border-white/10 rounded-lg w-full font-medium text-white text-sm transition-colors"
                   >
                     Voir tous les résultats
                   </button>

@@ -49,10 +49,10 @@ export const Blog: React.FC = () => {
         : MOCK_POSTS.filter(p => p.category === selectedCategory);
 
     return (
-        <div className="min-h-screen pt-32 pb-20 px-6 max-w-7xl mx-auto">
-            <div className="flex flex-col md:flex-row justify-between items-end mb-8 border-b border-white/10 pb-8">
+        <div className="mx-auto px-6 pt-32 pb-20 max-w-7xl min-h-screen">
+            <div className="flex md:flex-row flex-col justify-between items-end mb-8 pb-8 border-white/10 border-b">
                 <div>
-                    <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">Knowledge Hub</h1>
+                    <h1 className="mb-4 font-bold text-white text-4xl md:text-6xl">Knowledge Hub</h1>
                     <p className="text-gray-400">Analyses, tutoriels et pensées sur le futur du digital.</p>
                 </div>
             </div>
@@ -74,23 +74,23 @@ export const Blog: React.FC = () => {
                 ))}
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="gap-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
                 {filteredPosts.map((post) => (
                     <div key={post.id} className="group">
                         <Link to={`/blog/${post.slug}`} className="block">
-                            <div className="relative aspect-video rounded-xl overflow-hidden mb-4 border border-white/10">
+                            <div className="relative mb-4 border border-white/10 rounded-xl aspect-video overflow-hidden">
                                 <img 
                                     src={post.imageUrl} 
                                     alt={post.title} 
                                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                                     loading="lazy"
                                 />
-                                <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-white border border-white/10">
+                                <div className="top-4 left-4 absolute bg-black/60 backdrop-blur-md px-3 py-1 border border-white/10 rounded-full font-bold text-white text-xs">
                                     {post.category}
                                 </div>
                             </div>
-                            <div className="text-gray-500 text-xs mb-2">{post.date}</div>
-                            <h3 className="text-xl font-bold text-white mb-2 group-hover:text-blue-400 transition-colors leading-tight">
+                            <div className="mb-2 text-gray-500 text-xs">{post.date}</div>
+                            <h3 className="mb-2 font-bold text-white group-hover:text-blue-400 text-xl leading-tight transition-colors">
                                 {post.title}
                             </h3>
                             <p className="text-gray-400 text-sm line-clamp-2">

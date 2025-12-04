@@ -22,7 +22,7 @@ export const LeadMagnet: React.FC<LeadMagnetProps> = ({
       animate={{ opacity: 1, y: 0 }}
       className={`bg-gradient-to-br from-blue-900/20 via-purple-900/20 to-pink-900/20 border border-white/10 rounded-2xl p-8 md:p-12 ${className}`}
     >
-      <div className="max-w-2xl mx-auto">
+      <div className="mx-auto max-w-2xl">
         <div className="flex items-start space-x-6 mb-8">
           <div className="flex-shrink-0">
             <div className="flex justify-center items-center bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-500/20 rounded-2xl w-16 h-16">
@@ -32,19 +32,19 @@ export const LeadMagnet: React.FC<LeadMagnetProps> = ({
           <div className="flex-1">
             <div className="flex items-center space-x-2 mb-2">
               <Sparkles className="w-5 h-5 text-yellow-400" />
-              <span className="text-yellow-400 font-bold text-sm uppercase tracking-wider">Offre Gratuite</span>
+              <span className="font-bold text-yellow-400 text-sm uppercase tracking-wider">Offre Gratuite</span>
             </div>
-            <h3 className="text-2xl md:text-3xl font-bold text-white mb-3">
+            <h3 className="mb-3 font-bold text-white text-2xl md:text-3xl">
               {title}
             </h3>
-            <p className="text-gray-300 text-lg mb-4">
+            <p className="mb-4 text-gray-300 text-lg">
               {description}
             </p>
-            <div className="bg-white/5 border border-white/10 rounded-lg p-4 mb-6">
+            <div className="bg-white/5 mb-6 p-4 border border-white/10 rounded-lg">
               <div className="flex items-center space-x-3">
                 <Download className="w-5 h-5 text-blue-400" />
                 <div>
-                  <p className="text-white font-bold">{offer}</p>
+                  <p className="font-bold text-white">{offer}</p>
                   <p className="text-gray-400 text-sm">PDF • 15 pages • Téléchargement instantané</p>
                 </div>
               </div>
@@ -52,11 +52,11 @@ export const LeadMagnet: React.FC<LeadMagnetProps> = ({
           </div>
         </div>
 
-        <div className="bg-[#0a0a16] border border-white/10 rounded-xl p-6">
-          <h4 className="text-white font-bold mb-4 text-center">
+        <div className="bg-[#0a0a16] p-6 border border-white/10 rounded-xl">
+          <h4 className="mb-4 font-bold text-white text-center">
             Téléchargez votre guide gratuit
           </h4>
-          <p className="text-gray-400 text-sm text-center mb-6">
+          <p className="mb-6 text-gray-400 text-sm text-center">
             Entrez votre email pour recevoir le guide instantanément
           </p>
           <NewsletterSignup

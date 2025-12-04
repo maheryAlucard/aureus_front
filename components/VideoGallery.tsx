@@ -43,7 +43,7 @@ export const VideoGallery: React.FC<VideoGalleryProps> = ({ videos, className = 
 
   return (
     <div className={className}>
-      <div className="relative aspect-video rounded-xl overflow-hidden border border-white/10 mb-4">
+      <div className="relative mb-4 border border-white/10 rounded-xl aspect-video overflow-hidden">
         {isPlaying && currentVideo.type ? (
           <iframe
             src={getEmbedUrl(currentVideo)}
@@ -52,20 +52,20 @@ export const VideoGallery: React.FC<VideoGalleryProps> = ({ videos, className = 
             allowFullScreen
           />
         ) : (
-          <div className="relative w-full h-full bg-black">
+          <div className="relative bg-black w-full h-full">
             {currentVideo.thumbnail && (
               <img
                 src={currentVideo.thumbnail}
                 alt={currentVideo.title || 'Video thumbnail'}
-                className="w-full h-full object-cover opacity-50"
+                className="opacity-50 w-full h-full object-cover"
               />
             )}
             <button
               onClick={() => setIsPlaying(true)}
-              className="absolute inset-0 flex items-center justify-center bg-black/40 hover:bg-black/60 transition-colors"
+              className="absolute inset-0 flex justify-center items-center bg-black/40 hover:bg-black/60 transition-colors"
             >
-              <div className="flex items-center justify-center bg-white/20 hover:bg-white/30 rounded-full w-20 h-20 backdrop-blur-md transition-colors">
-                <Play className="w-10 h-10 text-white ml-1" />
+              <div className="flex justify-center items-center bg-white/20 hover:bg-white/30 backdrop-blur-md rounded-full w-20 h-20 transition-colors">
+                <Play className="ml-1 w-10 h-10 text-white" />
               </div>
             </button>
           </div>
@@ -75,13 +75,13 @@ export const VideoGallery: React.FC<VideoGalleryProps> = ({ videos, className = 
           <>
             <button
               onClick={prevVideo}
-              className="absolute left-4 top-1/2 -translate-y-1/2 p-2 bg-black/60 hover:bg-black/80 rounded-full text-white transition-colors"
+              className="top-1/2 left-4 absolute bg-black/60 hover:bg-black/80 p-2 rounded-full text-white transition-colors -translate-y-1/2"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
             <button
               onClick={nextVideo}
-              className="absolute right-4 top-1/2 -translate-y-1/2 p-2 bg-black/60 hover:bg-black/80 rounded-full text-white transition-colors"
+              className="top-1/2 right-4 absolute bg-black/60 hover:bg-black/80 p-2 rounded-full text-white transition-colors -translate-y-1/2"
             >
               <ChevronRight className="w-5 h-5" />
             </button>
@@ -90,7 +90,7 @@ export const VideoGallery: React.FC<VideoGalleryProps> = ({ videos, className = 
       </div>
 
       {videos.length > 1 && (
-        <div className="flex space-x-2 overflow-x-auto pb-2">
+        <div className="flex space-x-2 pb-2 overflow-x-auto">
           {videos.map((video, index) => (
             <button
               key={video.id}
@@ -109,7 +109,7 @@ export const VideoGallery: React.FC<VideoGalleryProps> = ({ videos, className = 
                   className="w-full h-full object-cover"
                 />
               ) : (
-                <div className="w-full h-full bg-white/5 flex items-center justify-center">
+                <div className="flex justify-center items-center bg-white/5 w-full h-full">
                   <Play className="w-4 h-4 text-gray-400" />
                 </div>
               )}

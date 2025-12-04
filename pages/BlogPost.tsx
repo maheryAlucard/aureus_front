@@ -110,9 +110,9 @@ En conclusion, ${post.title.toLowerCase()} représente une opportunité signific
 
   if (loading) {
     return (
-      <div className="min-h-screen pt-32 pb-20 px-6 flex items-center justify-center">
+      <div className="flex justify-center items-center px-6 pt-32 pb-20 min-h-screen">
         <div className="text-center">
-          <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+          <div className="mx-auto mb-4 border-4 border-blue-500 border-t-transparent rounded-full w-12 h-12 animate-spin" />
           <p className="text-gray-400">Chargement de l'article...</p>
         </div>
       </div>
@@ -124,33 +124,33 @@ En conclusion, ${post.title.toLowerCase()} représente une opportunité signific
   }
 
   return (
-    <div className="min-h-screen pt-32 pb-20">
+    <div className="pt-32 pb-20 min-h-screen">
       <ReadingProgress />
       {/* Header */}
-      <div className="max-w-4xl mx-auto px-6 mb-12">
+      <div className="mx-auto mb-12 px-6 max-w-4xl">
         <Link
           to="/blog"
-          className="inline-flex items-center space-x-2 text-gray-400 hover:text-white mb-8 transition-colors"
+          className="inline-flex items-center space-x-2 mb-8 text-gray-400 hover:text-white transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>Retour au blog</span>
         </Link>
 
         <div className="mb-6">
-          <span className="inline-block px-3 py-1 bg-white/5 border border-white/10 rounded-full text-xs font-bold text-blue-400">
+          <span className="inline-block bg-white/5 px-3 py-1 border border-white/10 rounded-full font-bold text-blue-400 text-xs">
             {post.category}
           </span>
         </div>
 
-        <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
+        <h1 className="mb-6 font-bold text-white text-4xl md:text-6xl leading-tight">
           {post.title}
         </h1>
 
-        <p className="text-xl text-gray-300 mb-8 leading-relaxed">
+        <p className="mb-8 text-gray-300 text-xl leading-relaxed">
           {post.excerpt}
         </p>
 
-        <div className="flex flex-wrap items-center gap-6 text-sm text-gray-400">
+        <div className="flex flex-wrap items-center gap-6 text-gray-400 text-sm">
           <div className="flex items-center space-x-2">
             <Calendar className="w-4 h-4" />
             <span>{post.date}</span>
@@ -164,7 +164,7 @@ En conclusion, ${post.title.toLowerCase()} représente une opportunité signific
               <Tag className="w-4 h-4" />
               <div className="flex flex-wrap gap-2">
                 {post.tags.map(tag => (
-                  <span key={tag} className="px-2 py-1 bg-white/5 rounded text-xs">
+                  <span key={tag} className="bg-white/5 px-2 py-1 rounded text-xs">
                     {tag}
                   </span>
                 ))}
@@ -175,8 +175,8 @@ En conclusion, ${post.title.toLowerCase()} représente une opportunité signific
       </div>
 
       {/* Featured Image */}
-      <div className="max-w-4xl mx-auto px-6 mb-12">
-        <div className="relative aspect-video rounded-2xl overflow-hidden border border-white/10">
+      <div className="mx-auto mb-12 px-6 max-w-4xl">
+        <div className="relative border border-white/10 rounded-2xl aspect-video overflow-hidden">
           <img
             src={post.imageUrl}
             alt={post.title}
@@ -187,28 +187,19 @@ En conclusion, ${post.title.toLowerCase()} représente une opportunité signific
       </div>
 
       {/* Content */}
-      <article className="max-w-3xl mx-auto px-6">
+      <article className="mx-auto px-6 max-w-3xl">
         <div
-          className="prose prose-invert prose-lg max-w-none
-            prose-headings:text-white prose-headings:font-bold
-            prose-p:text-gray-300 prose-p:leading-relaxed
-            prose-a:text-blue-400 prose-a:no-underline hover:prose-a:underline
-            prose-strong:text-white prose-strong:font-bold
-            prose-ul:text-gray-300 prose-ol:text-gray-300
-            prose-li:text-gray-300
-            prose-blockquote:border-blue-500 prose-blockquote:text-gray-400
-            prose-code:text-cyan-400 prose-code:bg-white/5 prose-code:px-1 prose-code:py-0.5 prose-code:rounded
-            prose-pre:bg-[#0a0a16] prose-pre:border prose-pre:border-white/10"
+          className="prose-code:bg-white/5 prose-pre:bg-[#0a0a16] prose-invert prose-code:px-1 prose-code:py-0.5 prose-pre:border prose-blockquote:border-blue-500 prose-pre:border-white/10 prose-code:rounded max-w-none prose-headings:font-bold prose-strong:font-bold prose-a:text-blue-400 prose-blockquote:text-gray-400 prose-code:text-cyan-400 prose-headings:text-white prose-li:text-gray-300 prose-ol:text-gray-300 prose-p:text-gray-300 prose-strong:text-white prose-ul:text-gray-300 hover:prose-a:underline prose-a:no-underline prose-p:leading-relaxed prose prose-lg"
           dangerouslySetInnerHTML={{ __html: post.content?.replace(/\n/g, '<br />') || '' }}
         />
       </article>
 
       {/* Share Section */}
       {post && (
-        <div className="max-w-4xl mx-auto px-6 mt-12 pt-8 border-t border-white/10">
-          <div className="flex items-center justify-between">
+        <div className="mx-auto mt-12 px-6 pt-8 border-white/10 border-t max-w-4xl">
+          <div className="flex justify-between items-center">
             <div>
-              <h3 className="text-white font-bold mb-2">Partager cet article</h3>
+              <h3 className="mb-2 font-bold text-white">Partager cet article</h3>
               <p className="text-gray-400 text-sm">Aidez-nous à faire connaître cet article</p>
             </div>
             <SocialShare
@@ -222,7 +213,7 @@ En conclusion, ${post.title.toLowerCase()} représente une opportunité signific
       )}
 
       {/* Lead Magnet */}
-      <div className="max-w-4xl mx-auto px-6 mt-16">
+      <div className="mx-auto mt-16 px-6 max-w-4xl">
         <LeadMagnet
           title="Guide Gratuit"
           description="Vous avez aimé cet article ? Téléchargez notre guide complet sur le même sujet."
@@ -232,16 +223,16 @@ En conclusion, ${post.title.toLowerCase()} représente une opportunité signific
 
       {/* Related Posts */}
       {relatedPosts.length > 0 && (
-        <div className="max-w-7xl mx-auto px-6 mt-20">
-          <h2 className="text-3xl font-bold text-white mb-8">Articles Similaires</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="mx-auto mt-20 px-6 max-w-7xl">
+          <h2 className="mb-8 font-bold text-white text-3xl">Articles Similaires</h2>
+          <div className="gap-8 grid grid-cols-1 md:grid-cols-3">
             {relatedPosts.map((relatedPost) => (
               <Link
                 key={relatedPost.id}
                 to={`/blog/${relatedPost.slug}`}
                 className="group block"
               >
-                <div className="relative aspect-video rounded-xl overflow-hidden mb-4 border border-white/10">
+                <div className="relative mb-4 border border-white/10 rounded-xl aspect-video overflow-hidden">
                   <img
                     src={relatedPost.imageUrl}
                     alt={relatedPost.title}
@@ -249,8 +240,8 @@ En conclusion, ${post.title.toLowerCase()} représente une opportunité signific
                     loading="lazy"
                   />
                 </div>
-                <div className="text-gray-500 text-xs mb-2">{relatedPost.date}</div>
-                <h3 className="text-xl font-bold text-white group-hover:text-blue-400 transition-colors">
+                <div className="mb-2 text-gray-500 text-xs">{relatedPost.date}</div>
+                <h3 className="font-bold text-white group-hover:text-blue-400 text-xl transition-colors">
                   {relatedPost.title}
                 </h3>
               </Link>

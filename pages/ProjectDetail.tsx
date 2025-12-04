@@ -98,9 +98,9 @@ Les résultats ont dépassé les attentes initiales, avec des améliorations sig
 
   if (loading) {
     return (
-      <div className="min-h-screen pt-32 pb-20 px-6 flex items-center justify-center">
+      <div className="flex justify-center items-center px-6 pt-32 pb-20 min-h-screen">
         <div className="text-center">
-          <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+          <div className="mx-auto mb-4 border-4 border-blue-500 border-t-transparent rounded-full w-12 h-12 animate-spin" />
           <p className="text-gray-400">Chargement du projet...</p>
         </div>
       </div>
@@ -114,12 +114,12 @@ Les résultats ont dépassé les attentes initiales, avec des améliorations sig
   const config = DIVISION_CONFIG[project.division];
 
   return (
-    <div className="min-h-screen pt-32 pb-20">
+    <div className="pt-32 pb-20 min-h-screen">
       {/* Header */}
-      <div className="max-w-7xl mx-auto px-6 mb-12">
+      <div className="mx-auto mb-12 px-6 max-w-7xl">
         <Link
           to="/work"
-          className="inline-flex items-center space-x-2 text-gray-400 hover:text-white mb-8 transition-colors"
+          className="inline-flex items-center space-x-2 mb-8 text-gray-400 hover:text-white transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>Retour aux réalisations</span>
@@ -132,17 +132,17 @@ Les résultats ont dépassé les attentes initiales, avec des améliorations sig
           <span className="text-gray-500 text-sm">Client: {project.client}</span>
         </div>
 
-        <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
+        <h1 className="mb-6 font-bold text-white text-4xl md:text-6xl leading-tight">
           {project.title}
         </h1>
 
-        <p className="text-xl text-gray-300 mb-8 max-w-3xl leading-relaxed">
+        <p className="mb-8 max-w-3xl text-gray-300 text-xl leading-relaxed">
           {project.description}
         </p>
 
         <div className="flex flex-wrap gap-3 mb-8">
           {project.tags.map(tag => (
-            <span key={tag} className="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-sm text-gray-300">
+            <span key={tag} className="bg-white/5 px-3 py-1 border border-white/10 rounded-full text-gray-300 text-sm">
               {tag}
             </span>
           ))}
@@ -150,8 +150,8 @@ Les résultats ont dépassé les attentes initiales, avec des améliorations sig
       </div>
 
       {/* Main Image */}
-      <div className="max-w-7xl mx-auto px-6 mb-12">
-        <div className="relative aspect-video rounded-2xl overflow-hidden border border-white/10">
+      <div className="mx-auto mb-12 px-6 max-w-7xl">
+        <div className="relative border border-white/10 rounded-2xl aspect-video overflow-hidden">
           <img
             src={project.imageUrl}
             alt={project.title}
@@ -162,16 +162,10 @@ Les résultats ont dépassé les attentes initiales, avec des améliorations sig
       </div>
 
       {/* Content Grid */}
-      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-3 gap-12 mb-12">
+      <div className="gap-12 grid grid-cols-1 lg:grid-cols-3 mx-auto mb-12 px-6 max-w-7xl">
         {/* Main Content */}
         <div className="lg:col-span-2">
-          <div className="prose prose-invert prose-lg max-w-none
-            prose-headings:text-white prose-headings:font-bold
-            prose-p:text-gray-300 prose-p:leading-relaxed
-            prose-a:text-blue-400 prose-a:no-underline hover:prose-a:underline
-            prose-strong:text-white prose-strong:font-bold
-            prose-ul:text-gray-300 prose-ol:text-gray-300
-            prose-li:text-gray-300"
+          <div className="prose-invert max-w-none prose-headings:font-bold prose-strong:font-bold prose-a:text-blue-400 prose-headings:text-white prose-li:text-gray-300 prose-ol:text-gray-300 prose-p:text-gray-300 prose-strong:text-white prose-ul:text-gray-300 hover:prose-a:underline prose-a:no-underline prose-p:leading-relaxed prose prose-lg"
           >
             <div dangerouslySetInnerHTML={{ __html: project.fullDescription?.replace(/\n/g, '<br />') || project.description }} />
           </div>
@@ -192,9 +186,9 @@ Les résultats ont dépassé les attentes initiales, avec des améliorations sig
 
           {/* Image Gallery */}
           {project.images && project.images.length > 1 && (
-            <div className="mt-12 grid grid-cols-2 gap-4">
+            <div className="gap-4 grid grid-cols-2 mt-12">
               {project.images.slice(1).map((img, idx) => (
-                <div key={idx} className="relative aspect-square rounded-lg overflow-hidden border border-white/10">
+                <div key={idx} className="relative border border-white/10 rounded-lg aspect-square overflow-hidden">
                   <img
                     src={img}
                     alt={`${project.title} - Image ${idx + 2}`}
@@ -211,14 +205,14 @@ Les résultats ont dépassé les attentes initiales, avec des améliorations sig
         <div className="space-y-6">
           {/* Technologies */}
           {project.technologies && project.technologies.length > 0 && (
-            <div className="bg-[#0a0a16] border border-white/10 rounded-xl p-6">
-              <h3 className="text-white font-bold mb-4 flex items-center space-x-2">
+            <div className="bg-[#0a0a16] p-6 border border-white/10 rounded-xl">
+              <h3 className="flex items-center space-x-2 mb-4 font-bold text-white">
                 <Tag className="w-5 h-5" />
                 <span>Technologies</span>
               </h3>
               <div className="flex flex-wrap gap-2">
                 {project.technologies.map(tech => (
-                  <span key={tech} className="px-2 py-1 bg-white/5 rounded text-sm text-gray-300">
+                  <span key={tech} className="bg-white/5 px-2 py-1 rounded text-gray-300 text-sm">
                     {tech}
                   </span>
                 ))}
@@ -228,15 +222,15 @@ Les résultats ont dépassé les attentes initiales, avec des améliorations sig
 
           {/* Results */}
           {project.results && project.results.length > 0 && (
-            <div className="bg-[#0a0a16] border border-white/10 rounded-xl p-6">
-              <h3 className="text-white font-bold mb-4 flex items-center space-x-2">
+            <div className="bg-[#0a0a16] p-6 border border-white/10 rounded-xl">
+              <h3 className="flex items-center space-x-2 mb-4 font-bold text-white">
                 <CheckCircle2 className="w-5 h-5 text-green-400" />
                 <span>Résultats</span>
               </h3>
               <ul className="space-y-3">
                 {project.results.map((result, idx) => (
                   <li key={idx} className="flex items-start space-x-2 text-gray-300 text-sm">
-                    <CheckCircle2 className="w-4 h-4 text-green-400 shrink-0 mt-0.5" />
+                    <CheckCircle2 className="mt-0.5 w-4 h-4 text-green-400 shrink-0" />
                     <span>{result}</span>
                   </li>
                 ))}
@@ -246,8 +240,8 @@ Les résultats ont dépassé les attentes initiales, avec des améliorations sig
 
           {/* Share */}
           {project && (
-            <div className="bg-[#0a0a16] border border-white/10 rounded-xl p-6">
-              <h3 className="text-white font-bold mb-4">Partager</h3>
+            <div className="bg-[#0a0a16] p-6 border border-white/10 rounded-xl">
+              <h3 className="mb-4 font-bold text-white">Partager</h3>
               <SocialShare
                 title={project.title}
                 description={project.description}
@@ -262,16 +256,16 @@ Les résultats ont dépassé les attentes initiales, avec des améliorations sig
 
       {/* Related Projects */}
       {relatedProjects.length > 0 && (
-        <div className="max-w-7xl mx-auto px-6 mt-20">
-          <h2 className="text-3xl font-bold text-white mb-8">Projets Similaires</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="mx-auto mt-20 px-6 max-w-7xl">
+          <h2 className="mb-8 font-bold text-white text-3xl">Projets Similaires</h2>
+          <div className="gap-8 grid grid-cols-1 md:grid-cols-3">
             {relatedProjects.map((relatedProject) => (
               <Link
                 key={relatedProject.id}
                 to={`/work/${relatedProject.id}`}
                 className="group block"
               >
-                <div className="relative aspect-[4/3] rounded-lg overflow-hidden mb-4 border border-white/10">
+                <div className="relative mb-4 border border-white/10 rounded-lg aspect-[4/3] overflow-hidden">
                   <img
                     src={relatedProject.imageUrl}
                     alt={relatedProject.title}
@@ -279,10 +273,10 @@ Les résultats ont dépassé les attentes initiales, avec des améliorations sig
                     loading="lazy"
                   />
                 </div>
-                <h3 className="text-xl font-bold text-white group-hover:text-blue-400 transition-colors mb-2">
+                <h3 className="mb-2 font-bold text-white group-hover:text-blue-400 text-xl transition-colors">
                   {relatedProject.title}
                 </h3>
-                <p className="text-sm text-gray-500">{relatedProject.client}</p>
+                <p className="text-gray-500 text-sm">{relatedProject.client}</p>
               </Link>
             ))}
           </div>

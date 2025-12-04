@@ -35,18 +35,18 @@ export const CookieConsent: React.FC = () => {
           initial={{ y: 100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 100, opacity: 0 }}
-          className="fixed bottom-0 left-0 right-0 z-50 p-4 md:p-6"
+          className="right-0 bottom-0 left-0 z-50 fixed p-4 md:p-6"
         >
-          <div className="max-w-7xl mx-auto bg-[#0a0a16] border border-white/10 rounded-2xl p-6 shadow-2xl">
-            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-              <div className="flex items-start space-x-4 flex-1">
+          <div className="bg-[#0a0a16] shadow-2xl mx-auto p-6 border border-white/10 rounded-2xl max-w-7xl">
+            <div className="flex md:flex-row flex-col justify-between items-start md:items-center gap-4">
+              <div className="flex flex-1 items-start space-x-4">
                 <div className="flex-shrink-0">
                   <div className="flex justify-center items-center bg-yellow-500/10 border border-yellow-500/20 rounded-xl w-12 h-12">
                     <Cookie className="w-6 h-6 text-yellow-400" />
                   </div>
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-white font-bold mb-2">Nous utilisons des cookies</h3>
+                  <h3 className="mb-2 font-bold text-white">Nous utilisons des cookies</h3>
                   <p className="text-gray-400 text-sm leading-relaxed">
                     Ce site utilise des cookies pour améliorer votre expérience, analyser le trafic et personnaliser le contenu. 
                     En continuant à naviguer, vous acceptez notre utilisation des cookies.{' '}
@@ -56,16 +56,16 @@ export const CookieConsent: React.FC = () => {
                   </p>
                 </div>
               </div>
-              <div className="flex items-center space-x-3 flex-shrink-0">
+              <div className="flex flex-shrink-0 items-center space-x-3">
                 <button
                   onClick={handleDecline}
-                  className="px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-gray-300 hover:text-white text-sm font-medium transition-colors"
+                  className="bg-white/5 hover:bg-white/10 px-4 py-2 border border-white/10 rounded-lg font-medium text-gray-300 hover:text-white text-sm transition-colors"
                 >
                   Refuser
                 </button>
                 <button
                   onClick={handleAccept}
-                  className="px-6 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-white text-sm font-bold transition-colors"
+                  className="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg font-bold text-white text-sm transition-colors"
                 >
                   Accepter
                 </button>

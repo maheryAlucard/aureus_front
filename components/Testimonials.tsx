@@ -89,23 +89,23 @@ export const Testimonials: React.FC<TestimonialsProps> = ({
 
   return (
     <div className={className}>
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex justify-between items-center mb-8">
         <div>
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">Ils nous font confiance</h2>
+          <h2 className="mb-2 font-bold text-white text-3xl md:text-4xl">Ils nous font confiance</h2>
           <p className="text-gray-400">Découvrez ce que nos clients disent de nous</p>
         </div>
         {!showAll && displayedTestimonials.length > 1 && (
           <div className="flex items-center space-x-2">
             <button
               onClick={prevTestimonial}
-              className="p-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-gray-400 hover:text-white transition-colors"
+              className="bg-white/5 hover:bg-white/10 p-2 border border-white/10 rounded-lg text-gray-400 hover:text-white transition-colors"
               aria-label="Témoignage précédent"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
             <button
               onClick={nextTestimonial}
-              className="p-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-gray-400 hover:text-white transition-colors"
+              className="bg-white/5 hover:bg-white/10 p-2 border border-white/10 rounded-lg text-gray-400 hover:text-white transition-colors"
               aria-label="Témoignage suivant"
             >
               <ChevronRight className="w-5 h-5" />
@@ -115,31 +115,31 @@ export const Testimonials: React.FC<TestimonialsProps> = ({
       </div>
 
       {showAll ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="gap-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           {displayedTestimonials.map((testimonial, index) => (
             <motion.div
               key={testimonial.id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
-              className="bg-[#0a0a16] border border-white/10 rounded-xl p-6"
+              className="bg-[#0a0a16] p-6 border border-white/10 rounded-xl"
             >
               <div className="flex items-center space-x-1 mb-4">
                 {[...Array(testimonial.rating)].map((_, i) => (
-                  <Star key={i} className="w-4 h-4 text-yellow-400 fill-yellow-400" />
+                  <Star key={i} className="fill-yellow-400 w-4 h-4 text-yellow-400" />
                 ))}
               </div>
-              <Quote className="w-8 h-8 text-blue-400 mb-4 opacity-50" />
-              <p className="text-gray-300 mb-6 leading-relaxed">{testimonial.content}</p>
+              <Quote className="opacity-50 mb-4 w-8 h-8 text-blue-400" />
+              <p className="mb-6 text-gray-300 leading-relaxed">{testimonial.content}</p>
               <div className="flex items-center space-x-3">
                 {testimonial.photo ? (
                   <img
                     src={testimonial.photo}
                     alt={testimonial.name}
-                    className="w-12 h-12 rounded-full object-cover"
+                    className="rounded-full w-12 h-12 object-cover"
                   />
                 ) : (
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold">
+                  <div className="flex justify-center items-center bg-gradient-to-br from-blue-500 to-purple-600 rounded-full w-12 h-12 font-bold text-white">
                     {testimonial.name.charAt(0)}
                   </div>
                 )}
@@ -159,15 +159,15 @@ export const Testimonials: React.FC<TestimonialsProps> = ({
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -20 }}
-              className="bg-[#0a0a16] border border-white/10 rounded-2xl p-8 md:p-12"
+              className="bg-[#0a0a16] p-8 md:p-12 border border-white/10 rounded-2xl"
             >
               <div className="flex items-center space-x-1 mb-6">
                 {[...Array(displayedTestimonials[currentIndex].rating)].map((_, i) => (
-                  <Star key={i} className="w-5 h-5 text-yellow-400 fill-yellow-400" />
+                  <Star key={i} className="fill-yellow-400 w-5 h-5 text-yellow-400" />
                 ))}
               </div>
-              <Quote className="w-12 h-12 text-blue-400 mb-6 opacity-50" />
-              <p className="text-gray-300 text-lg md:text-xl mb-8 leading-relaxed">
+              <Quote className="opacity-50 mb-6 w-12 h-12 text-blue-400" />
+              <p className="mb-8 text-gray-300 text-lg md:text-xl leading-relaxed">
                 {displayedTestimonials[currentIndex].content}
               </p>
               <div className="flex items-center space-x-4">
@@ -175,10 +175,10 @@ export const Testimonials: React.FC<TestimonialsProps> = ({
                   <img
                     src={displayedTestimonials[currentIndex].photo}
                     alt={displayedTestimonials[currentIndex].name}
-                    className="w-16 h-16 rounded-full object-cover"
+                    className="rounded-full w-16 h-16 object-cover"
                   />
                 ) : (
-                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-xl">
+                  <div className="flex justify-center items-center bg-gradient-to-br from-blue-500 to-purple-600 rounded-full w-16 h-16 font-bold text-white text-xl">
                     {displayedTestimonials[currentIndex].name.charAt(0)}
                   </div>
                 )}

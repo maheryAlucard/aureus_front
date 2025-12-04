@@ -59,7 +59,7 @@ export const ExitIntentPopup: React.FC<ExitIntentPopupProps> = ({ onClose }) => 
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={handleClose}
-            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50"
+            className="z-50 fixed inset-0 bg-black/80 backdrop-blur-sm"
           />
           
           {/* Popup */}
@@ -67,22 +67,22 @@ export const ExitIntentPopup: React.FC<ExitIntentPopupProps> = ({ onClose }) => 
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-md mx-4"
+            className="top-1/2 left-1/2 z-50 fixed mx-4 w-full max-w-md -translate-x-1/2 -translate-y-1/2"
           >
-            <div className="relative bg-[#0a0a16] border border-white/10 rounded-2xl p-8 shadow-2xl">
+            <div className="relative bg-[#0a0a16] shadow-2xl p-8 border border-white/10 rounded-2xl">
               <button
                 onClick={handleClose}
-                className="absolute top-4 right-4 p-2 text-gray-400 hover:text-white transition-colors"
+                className="top-4 right-4 absolute p-2 text-gray-400 hover:text-white transition-colors"
                 aria-label="Fermer"
               >
                 <X className="w-5 h-5" />
               </button>
 
-              <div className="text-center mb-6">
+              <div className="mb-6 text-center">
                 <div className="inline-flex justify-center items-center bg-gradient-to-r from-yellow-500/10 to-orange-500/10 mb-4 border border-yellow-500/20 rounded-2xl w-16 h-16">
                   <Gift className="w-8 h-8 text-yellow-400" />
                 </div>
-                <h2 className="text-2xl font-bold text-white mb-2">
+                <h2 className="mb-2 font-bold text-white text-2xl">
                   Ne partez pas sans votre cadeau !
                 </h2>
                 <p className="text-gray-400">

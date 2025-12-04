@@ -74,28 +74,28 @@ export const Contact: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen pt-32 pb-20 px-6 max-w-4xl mx-auto">
-      <div className="text-center mb-16">
-        <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">Démarrez Votre Projet</h1>
+    <div className="mx-auto px-6 pt-32 pb-20 max-w-4xl min-h-screen">
+      <div className="mb-16 text-center">
+        <h1 className="mb-6 font-bold text-white text-4xl md:text-5xl">Démarrez Votre Projet</h1>
         <p className="text-gray-400 text-lg">Dites-nous de quelle division vous avez besoin.</p>
       </div>
 
-      <div className="bg-[#0a0a16] border border-white/10 rounded-2xl p-8 md:p-12 shadow-2xl">
+      <div className="bg-[#0a0a16] shadow-2xl p-8 md:p-12 border border-white/10 rounded-2xl">
         {submitStatus === 'success' && (
-          <div className="mb-6 p-4 bg-green-500/10 border border-green-500/20 rounded-lg text-green-400">
+          <div className="bg-green-500/10 mb-6 p-4 border border-green-500/20 rounded-lg text-green-400">
             Merci ! Votre demande a été envoyée avec succès. Nous vous répondrons sous 24h.
           </div>
         )}
         
         {submitStatus === 'error' && errorMessage && (
-          <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-lg text-red-400">
+          <div className="bg-red-500/10 mb-6 p-4 border border-red-500/20 rounded-lg text-red-400">
             {errorMessage}
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-8">
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="gap-4 grid grid-cols-1 md:grid-cols-3">
             {Object.values(Division).map((div) => (
               <div 
                 key={div}
@@ -111,25 +111,25 @@ export const Contact: React.FC = () => {
             ))}
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="gap-6 grid grid-cols-1 md:grid-cols-2">
             <div className="space-y-2">
-                <label className="text-sm text-gray-400">Nom <span className="text-red-400">*</span></label>
+                <label className="text-gray-400 text-sm">Nom <span className="text-red-400">*</span></label>
                 <input 
                   type="text" 
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors" 
+                  className="bg-black/20 px-4 py-3 border border-white/10 focus:border-blue-500 rounded-lg focus:outline-none w-full text-white transition-colors" 
                   placeholder="Jean Dupont"
                   required
                 />
             </div>
             <div className="space-y-2">
-                <label className="text-sm text-gray-400">Email <span className="text-red-400">*</span></label>
+                <label className="text-gray-400 text-sm">Email <span className="text-red-400">*</span></label>
                 <input 
                   type="email" 
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors" 
+                  className="bg-black/20 px-4 py-3 border border-white/10 focus:border-blue-500 rounded-lg focus:outline-none w-full text-white transition-colors" 
                   placeholder="jean@societe.com"
                   required
                 />
@@ -137,14 +137,14 @@ export const Contact: React.FC = () => {
           </div>
 
           {/* Conditional Logic Fields */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-in fade-in duration-500">
+          <div className="gap-6 grid grid-cols-1 md:grid-cols-2 animate-in duration-500 fade-in">
              {selectedDivision === Division.TECH && (
                  <div className="space-y-2">
-                    <label className="text-sm text-cyan-400 font-bold">Budget Estimé</label>
+                    <label className="font-bold text-cyan-400 text-sm">Budget Estimé</label>
                     <select 
                       value={formData.budget}
                       onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
-                      className="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors"
+                      className="bg-black/20 px-4 py-3 border border-white/10 focus:border-blue-500 rounded-lg focus:outline-none w-full text-white transition-colors"
                     >
                         <option value="">Sélectionner une fourchette</option>
                         <option value="low">2k€ - 5k€ (MVP)</option>
@@ -155,22 +155,22 @@ export const Contact: React.FC = () => {
              )}
              {selectedDivision === Division.STUDIO && (
                  <div className="space-y-2">
-                    <label className="text-sm text-fuchsia-400 font-bold">Date de l'Événement / Tournage</label>
+                    <label className="font-bold text-fuchsia-400 text-sm">Date de l'Événement / Tournage</label>
                     <input 
                       type="date" 
                       value={formData.eventDate}
                       onChange={(e) => setFormData({ ...formData, eventDate: e.target.value })}
-                      className="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors" 
+                      className="bg-black/20 px-4 py-3 border border-white/10 focus:border-blue-500 rounded-lg focus:outline-none w-full text-white transition-colors" 
                     />
                  </div>
              )}
              {selectedDivision === Division.BRAND && (
                  <div className="space-y-2">
-                    <label className="text-sm text-indigo-400 font-bold">Objectif Principal</label>
+                    <label className="font-bold text-indigo-400 text-sm">Objectif Principal</label>
                     <select 
                       value={formData.objective}
                       onChange={(e) => setFormData({ ...formData, objective: e.target.value })}
-                      className="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors"
+                      className="bg-black/20 px-4 py-3 border border-white/10 focus:border-blue-500 rounded-lg focus:outline-none w-full text-white transition-colors"
                     >
                         <option value="">Sélectionner un objectif</option>
                         <option value="awareness">Notoriété</option>
@@ -182,12 +182,12 @@ export const Contact: React.FC = () => {
           </div>
 
           <div className="space-y-2">
-             <label className="text-sm text-gray-400">Détails du Projet <span className="text-red-400">*</span></label>
+             <label className="text-gray-400 text-sm">Détails du Projet <span className="text-red-400">*</span></label>
              <textarea 
                 rows={5} 
                 value={formData.projectDetails}
                 onChange={(e) => setFormData({ ...formData, projectDetails: e.target.value })}
-                className="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors" 
+                className="bg-black/20 px-4 py-3 border border-white/10 focus:border-blue-500 rounded-lg focus:outline-none w-full text-white transition-colors" 
                 placeholder={`J'ai besoin d'aide de la part de ${DIVISION_CONFIG[selectedDivision].label} concernant...`}
                 required
              />

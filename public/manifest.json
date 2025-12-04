@@ -1,0 +1,25 @@
+{
+  "name": "Aureus | Agence Digitale",
+  "short_name": "Aureus",
+  "description": "Agence digitale premium spécialisée en développement web/app, production vidéo et branding",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#050510",
+  "theme_color": "#050510",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/images/logo aureus.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/images/logo aureus.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
+
