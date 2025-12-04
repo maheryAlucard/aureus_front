@@ -287,18 +287,18 @@ export const AdminDashboard: React.FC = () => {
 
     if (loading) {
         return (
-            <div className="flex items-center justify-center min-h-screen bg-[#020205]">
+            <div className="flex justify-center items-center bg-[#020205] min-h-screen">
                 <Loader2 className="w-8 h-8 text-blue-400 animate-spin" />
             </div>
         );
     }
 
     return (
-        <div className="flex min-h-screen bg-[#020205]">
+        <div className="flex bg-[#020205] min-h-screen">
             {/* Mobile Menu Button */}
             <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="md:hidden fixed top-4 left-4 z-50 p-2 bg-[#0a0a16] border border-white/10 rounded-lg text-white"
+                className="md:hidden top-4 left-4 z-50 fixed bg-[#0a0a16] p-2 border border-white/10 rounded-lg text-white"
             >
                 <Menu className="w-6 h-6" />
             </button>
@@ -306,11 +306,11 @@ export const AdminDashboard: React.FC = () => {
             {/* Sidebar */}
             <aside className={`${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 fixed md:static inset-y-0 left-0 z-40 w-64 border-r border-white/10 bg-[#050510] transition-transform duration-300`}>
                 <div className="p-6">
-                    <div className="flex items-center justify-between mb-6">
-                        <h2 className="text-gray-500 text-xs font-bold uppercase tracking-wider">Gestion</h2>
+                    <div className="flex justify-between items-center mb-6">
+                        <h2 className="font-bold text-gray-500 text-xs uppercase tracking-wider">Gestion</h2>
                         <button
                             onClick={handleLogout}
-                            className="p-2 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
+                            className="hover:bg-white/5 p-2 rounded-lg text-gray-400 hover:text-white transition-colors"
                             title="Déconnexion"
                         >
                             <LogOut className="w-4 h-4" />
@@ -345,21 +345,21 @@ export const AdminDashboard: React.FC = () => {
             {/* Mobile Menu Overlay */}
             {mobileMenuOpen && (
                 <div
-                    className="md:hidden fixed inset-0 bg-black/50 z-30"
+                    className="md:hidden z-30 fixed inset-0 bg-black/50"
                     onClick={() => setMobileMenuOpen(false)}
                 />
             )}
 
             {/* Main Content */}
-            <main className="flex-1 p-4 md:p-8 overflow-y-auto pt-16 md:pt-8">
+            <main className="flex-1 p-4 md:p-8 pt-16 md:pt-8 overflow-y-auto">
                 {/* Projects Tab */}
                 {activeTab === 'projects' && (
-                    <div className="max-w-4xl mx-auto">
+                    <div className="mx-auto max-w-4xl">
                         <div className="flex justify-between items-center mb-8">
-                            <h1 className="text-2xl font-bold text-white">Gestion de Projets</h1>
+                            <h1 className="font-bold text-white text-2xl">Gestion de Projets</h1>
                             <button
                                 onClick={() => setShowProjectForm(!showProjectForm)}
-                                className="flex items-center space-x-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+                                className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-white transition-colors"
                             >
                                 <Plus className="w-4 h-4" />
                                 <span>{showProjectForm ? 'Annuler' : 'Nouveau Projet'}</span>
@@ -367,34 +367,34 @@ export const AdminDashboard: React.FC = () => {
                         </div>
 
                         {showProjectForm && (
-                            <div className="bg-[#0a0a16] border border-white/10 rounded-xl p-6 mb-8">
-                                <h3 className="text-lg font-medium text-white mb-6 flex items-center">
-                                    <Plus className="w-5 h-5 mr-2 text-blue-500" />
+                            <div className="bg-[#0a0a16] mb-8 p-6 border border-white/10 rounded-xl">
+                                <h3 className="flex items-center mb-6 font-medium text-white text-lg">
+                                    <Plus className="mr-2 w-5 h-5 text-blue-500" />
                                     Ajouter un Nouveau Projet
                                 </h3>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                                <div className="gap-6 grid grid-cols-1 md:grid-cols-2 mb-6">
                                     <div>
-                                        <label className="block text-xs text-gray-500 uppercase font-bold mb-2">Titre</label>
+                                        <label className="block mb-2 font-bold text-gray-500 text-xs uppercase">Titre</label>
                                         <input
                                             type="text"
                                             value={newProject.title}
                                             onChange={(e) => setNewProject({...newProject, title: e.target.value})}
-                                            className="w-full bg-black/30 border border-white/10 rounded px-3 py-2 text-white focus:border-blue-500 outline-none"
+                                            className="bg-black/30 px-3 py-2 border border-white/10 focus:border-blue-500 rounded outline-none w-full text-white"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-xs text-gray-500 uppercase font-bold mb-2">Client</label>
+                                        <label className="block mb-2 font-bold text-gray-500 text-xs uppercase">Client</label>
                                         <input
                                             type="text"
                                             value={newProject.client}
                                             onChange={(e) => setNewProject({...newProject, client: e.target.value})}
-                                            className="w-full bg-black/30 border border-white/10 rounded px-3 py-2 text-white focus:border-blue-500 outline-none"
+                                            className="bg-black/30 px-3 py-2 border border-white/10 focus:border-blue-500 rounded outline-none w-full text-white"
                                         />
                                     </div>
                                 </div>
                                 
                                 <div className="mb-6">
-                                    <label className="block text-xs text-gray-500 uppercase font-bold mb-2">Division</label>
+                                    <label className="block mb-2 font-bold text-gray-500 text-xs uppercase">Division</label>
                                     <div className="flex space-x-4">
                                         {Object.values(Division).map(d => (
                                             <button
@@ -413,21 +413,21 @@ export const AdminDashboard: React.FC = () => {
                                 </div>
 
                                 <div className="mb-6">
-                                    <label className="block text-xs text-gray-500 uppercase font-bold mb-2">Tags</label>
+                                    <label className="block mb-2 font-bold text-gray-500 text-xs uppercase">Tags</label>
                                     <div className="flex items-center space-x-2 mb-2">
                                         <input
                                             type="text"
                                             value={tagInput}
                                             onChange={(e) => setTagInput(e.target.value)}
                                             onKeyPress={(e) => e.key === 'Enter' && handleAddTag()}
-                                            className="flex-1 bg-black/30 border border-white/10 rounded px-3 py-2 text-white text-sm outline-none"
+                                            className="flex-1 bg-black/30 px-3 py-2 border border-white/10 rounded outline-none text-white text-sm"
                                             placeholder="Ajouter un tag..."
                                         />
-                                        <button onClick={handleAddTag} className="text-blue-400 hover:text-white text-sm px-3 py-2">Ajouter</button>
+                                        <button onClick={handleAddTag} className="px-3 py-2 text-blue-400 hover:text-white text-sm">Ajouter</button>
                                     </div>
                                     <div className="flex flex-wrap gap-2">
                                         {newProject.tags?.map(t => (
-                                            <span key={t} className="text-xs bg-white/10 px-2 py-1 rounded text-gray-300 flex items-center">
+                                            <span key={t} className="flex items-center bg-white/10 px-2 py-1 rounded text-gray-300 text-xs">
                                                 {t}
                                                 <button
                                                     onClick={() => setNewProject({...newProject, tags: newProject.tags?.filter(tag => tag !== t)})}
@@ -441,25 +441,25 @@ export const AdminDashboard: React.FC = () => {
                                 </div>
 
                                 <div className="mb-6">
-                                    <label className="block text-xs text-gray-500 uppercase font-bold mb-2">Image URL</label>
+                                    <label className="block mb-2 font-bold text-gray-500 text-xs uppercase">Image URL</label>
                                     <input
                                         type="text"
                                         value={newProject.imageUrl}
                                         onChange={(e) => setNewProject({...newProject, imageUrl: e.target.value})}
-                                        className="w-full bg-black/30 border border-white/10 rounded px-3 py-2 text-white focus:border-blue-500 outline-none text-sm"
+                                        className="bg-black/30 px-3 py-2 border border-white/10 focus:border-blue-500 rounded outline-none w-full text-white text-sm"
                                         placeholder="https://..."
                                     />
                                 </div>
 
                                 <div className="mb-6">
                                     <div className="flex justify-between items-center mb-2">
-                                        <label className="block text-xs text-gray-500 uppercase font-bold">Description</label>
+                                        <label className="block font-bold text-gray-500 text-xs uppercase">Description</label>
                                         <button
                                             onClick={handleGenerateDescription}
                                             disabled={isGenerating || !newProject.title}
-                                            className="flex items-center text-xs text-fuchsia-400 hover:text-fuchsia-300 disabled:opacity-50"
+                                            className="flex items-center disabled:opacity-50 text-fuchsia-400 hover:text-fuchsia-300 text-xs"
                                         >
-                                            {isGenerating ? <Loader2 className="w-3 h-3 mr-1 animate-spin" /> : <Sparkles className="w-3 h-3 mr-1" />}
+                                            {isGenerating ? <Loader2 className="mr-1 w-3 h-3 animate-spin" /> : <Sparkles className="mr-1 w-3 h-3" />}
                                             Générer avec l'IA
                                         </button>
                                     </div>
@@ -467,14 +467,14 @@ export const AdminDashboard: React.FC = () => {
                                         value={newProject.description}
                                         onChange={(e) => setNewProject({...newProject, description: e.target.value})}
                                         rows={3}
-                                        className="w-full bg-black/30 border border-white/10 rounded px-3 py-2 text-white focus:border-blue-500 outline-none text-sm"
+                                        className="bg-black/30 px-3 py-2 border border-white/10 focus:border-blue-500 rounded outline-none w-full text-white text-sm"
                                         placeholder="Cliquez sur 'Générer avec l'IA' pour créer automatiquement une description."
                                     />
                                 </div>
 
                                 <button
                                     onClick={handleSaveProject}
-                                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition-colors"
+                                    className="bg-blue-600 hover:bg-blue-700 py-3 rounded-lg w-full font-bold text-white transition-colors"
                                 >
                                     Publier le Projet
                                 </button>
@@ -483,18 +483,18 @@ export const AdminDashboard: React.FC = () => {
 
                         <div className="space-y-4">
                             {projects.length === 0 ? (
-                                <div className="text-gray-500 text-center py-8">Aucun projet pour le moment.</div>
+                                <div className="py-8 text-gray-500 text-center">Aucun projet pour le moment.</div>
                             ) : (
                                 projects.map(p => (
-                                    <div key={p.id} className="bg-white/5 border border-white/10 p-4 rounded-lg flex items-center justify-between">
+                                    <div key={p.id} className="flex justify-between items-center bg-white/5 p-4 border border-white/10 rounded-lg">
                                         <div>
-                                            <h4 className="text-white font-bold">{p.title}</h4>
+                                            <h4 className="font-bold text-white">{p.title}</h4>
                                             <p className="text-gray-400 text-sm">{p.client}</p>
                                             <span className={`text-xs ${DIVISION_CONFIG[p.division].color}`}>{p.division}</span>
                                         </div>
                                         <button
                                             onClick={() => handleDeleteProject(p.id)}
-                                            className="text-red-400 hover:text-red-300 p-2"
+                                            className="p-2 text-red-400 hover:text-red-300"
                                         >
                                             <Trash2 className="w-5 h-5" />
                                         </button>
@@ -507,11 +507,11 @@ export const AdminDashboard: React.FC = () => {
 
                 {/* Leads Tab */}
                 {activeTab === 'leads' && (
-                    <div className="max-w-6xl mx-auto">
-                        <h1 className="text-2xl font-bold text-white mb-8">Demandes Clients</h1>
+                    <div className="mx-auto max-w-6xl">
+                        <h1 className="mb-8 font-bold text-white text-2xl">Demandes Clients</h1>
                         <div className="bg-[#0a0a16] border border-white/10 rounded-xl overflow-hidden">
                             <table className="w-full text-left">
-                                <thead className="bg-white/5 text-xs text-gray-500 uppercase">
+                                <thead className="bg-white/5 text-gray-500 text-xs uppercase">
                                     <tr>
                                         <th className="px-6 py-4">Nom</th>
                                         <th className="px-6 py-4">Intérêt</th>
@@ -523,16 +523,16 @@ export const AdminDashboard: React.FC = () => {
                                 <tbody className="divide-y divide-white/5">
                                     {leads.length === 0 ? (
                                         <tr>
-                                            <td colSpan={5} className="px-6 py-8 text-center text-gray-500">Aucune demande pour le moment.</td>
+                                            <td colSpan={5} className="px-6 py-8 text-gray-500 text-center">Aucune demande pour le moment.</td>
                                         </tr>
                                     ) : (
                                         leads.map(lead => (
                                             <tr key={lead.id} className="hover:bg-white/5 transition-colors">
                                                 <td className="px-6 py-4">
-                                                    <div className="text-white font-medium">{lead.name}</div>
+                                                    <div className="font-medium text-white">{lead.name}</div>
                                                     <div className="text-gray-500 text-sm">{lead.email}</div>
                                                     {lead.message && (
-                                                        <div className="text-gray-400 text-xs mt-1 max-w-xs truncate">{lead.message}</div>
+                                                        <div className="mt-1 max-w-xs text-gray-400 text-xs truncate">{lead.message}</div>
                                                     )}
                                                 </td>
                                                 <td className="px-6 py-4">
@@ -544,7 +544,7 @@ export const AdminDashboard: React.FC = () => {
                                                     <select
                                                         value={lead.status}
                                                         onChange={(e) => handleUpdateLeadStatus(lead.id, e.target.value as Lead['status'])}
-                                                        className="bg-black/30 border border-white/10 rounded px-2 py-1 text-xs text-white"
+                                                        className="bg-black/30 px-2 py-1 border border-white/10 rounded text-white text-xs"
                                                     >
                                                         <option value="new">Nouveau</option>
                                                         <option value="contacted">Contacté</option>
@@ -555,7 +555,7 @@ export const AdminDashboard: React.FC = () => {
                                                 <td className="px-6 py-4">
                                                     <button
                                                         onClick={() => handleDeleteLead(lead.id)}
-                                                        className="text-red-400 hover:text-red-300 p-1"
+                                                        className="p-1 text-red-400 hover:text-red-300"
                                                     >
                                                         <Trash2 className="w-4 h-4" />
                                                     </button>
@@ -571,12 +571,12 @@ export const AdminDashboard: React.FC = () => {
 
                 {/* Blog Tab */}
                 {activeTab === 'blog' && (
-                    <div className="max-w-4xl mx-auto">
+                    <div className="mx-auto max-w-4xl">
                         <div className="flex justify-between items-center mb-8">
-                            <h1 className="text-2xl font-bold text-white">Gestion du Blog</h1>
+                            <h1 className="font-bold text-white text-2xl">Gestion du Blog</h1>
                             <button
                                 onClick={() => setShowBlogForm(!showBlogForm)}
-                                className="flex items-center space-x-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+                                className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-white transition-colors"
                             >
                                 <Plus className="w-4 h-4" />
                                 <span>{showBlogForm ? 'Annuler' : 'Nouvel Article'}</span>
@@ -584,59 +584,59 @@ export const AdminDashboard: React.FC = () => {
                         </div>
 
                         {showBlogForm && (
-                            <div className="bg-[#0a0a16] border border-white/10 rounded-xl p-6 mb-8">
-                                <h3 className="text-lg font-medium text-white mb-6">Nouvel Article</h3>
+                            <div className="bg-[#0a0a16] mb-8 p-6 border border-white/10 rounded-xl">
+                                <h3 className="mb-6 font-medium text-white text-lg">Nouvel Article</h3>
                                 <div className="space-y-4">
                                     <div>
-                                        <label className="block text-xs text-gray-500 uppercase font-bold mb-2">Titre</label>
+                                        <label className="block mb-2 font-bold text-gray-500 text-xs uppercase">Titre</label>
                                         <input
                                             type="text"
                                             value={newBlogPost.title}
                                             onChange={(e) => setNewBlogPost({...newBlogPost, title: e.target.value})}
-                                            className="w-full bg-black/30 border border-white/10 rounded px-3 py-2 text-white focus:border-blue-500 outline-none"
+                                            className="bg-black/30 px-3 py-2 border border-white/10 focus:border-blue-500 rounded outline-none w-full text-white"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-xs text-gray-500 uppercase font-bold mb-2">Extrait</label>
+                                        <label className="block mb-2 font-bold text-gray-500 text-xs uppercase">Extrait</label>
                                         <textarea
                                             value={newBlogPost.excerpt}
                                             onChange={(e) => setNewBlogPost({...newBlogPost, excerpt: e.target.value})}
                                             rows={2}
-                                            className="w-full bg-black/30 border border-white/10 rounded px-3 py-2 text-white focus:border-blue-500 outline-none"
+                                            className="bg-black/30 px-3 py-2 border border-white/10 focus:border-blue-500 rounded outline-none w-full text-white"
                                         />
                                     </div>
-                                    <div className="grid grid-cols-2 gap-4">
+                                    <div className="gap-4 grid grid-cols-2">
                                         <div>
-                                            <label className="block text-xs text-gray-500 uppercase font-bold mb-2">Catégorie</label>
+                                            <label className="block mb-2 font-bold text-gray-500 text-xs uppercase">Catégorie</label>
                                             <input
                                                 type="text"
                                                 value={newBlogPost.category}
                                                 onChange={(e) => setNewBlogPost({...newBlogPost, category: e.target.value})}
-                                                className="w-full bg-black/30 border border-white/10 rounded px-3 py-2 text-white focus:border-blue-500 outline-none"
+                                                className="bg-black/30 px-3 py-2 border border-white/10 focus:border-blue-500 rounded outline-none w-full text-white"
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-xs text-gray-500 uppercase font-bold mb-2">Date</label>
+                                            <label className="block mb-2 font-bold text-gray-500 text-xs uppercase">Date</label>
                                             <input
                                                 type="text"
                                                 value={newBlogPost.date}
                                                 onChange={(e) => setNewBlogPost({...newBlogPost, date: e.target.value})}
-                                                className="w-full bg-black/30 border border-white/10 rounded px-3 py-2 text-white focus:border-blue-500 outline-none"
+                                                className="bg-black/30 px-3 py-2 border border-white/10 focus:border-blue-500 rounded outline-none w-full text-white"
                                             />
                                         </div>
                                     </div>
                                     <div>
-                                        <label className="block text-xs text-gray-500 uppercase font-bold mb-2">Image URL</label>
+                                        <label className="block mb-2 font-bold text-gray-500 text-xs uppercase">Image URL</label>
                                         <input
                                             type="text"
                                             value={newBlogPost.imageUrl}
                                             onChange={(e) => setNewBlogPost({...newBlogPost, imageUrl: e.target.value})}
-                                            className="w-full bg-black/30 border border-white/10 rounded px-3 py-2 text-white focus:border-blue-500 outline-none"
+                                            className="bg-black/30 px-3 py-2 border border-white/10 focus:border-blue-500 rounded outline-none w-full text-white"
                                         />
                                     </div>
                                     <button
                                         onClick={handleSaveBlogPost}
-                                        className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition-colors"
+                                        className="bg-blue-600 hover:bg-blue-700 py-3 rounded-lg w-full font-bold text-white transition-colors"
                                     >
                                         Publier l'Article
                                     </button>
@@ -646,22 +646,22 @@ export const AdminDashboard: React.FC = () => {
 
                         <div className="space-y-4">
                             {blogPosts.length === 0 ? (
-                                <div className="text-gray-500 text-center py-8">Aucun article pour le moment.</div>
+                                <div className="py-8 text-gray-500 text-center">Aucun article pour le moment.</div>
                             ) : (
                                 blogPosts.map(post => (
-                                    <div key={post.id} className="bg-white/5 border border-white/10 p-4 rounded-lg flex items-center justify-between">
+                                    <div key={post.id} className="flex justify-between items-center bg-white/5 p-4 border border-white/10 rounded-lg">
                                         <div className="flex-1">
-                                            <h4 className="text-white font-bold">{post.title}</h4>
-                                            <p className="text-gray-400 text-sm mt-1">{post.excerpt}</p>
+                                            <h4 className="font-bold text-white">{post.title}</h4>
+                                            <p className="mt-1 text-gray-400 text-sm">{post.excerpt}</p>
                                             <div className="flex items-center space-x-3 mt-2">
-                                                <span className="text-xs text-gray-500">{post.category}</span>
-                                                <span className="text-xs text-gray-500">•</span>
-                                                <span className="text-xs text-gray-500">{post.date}</span>
+                                                <span className="text-gray-500 text-xs">{post.category}</span>
+                                                <span className="text-gray-500 text-xs">•</span>
+                                                <span className="text-gray-500 text-xs">{post.date}</span>
                                             </div>
                                         </div>
                                         <button
                                             onClick={() => handleDeleteBlogPost(post.id)}
-                                            className="text-red-400 hover:text-red-300 p-2 ml-4"
+                                            className="ml-4 p-2 text-red-400 hover:text-red-300"
                                         >
                                             <Trash2 className="w-5 h-5" />
                                         </button>
@@ -674,12 +674,12 @@ export const AdminDashboard: React.FC = () => {
 
                 {/* Pricing Tab */}
                 {activeTab === 'pricing' && (
-                    <div className="max-w-4xl mx-auto">
+                    <div className="mx-auto max-w-4xl">
                         <div className="flex justify-between items-center mb-8">
-                            <h1 className="text-2xl font-bold text-white">Gestion des Tarifs</h1>
+                            <h1 className="font-bold text-white text-2xl">Gestion des Tarifs</h1>
                             <button
                                 onClick={() => setShowPricingForm(!showPricingForm)}
-                                className="flex items-center space-x-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+                                className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-white transition-colors"
                             >
                                 <Plus className="w-4 h-4" />
                                 <span>{showPricingForm ? 'Annuler' : 'Nouveau Package'}</span>
@@ -687,25 +687,25 @@ export const AdminDashboard: React.FC = () => {
                         </div>
 
                         {showPricingForm && (
-                            <div className="bg-[#0a0a16] border border-white/10 rounded-xl p-6 mb-8">
-                                <h3 className="text-lg font-medium text-white mb-6">Nouveau Package</h3>
+                            <div className="bg-[#0a0a16] mb-8 p-6 border border-white/10 rounded-xl">
+                                <h3 className="mb-6 font-medium text-white text-lg">Nouveau Package</h3>
                                 <div className="space-y-4">
-                                    <div className="grid grid-cols-2 gap-4">
+                                    <div className="gap-4 grid grid-cols-2">
                                         <div>
-                                            <label className="block text-xs text-gray-500 uppercase font-bold mb-2">Titre</label>
+                                            <label className="block mb-2 font-bold text-gray-500 text-xs uppercase">Titre</label>
                                             <input
                                                 type="text"
                                                 value={newPricingPackage.title}
                                                 onChange={(e) => setNewPricingPackage({...newPricingPackage, title: e.target.value})}
-                                                className="w-full bg-black/30 border border-white/10 rounded px-3 py-2 text-white focus:border-blue-500 outline-none"
+                                                className="bg-black/30 px-3 py-2 border border-white/10 focus:border-blue-500 rounded outline-none w-full text-white"
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-xs text-gray-500 uppercase font-bold mb-2">Division</label>
+                                            <label className="block mb-2 font-bold text-gray-500 text-xs uppercase">Division</label>
                                             <select
                                                 value={newPricingPackage.division}
                                                 onChange={(e) => setNewPricingPackage({...newPricingPackage, division: e.target.value})}
-                                                className="w-full bg-black/30 border border-white/10 rounded px-3 py-2 text-white focus:border-blue-500 outline-none"
+                                                className="bg-black/30 px-3 py-2 border border-white/10 focus:border-blue-500 rounded outline-none w-full text-white"
                                             >
                                                 <option value="TECH">TECH</option>
                                                 <option value="STUDIO">STUDIO</option>
@@ -713,53 +713,53 @@ export const AdminDashboard: React.FC = () => {
                                             </select>
                                         </div>
                                     </div>
-                                    <div className="grid grid-cols-2 gap-4">
+                                    <div className="gap-4 grid grid-cols-2">
                                         <div>
-                                            <label className="block text-xs text-gray-500 uppercase font-bold mb-2">Prix</label>
+                                            <label className="block mb-2 font-bold text-gray-500 text-xs uppercase">Prix</label>
                                             <input
                                                 type="text"
                                                 value={newPricingPackage.price}
                                                 onChange={(e) => setNewPricingPackage({...newPricingPackage, price: e.target.value})}
-                                                className="w-full bg-black/30 border border-white/10 rounded px-3 py-2 text-white focus:border-blue-500 outline-none"
+                                                className="bg-black/30 px-3 py-2 border border-white/10 focus:border-blue-500 rounded outline-none w-full text-white"
                                                 placeholder="2,500€"
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-xs text-gray-500 uppercase font-bold mb-2">Note de Prix</label>
+                                            <label className="block mb-2 font-bold text-gray-500 text-xs uppercase">Note de Prix</label>
                                             <input
                                                 type="text"
                                                 value={newPricingPackage.priceNote}
                                                 onChange={(e) => setNewPricingPackage({...newPricingPackage, priceNote: e.target.value})}
-                                                className="w-full bg-black/30 border border-white/10 rounded px-3 py-2 text-white focus:border-blue-500 outline-none"
+                                                className="bg-black/30 px-3 py-2 border border-white/10 focus:border-blue-500 rounded outline-none w-full text-white"
                                                 placeholder="Paiement unique"
                                             />
                                         </div>
                                     </div>
                                     <div>
-                                        <label className="block text-xs text-gray-500 uppercase font-bold mb-2">Description</label>
+                                        <label className="block mb-2 font-bold text-gray-500 text-xs uppercase">Description</label>
                                         <textarea
                                             value={newPricingPackage.description}
                                             onChange={(e) => setNewPricingPackage({...newPricingPackage, description: e.target.value})}
                                             rows={2}
-                                            className="w-full bg-black/30 border border-white/10 rounded px-3 py-2 text-white focus:border-blue-500 outline-none"
+                                            className="bg-black/30 px-3 py-2 border border-white/10 focus:border-blue-500 rounded outline-none w-full text-white"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-xs text-gray-500 uppercase font-bold mb-2">Fonctionnalités</label>
+                                        <label className="block mb-2 font-bold text-gray-500 text-xs uppercase">Fonctionnalités</label>
                                         <div className="flex items-center space-x-2 mb-2">
                                             <input
                                                 type="text"
                                                 value={featureInput}
                                                 onChange={(e) => setFeatureInput(e.target.value)}
                                                 onKeyPress={(e) => e.key === 'Enter' && handleAddFeature()}
-                                                className="flex-1 bg-black/30 border border-white/10 rounded px-3 py-2 text-white text-sm outline-none"
+                                                className="flex-1 bg-black/30 px-3 py-2 border border-white/10 rounded outline-none text-white text-sm"
                                                 placeholder="Ajouter une fonctionnalité..."
                                             />
-                                            <button onClick={handleAddFeature} className="text-blue-400 hover:text-white text-sm px-3 py-2">Ajouter</button>
+                                            <button onClick={handleAddFeature} className="px-3 py-2 text-blue-400 hover:text-white text-sm">Ajouter</button>
                                         </div>
                                         <div className="flex flex-wrap gap-2">
                                             {newPricingPackage.features?.map((f, idx) => (
-                                                <span key={idx} className="text-xs bg-white/10 px-2 py-1 rounded text-gray-300 flex items-center">
+                                                <span key={idx} className="flex items-center bg-white/10 px-2 py-1 rounded text-gray-300 text-xs">
                                                     {f}
                                                     <button
                                                         onClick={() => setNewPricingPackage({...newPricingPackage, features: newPricingPackage.features?.filter((_, i) => i !== idx)})}
@@ -772,7 +772,7 @@ export const AdminDashboard: React.FC = () => {
                                         </div>
                                     </div>
                                     <div className="flex items-center space-x-4">
-                                        <label className="flex items-center space-x-2 text-sm text-gray-400">
+                                        <label className="flex items-center space-x-2 text-gray-400 text-sm">
                                             <input
                                                 type="checkbox"
                                                 checked={newPricingPackage.popular || false}
@@ -781,7 +781,7 @@ export const AdminDashboard: React.FC = () => {
                                             />
                                             <span>Populaire</span>
                                         </label>
-                                        <label className="flex items-center space-x-2 text-sm text-gray-400">
+                                        <label className="flex items-center space-x-2 text-gray-400 text-sm">
                                             <input
                                                 type="checkbox"
                                                 checked={newPricingPackage.highlight || false}
@@ -793,7 +793,7 @@ export const AdminDashboard: React.FC = () => {
                                     </div>
                                     <button
                                         onClick={handleSavePricingPackage}
-                                        className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition-colors"
+                                        className="bg-blue-600 hover:bg-blue-700 py-3 rounded-lg w-full font-bold text-white transition-colors"
                                     >
                                         Créer le Package
                                     </button>
@@ -803,18 +803,18 @@ export const AdminDashboard: React.FC = () => {
 
                         <div className="space-y-4">
                             {pricingPackages.length === 0 ? (
-                                <div className="text-gray-500 text-center py-8">Aucun package pour le moment.</div>
+                                <div className="py-8 text-gray-500 text-center">Aucun package pour le moment.</div>
                             ) : (
                                 pricingPackages.map(pkg => (
-                                    <div key={pkg.id} className="bg-white/5 border border-white/10 p-4 rounded-lg flex items-center justify-between">
+                                    <div key={pkg.id} className="flex justify-between items-center bg-white/5 p-4 border border-white/10 rounded-lg">
                                         <div>
-                                            <h4 className="text-white font-bold">{pkg.title}</h4>
+                                            <h4 className="font-bold text-white">{pkg.title}</h4>
                                             <p className="text-gray-400 text-sm">{pkg.division} • {pkg.price}</p>
-                                            {pkg.popular && <span className="text-xs text-yellow-400">⭐ Populaire</span>}
+                                            {pkg.popular && <span className="text-yellow-400 text-xs">⭐ Populaire</span>}
                                         </div>
                                         <button
                                             onClick={() => handleDeletePricingPackage(pkg.id)}
-                                            className="text-red-400 hover:text-red-300 p-2"
+                                            className="p-2 text-red-400 hover:text-red-300"
                                         >
                                             <Trash2 className="w-5 h-5" />
                                         </button>
@@ -827,12 +827,12 @@ export const AdminDashboard: React.FC = () => {
 
                 {/* FAQ Tab */}
                 {activeTab === 'faq' && (
-                    <div className="max-w-4xl mx-auto">
+                    <div className="mx-auto max-w-4xl">
                         <div className="flex justify-between items-center mb-8">
-                            <h1 className="text-2xl font-bold text-white">Gestion des FAQ</h1>
+                            <h1 className="font-bold text-white text-2xl">Gestion des FAQ</h1>
                             <button
                                 onClick={() => setShowFAQForm(!showFAQForm)}
-                                className="flex items-center space-x-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+                                className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-white transition-colors"
                             >
                                 <Plus className="w-4 h-4" />
                                 <span>{showFAQForm ? 'Annuler' : 'Nouvelle FAQ'}</span>
@@ -840,30 +840,30 @@ export const AdminDashboard: React.FC = () => {
                         </div>
 
                         {showFAQForm && (
-                            <div className="bg-[#0a0a16] border border-white/10 rounded-xl p-6 mb-8">
-                                <h3 className="text-lg font-medium text-white mb-6">Nouvelle FAQ</h3>
+                            <div className="bg-[#0a0a16] mb-8 p-6 border border-white/10 rounded-xl">
+                                <h3 className="mb-6 font-medium text-white text-lg">Nouvelle FAQ</h3>
                                 <div className="space-y-4">
                                     <div>
-                                        <label className="block text-xs text-gray-500 uppercase font-bold mb-2">Question</label>
+                                        <label className="block mb-2 font-bold text-gray-500 text-xs uppercase">Question</label>
                                         <input
                                             type="text"
                                             value={newFAQ.question}
                                             onChange={(e) => setNewFAQ({...newFAQ, question: e.target.value})}
-                                            className="w-full bg-black/30 border border-white/10 rounded px-3 py-2 text-white focus:border-blue-500 outline-none"
+                                            className="bg-black/30 px-3 py-2 border border-white/10 focus:border-blue-500 rounded outline-none w-full text-white"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-xs text-gray-500 uppercase font-bold mb-2">Réponse</label>
+                                        <label className="block mb-2 font-bold text-gray-500 text-xs uppercase">Réponse</label>
                                         <textarea
                                             value={newFAQ.answer}
                                             onChange={(e) => setNewFAQ({...newFAQ, answer: e.target.value})}
                                             rows={4}
-                                            className="w-full bg-black/30 border border-white/10 rounded px-3 py-2 text-white focus:border-blue-500 outline-none"
+                                            className="bg-black/30 px-3 py-2 border border-white/10 focus:border-blue-500 rounded outline-none w-full text-white"
                                         />
                                     </div>
                                     <button
                                         onClick={handleSaveFAQ}
-                                        className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition-colors"
+                                        className="bg-blue-600 hover:bg-blue-700 py-3 rounded-lg w-full font-bold text-white transition-colors"
                                     >
                                         Ajouter la FAQ
                                     </button>
@@ -873,18 +873,18 @@ export const AdminDashboard: React.FC = () => {
 
                         <div className="space-y-4">
                             {faqs.length === 0 ? (
-                                <div className="text-gray-500 text-center py-8">Aucune FAQ pour le moment.</div>
+                                <div className="py-8 text-gray-500 text-center">Aucune FAQ pour le moment.</div>
                             ) : (
                                 faqs.map(faq => (
-                                    <div key={faq.id} className="bg-white/5 border border-white/10 p-4 rounded-lg">
-                                        <div className="flex items-start justify-between">
+                                    <div key={faq.id} className="bg-white/5 p-4 border border-white/10 rounded-lg">
+                                        <div className="flex justify-between items-start">
                                             <div className="flex-1">
-                                                <h4 className="text-white font-bold mb-2">{faq.question}</h4>
+                                                <h4 className="mb-2 font-bold text-white">{faq.question}</h4>
                                                 <p className="text-gray-400 text-sm">{faq.answer}</p>
                                             </div>
                                             <button
                                                 onClick={() => handleDeleteFAQ(faq.id)}
-                                                className="text-red-400 hover:text-red-300 p-2 ml-4"
+                                                className="ml-4 p-2 text-red-400 hover:text-red-300"
                                             >
                                                 <Trash2 className="w-5 h-5" />
                                             </button>

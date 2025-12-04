@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, ChevronDown } from 'lucide-react';
+import { Menu, X, ChevronDown, Lock } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Division, DIVISION_CONFIG } from '../types';
 import aureusLogo from '@public/images/logo aureus.png';
@@ -84,8 +84,16 @@ export const Navbar: React.FC = () => {
             <Link to="/blog" className="font-medium text-gray-300 hover:text-white text-sm transition-colors">Blog</Link>
           </div>
 
-          {/* CTA */}
-          <div className="hidden md:block">
+          {/* CTA & Login */}
+          <div className="hidden md:flex items-center space-x-4">
+            <Link 
+              to="/admin/login"
+              className="flex items-center space-x-2 text-gray-400 hover:text-white text-sm transition-colors"
+              title="Connexion Admin"
+            >
+              <Lock className="w-4 h-4" />
+              <span>Admin</span>
+            </Link>
             <Link 
               to="/contact"
               className="bg-blue-600 hover:bg-blue-700 hover:shadow-[0_0_20px_-5px_rgba(37,99,235,0.5)] px-5 py-2 rounded-full font-bold text-white text-sm transition-all"
@@ -134,6 +142,15 @@ export const Navbar: React.FC = () => {
               <Link to="/pricing" className="block font-medium text-white text-lg" onClick={() => setIsOpen(false)}>Tarifs</Link>
               <Link to="/blog" className="block font-medium text-white text-lg" onClick={() => setIsOpen(false)}>Blog</Link>
               <Link to="/contact" className="block font-medium text-white text-lg" onClick={() => setIsOpen(false)}>Contact</Link>
+              
+              <Link 
+                to="/admin/login"
+                onClick={() => setIsOpen(false)}
+                className="flex justify-center items-center space-x-2 py-3 border border-white/10 rounded-lg w-full text-gray-400 hover:text-white transition-colors"
+              >
+                <Lock className="w-4 h-4" />
+                <span>Connexion Admin</span>
+              </Link>
               
               <Link 
                 to="/contact"

@@ -295,9 +295,9 @@ export const Pricing: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen pt-32 pb-20 px-6">
+        <div className="px-6 pt-32 pb-20 min-h-screen">
             {/* Hero Section */}
-            <div className="max-w-7xl mx-auto mb-20">
+            <div className="mx-auto mb-20 max-w-7xl">
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -308,12 +308,12 @@ export const Pricing: React.FC = () => {
                         <Sparkles className="w-4 h-4 text-yellow-400" />
                         <span className="font-bold text-gray-300 text-xs tracking-wider">TARIFS TRANSPARENTS</span>
                     </div>
-                    <h1 className="text-4xl md:text-7xl font-bold text-white mb-6 leading-tight">
+                    <h1 className="mb-6 font-bold text-white text-4xl md:text-7xl leading-tight">
                         Accélérateur <span className="bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 text-transparent">Startup</span>
                     </h1>
-                    <p className="text-gray-400 text-lg md:text-xl max-w-3xl mx-auto mb-8">
+                    <p className="mx-auto mb-8 max-w-3xl text-gray-400 text-lg md:text-xl">
                         Des tarifs transparents conçus pour les entreprises agiles. Pas de coûts cachés, juste de la valeur.
-                        <span className="block mt-3 text-white font-medium">Choisissez votre division et découvrez nos offres.</span>
+                        <span className="block mt-3 font-medium text-white">Choisissez votre division et découvrez nos offres.</span>
                     </p>
                 </motion.div>
 
@@ -336,8 +336,8 @@ export const Pricing: React.FC = () => {
             </div>
 
             {/* Pricing Cards */}
-            <div className="max-w-7xl mx-auto mb-20">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="mx-auto mb-20 max-w-7xl">
+                <div className="gap-8 grid grid-cols-1 md:grid-cols-3">
                     <AnimatePresence mode="wait">
                         {getPackages().map((pkg, idx) => (
                             <motion.div
@@ -354,7 +354,7 @@ export const Pricing: React.FC = () => {
                             >
                                 {pkg.popular && (
                                     <div className={`absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 ${DIVISION_CONFIG[pkg.division].bg} ${DIVISION_CONFIG[pkg.division].color} text-xs font-bold px-4 py-1.5 rounded-full tracking-wider uppercase border ${DIVISION_CONFIG[pkg.division].border}`}>
-                                        <Star className="w-3 h-3 inline mr-1" />
+                                        <Star className="inline mr-1 w-3 h-3" />
                                         Populaire
                                     </div>
                                 )}
@@ -363,14 +363,14 @@ export const Pricing: React.FC = () => {
                                     {DIVISION_CONFIG[pkg.division].label.toUpperCase()}
                                 </div>
                                 
-                                <h3 className="text-2xl md:text-3xl font-bold text-white mb-2">{pkg.title}</h3>
+                                <h3 className="mb-2 font-bold text-white text-2xl md:text-3xl">{pkg.title}</h3>
                                 
                                 {pkg.description && (
-                                    <p className="text-gray-500 text-sm mb-4">{pkg.description}</p>
+                                    <p className="mb-4 text-gray-500 text-sm">{pkg.description}</p>
                                 )}
                                 
                                 <div className="mb-6">
-                                    <div className="text-4xl md:text-5xl font-bold text-white mb-1">{pkg.price}</div>
+                                    <div className="mb-1 font-bold text-white text-4xl md:text-5xl">{pkg.price}</div>
                                     {pkg.priceNote && (
                                         <p className="text-gray-500 text-xs">{pkg.priceNote}</p>
                                     )}
@@ -390,7 +390,7 @@ export const Pricing: React.FC = () => {
                                     </div>
                                 )}
                                 
-                                <ul className="space-y-3 mb-8 flex-1">
+                                <ul className="flex-1 space-y-3 mb-8">
                                     {pkg.features.map((feat, i) => (
                                         <li key={i} className="flex items-start space-x-3 text-gray-300 text-sm">
                                             <Check className={`w-5 h-5 ${DIVISION_CONFIG[pkg.division].color} shrink-0 mt-0.5`} />
@@ -416,15 +416,15 @@ export const Pricing: React.FC = () => {
             </div>
 
             {/* Add-ons Section */}
-            <div className="max-w-7xl mx-auto mb-20">
-                <div className="bg-[#0a0a16] border border-white/10 rounded-2xl p-8">
+            <div className="mx-auto mb-20 max-w-7xl">
+                <div className="bg-[#0a0a16] p-8 border border-white/10 rounded-2xl">
                     <button
                         onClick={() => setShowAddons(!showAddons)}
-                        className="w-full flex items-center justify-between mb-6"
+                        className="flex justify-between items-center mb-6 w-full"
                     >
                         <div className="flex items-center space-x-3">
                             <Sparkles className={`w-5 h-5 ${DIVISION_CONFIG[activeDivision].color}`} />
-                            <h3 className="text-xl font-bold text-white">Options & Add-ons</h3>
+                            <h3 className="font-bold text-white text-xl">Options & Add-ons</h3>
                         </div>
                         {showAddons ? <ChevronUp className="w-5 h-5 text-gray-400" /> : <ChevronDown className="w-5 h-5 text-gray-400" />}
                     </button>
@@ -437,9 +437,9 @@ export const Pricing: React.FC = () => {
                                 exit={{ height: 0, opacity: 0 }}
                                 className="overflow-hidden"
                             >
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div className="gap-4 grid grid-cols-1 md:grid-cols-2">
                                     {getAddons().items.map((addon, idx) => (
-                                        <div key={idx} className="flex items-center justify-between p-4 bg-white/5 rounded-lg border border-white/10">
+                                        <div key={idx} className="flex justify-between items-center bg-white/5 p-4 border border-white/10 rounded-lg">
                                             <span className="text-gray-300 text-sm">{addon.name}</span>
                                             <span className={`font-bold ${DIVISION_CONFIG[activeDivision].color}`}>{addon.price}</span>
                                         </div>
@@ -452,30 +452,30 @@ export const Pricing: React.FC = () => {
             </div>
 
             {/* Guarantees Section */}
-            <div className="max-w-7xl mx-auto mb-20">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div className="bg-gradient-to-br from-blue-900/20 to-blue-800/10 border border-blue-500/20 rounded-xl p-6">
-                        <Shield className="w-8 h-8 text-blue-400 mb-4" />
-                        <h4 className="font-bold text-white text-lg mb-2">Garantie Satisfaction</h4>
+            <div className="mx-auto mb-20 max-w-7xl">
+                <div className="gap-6 grid grid-cols-1 md:grid-cols-3">
+                    <div className="bg-gradient-to-br from-blue-900/20 to-blue-800/10 p-6 border border-blue-500/20 rounded-xl">
+                        <Shield className="mb-4 w-8 h-8 text-blue-400" />
+                        <h4 className="mb-2 font-bold text-white text-lg">Garantie Satisfaction</h4>
                         <p className="text-gray-400 text-sm">100% satisfait ou retravaillé gratuitement jusqu'à satisfaction complète.</p>
                     </div>
-                    <div className="bg-gradient-to-br from-purple-900/20 to-purple-800/10 border border-purple-500/20 rounded-xl p-6">
-                        <Award className="w-8 h-8 text-purple-400 mb-4" />
-                        <h4 className="font-bold text-white text-lg mb-2">Support Prioritaire</h4>
+                    <div className="bg-gradient-to-br from-purple-900/20 to-purple-800/10 p-6 border border-purple-500/20 rounded-xl">
+                        <Award className="mb-4 w-8 h-8 text-purple-400" />
+                        <h4 className="mb-2 font-bold text-white text-lg">Support Prioritaire</h4>
                         <p className="text-gray-400 text-sm">Accès direct à l'équipe, réponse sous 24h, support technique inclus.</p>
                     </div>
-                    <div className="bg-gradient-to-br from-cyan-900/20 to-cyan-800/10 border border-cyan-500/20 rounded-xl p-6">
-                        <TrendingUp className="w-8 h-8 text-cyan-400 mb-4" />
-                        <h4 className="font-bold text-white text-lg mb-2">Évolutif & Flexible</h4>
+                    <div className="bg-gradient-to-br from-cyan-900/20 to-cyan-800/10 p-6 border border-cyan-500/20 rounded-xl">
+                        <TrendingUp className="mb-4 w-8 h-8 text-cyan-400" />
+                        <h4 className="mb-2 font-bold text-white text-lg">Évolutif & Flexible</h4>
                         <p className="text-gray-400 text-sm">Upgrade/downgrade à tout moment, paiements échelonnés disponibles.</p>
                     </div>
                 </div>
             </div>
 
             {/* FAQ Section */}
-            <div className="max-w-4xl mx-auto mb-20">
-                <div className="text-center mb-12">
-                    <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Questions Fréquentes</h2>
+            <div className="mx-auto mb-20 max-w-4xl">
+                <div className="mb-12 text-center">
+                    <h2 className="mb-4 font-bold text-white text-3xl md:text-4xl">Questions Fréquentes</h2>
                     <p className="text-gray-400">Tout ce que vous devez savoir sur nos tarifs et processus.</p>
                 </div>
 
@@ -487,7 +487,7 @@ export const Pricing: React.FC = () => {
                         >
                             <button
                                 onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
-                                className="w-full flex items-center justify-between p-6 text-left hover:bg-white/5 transition-colors"
+                                className="flex justify-between items-center hover:bg-white/5 p-6 w-full text-left transition-colors"
                             >
                                 <div className="flex items-center space-x-3">
                                     <HelpCircle className="w-5 h-5 text-blue-400 shrink-0" />
@@ -519,33 +519,33 @@ export const Pricing: React.FC = () => {
             </div>
 
             {/* CTA Section */}
-            <div className="max-w-7xl mx-auto">
-                <div className="relative p-12 bg-gradient-to-r from-blue-900/20 via-purple-900/20 to-pink-900/20 border border-white/10 rounded-2xl overflow-hidden">
+            <div className="mx-auto max-w-7xl">
+                <div className="relative bg-gradient-to-r from-blue-900/20 via-purple-900/20 to-pink-900/20 p-12 border border-white/10 rounded-2xl overflow-hidden">
                     <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 via-purple-600/10 to-pink-600/10 blur-3xl" />
                     <div className="relative text-center">
-                        <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                        <h3 className="mb-4 font-bold text-white text-3xl md:text-4xl">
                             Besoin d'une solution sur mesure ?
                         </h3>
-                        <p className="text-gray-300 mb-8 max-w-2xl mx-auto text-lg">
+                        <p className="mx-auto mb-8 max-w-2xl text-gray-300 text-lg">
                             Nous créons des devis personnalisés pour les projets complexes d'architecture SaaS, 
                             les productions vidéo long-métrage, ou les stratégies de marque enterprise.
                         </p>
-                        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                        <div className="flex sm:flex-row flex-col justify-center items-center gap-4">
                             <Link
                                 to="/contact"
-                                className="inline-flex items-center space-x-2 bg-white text-black px-8 py-4 rounded-lg font-bold hover:bg-gray-200 transition-all hover:scale-105 shadow-lg"
+                                className="inline-flex items-center space-x-2 bg-white hover:bg-gray-200 shadow-lg px-8 py-4 rounded-lg font-bold text-black hover:scale-105 transition-all"
                             >
                                 <span>Contacter l'équipe</span>
                                 <ArrowRight className="w-5 h-5" />
                             </Link>
                             <Link
                                 to="/work"
-                                className="inline-flex items-center space-x-2 bg-white/10 text-white px-8 py-4 rounded-lg font-bold border border-white/20 hover:bg-white/20 transition-all"
+                                className="inline-flex items-center space-x-2 bg-white/10 hover:bg-white/20 px-8 py-4 border border-white/20 rounded-lg font-bold text-white transition-all"
                             >
                                 <span>Voir nos réalisations</span>
                             </Link>
                         </div>
-                        <div className="mt-8 flex flex-wrap justify-center items-center gap-6 text-gray-400 text-sm">
+                        <div className="flex flex-wrap justify-center items-center gap-6 mt-8 text-gray-400 text-sm">
                             <div className="flex items-center space-x-2">
                                 <CreditCard className="w-4 h-4" />
                                 <span>Paiements sécurisés</span>
