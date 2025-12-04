@@ -17,6 +17,10 @@ This document describes the API service layer for the Aureus Digital Agency appl
   - [Team Members](#team-members)
   - [Devis](#devis)
   - [Auth](#auth)
+  - [Newsletter](#newsletter)
+  - [Search](#search)
+  - [Chat History](#chat-history)
+  - [Quiz Results](#quiz-results)
 - [Hooks](#hooks)
 - [State Management](#state-management)
 - [Error Handling](#error-handling)
@@ -1116,6 +1120,337 @@ const { checkAuth, isAuthenticated } = useAuth();
 const authenticated = checkAuth();
 ```
 
+### Newsletter
+
+#### Subscribe to Newsletter
+```typescript
+POST /api/newsletter/subscribe
+```
+
+**Request Body:**
+```typescript
+{
+  email: string;
+  source?: string; // e.g., 'lead_magnet', 'footer', 'popup'
+}
+```
+
+**Response:**
+```typescript
+NewsletterSubscription
+```
+
+**Usage:**
+```typescript
+const subscription = await apiService.newsletter.subscribe('user@example.com', 'footer');
+```
+
+#### Unsubscribe from Newsletter
+```typescript
+POST /api/newsletter/unsubscribe
+```
+
+**Request Body:**
+```typescript
+{
+  email: string;
+}
+```
+
+**Response:**
+```typescript
+NewsletterSubscription
+```
+
+**Usage:**
+```typescript
+await apiService.newsletter.unsubscribe('user@example.com');
+```
+
+#### Get All Newsletter Subscriptions
+```typescript
+GET /api/newsletter/subscriptions
+```
+
+**Response:**
+```typescript
+NewsletterSubscription[]
+```
+
+**Usage:**
+```typescript
+const subscriptions = await apiService.newsletter.getAll();
+```
+
+#### Get Subscription by Email
+```typescript
+GET /api/newsletter/subscriptions/:email
+```
+
+**Parameters:**
+- `email` (string): Email address
+
+**Response:**
+```typescript
+NewsletterSubscription | null
+```
+
+**Usage:**
+```typescript
+const subscription = await apiService.newsletter.getByEmail('user@example.com');
+```
+
+### Search
+
+#### Perform Search
+```typescript
+POST /api/search
+```
+
+**Request Body:**
+```typescript
+{
+  query: string;
+  userId?: string;
+}
+```
+
+**Response:**
+```typescript
+{
+  posts: BlogPost[];
+  projects: Project[];
+}
+```
+
+**Usage:**
+```typescript
+const results = await apiService.search.search('react', 'user123');
+// Returns { posts: [...], projects: [...] }
+```
+
+#### Get Search History
+```typescript
+GET /api/search/history?userId=:userId
+```
+
+**Parameters:**
+- `userId` (string, optional): User ID to filter search history
+
+**Response:**
+```typescript
+SearchQuery[]
+```
+
+**Usage:**
+```typescript
+const history = await apiService.search.getSearchHistory('user123');
+```
+
+### Chat History
+
+#### Save Chat History
+```typescript
+POST /api/chat/history
+```
+
+**Request Body:**
+```typescript
+{
+  messages: Array<{
+    role: 'user' | 'assistant';
+    content: string;
+  }>;
+  userId?: string;
+}
+```
+
+**Response:**
+```typescript
+ChatHistory
+```
+
+**Usage:**
+```typescript
+const history = await apiService.chat.saveHistory([
+  { role: 'user', content: 'Hello' },
+  { role: 'assistant', content: 'Hi there!' }
+], 'user123');
+```
+
+#### Get Chat History
+```typescript
+GET /api/chat/history?userId=:userId
+```
+
+**Parameters:**
+- `userId` (string, optional): User ID
+
+**Response:**
+```typescript
+ChatHistory | null
+```
+
+**Usage:**
+```typescript
+const history = await apiService.chat.getHistory('user123');
+```
+
+#### Get All Chat Histories
+```typescript
+GET /api/chat/histories
+```
+
+**Response:**
+```typescript
+ChatHistory[]
+```
+
+**Usage:**
+```typescript
+const allHistories = await apiService.chat.getAllHistories();
+```
+
+#### Delete Chat History
+```typescript
+DELETE /api/chat/history/:id
+```
+
+**Parameters:**
+- `id` (string): Chat history ID
+
+**Response:**
+```typescript
+void
+```
+
+**Usage:**
+```typescript
+await apiService.chat.deleteHistory('history123');
+```
+
+### Quiz Results
+
+#### Save Quiz Result
+```typescript
+POST /api/quiz/results
+```
+
+**Request Body:**
+```typescript
+{
+  quizType: 'brand_audit' | 'roi_calculator' | 'other';
+  answers: number[];
+  score: number;
+  recommendation?: string;
+  metadata?: Record<string, any>;
+  userId?: string;
+}
+```
+
+**Response:**
+```typescript
+QuizResult // Includes auto-generated id and completedAt
+```
+
+**Usage:**
+```typescript
+const result = await apiService.quiz.saveResult({
+  quizType: 'brand_audit',
+  answers: [0, 1, 2],
+  score: 75,
+  recommendation: 'Good potential',
+  userId: 'user123'
+});
+```
+
+#### Get Quiz Result by ID
+```typescript
+GET /api/quiz/results/:id
+```
+
+**Parameters:**
+- `id` (string): Quiz result ID
+
+**Response:**
+```typescript
+QuizResult
+```
+
+**Usage:**
+```typescript
+const result = await apiService.quiz.getResult('result123');
+```
+
+#### Get Quiz Results by User
+```typescript
+GET /api/quiz/results?userId=:userId
+```
+
+**Parameters:**
+- `userId` (string): User ID
+
+**Response:**
+```typescript
+QuizResult[]
+```
+
+**Usage:**
+```typescript
+const userResults = await apiService.quiz.getResultsByUser('user123');
+```
+
+#### Get Quiz Results by Type
+```typescript
+GET /api/quiz/results?type=:quizType
+```
+
+**Parameters:**
+- `quizType` (string): Quiz type ('brand_audit', 'roi_calculator', 'other')
+
+**Response:**
+```typescript
+QuizResult[]
+```
+
+**Usage:**
+```typescript
+const brandAuditResults = await apiService.quiz.getResultsByType('brand_audit');
+```
+
+#### Get All Quiz Results
+```typescript
+GET /api/quiz/results
+```
+
+**Response:**
+```typescript
+QuizResult[]
+```
+
+**Usage:**
+```typescript
+const allResults = await apiService.quiz.getAll();
+```
+
+#### Delete Quiz Result
+```typescript
+DELETE /api/quiz/results/:id
+```
+
+**Parameters:**
+- `id` (string): Quiz result ID
+
+**Response:**
+```typescript
+void
+```
+
+**Usage:**
+```typescript
+await apiService.quiz.delete('result123');
+```
+
 ## Hooks
 
 All hooks follow a consistent pattern:
@@ -1139,6 +1474,8 @@ Each hook returns:
 7. **useTeamMembers** - Manage team members
 8. **useDevis** - Manage devis (quotes)
 9. **useAuth** - Manage authentication
+
+**Note:** Hooks for Newsletter, Search, Chat History, and Quiz Results can be created following the same pattern as existing hooks if needed.
 
 ### Example: Using Multiple Hooks
 
@@ -1322,8 +1659,62 @@ getAll: async (): Promise<Project[]> => {
 ## Type Definitions
 
 All types are defined in:
-- `types.ts` - Core types (Project, Lead, BlogPost, Division, Testimonial, TeamMember, Devis)
+- `types.ts` - Core types (Project, Lead, BlogPost, Division, Testimonial, TeamMember, Devis, NewsletterSubscription, SearchQuery, ChatHistory, QuizResult)
 - `services/mockDataService.ts` - PricingPackage, FAQItem
+
+### New Types
+
+#### NewsletterSubscription
+```typescript
+interface NewsletterSubscription {
+  id: string;
+  email: string;
+  source: string;
+  subscribedAt: string;
+  unsubscribedAt?: string;
+  isActive: boolean;
+}
+```
+
+#### SearchQuery
+```typescript
+interface SearchQuery {
+  id: string;
+  query: string;
+  resultsCount: number;
+  searchedAt: string;
+  userId?: string;
+}
+```
+
+#### ChatHistory
+```typescript
+interface ChatHistory {
+  id: string;
+  userId?: string;
+  messages: Array<{
+    role: 'user' | 'assistant';
+    content: string;
+    timestamp: string;
+  }>;
+  createdAt: string;
+  updatedAt: string;
+}
+```
+
+#### QuizResult
+```typescript
+interface QuizResult {
+  id: string;
+  quizType: 'brand_audit' | 'roi_calculator' | 'other';
+  answers: number[];
+  score: number;
+  recommendation?: string;
+  metadata?: Record<string, any>;
+  completedAt: string;
+  userId?: string;
+}
+```
 
 ## Best Practices
 

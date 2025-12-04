@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
-import { Project, Lead, BlogPost, Division, Testimonial, TeamMember, Devis } from '../types';
+import { Project, Lead, BlogPost, Division, Testimonial, TeamMember, Devis, NewsletterSubscription, SearchQuery, ChatHistory, QuizResult } from '../types';
 import { PricingPackage, FAQItem } from './mockDataService';
 import { env } from '../config/env';
 
@@ -43,6 +43,14 @@ let mockTeamMembers: TeamMember[] = [
 ];
 
 let mockDevis: Devis[] = [];
+
+let mockNewsletterSubscriptions: NewsletterSubscription[] = [];
+
+let mockSearchQueries: SearchQuery[] = [];
+
+let mockChatHistories: ChatHistory[] = [];
+
+let mockQuizResults: QuizResult[] = [];
 
 // Create axios instance
 const apiClient: AxiosInstance = axios.create({
@@ -93,7 +101,7 @@ export const apiService = {
       // In production: return (await apiClient.get<Project[]>('/projects')).data;
       return [...mockProjects];
     },
-    
+
     getById: async (id: string): Promise<Project> => {
       await delay(300);
       // In production: return (await apiClient.get<Project>(`/projects/${id}`)).data;
@@ -101,7 +109,7 @@ export const apiService = {
       if (!project) throw new Error('Project not found');
       return project;
     },
-    
+
     create: async (project: Omit<Project, 'id'>): Promise<Project> => {
       await delay(500);
       // In production: return (await apiClient.post<Project>('/projects', project)).data;
@@ -109,7 +117,7 @@ export const apiService = {
       mockProjects.push(newProject);
       return newProject;
     },
-    
+
     update: async (id: string, updates: Partial<Project>): Promise<Project> => {
       await delay(500);
       // In production: return (await apiClient.patch<Project>(`/projects/${id}`, updates)).data;
@@ -118,7 +126,7 @@ export const apiService = {
       mockProjects[index] = { ...mockProjects[index], ...updates };
       return mockProjects[index];
     },
-    
+
     delete: async (id: string): Promise<void> => {
       await delay(300);
       // In production: await apiClient.delete(`/projects/${id}`);
@@ -133,7 +141,7 @@ export const apiService = {
       // In production: return (await apiClient.get<Lead[]>('/leads')).data;
       return [...mockLeads];
     },
-    
+
     getById: async (id: string): Promise<Lead> => {
       await delay(300);
       // In production: return (await apiClient.get<Lead>(`/leads/${id}`)).data;
@@ -141,7 +149,7 @@ export const apiService = {
       if (!lead) throw new Error('Lead not found');
       return lead;
     },
-    
+
     create: async (lead: Omit<Lead, 'id' | 'date' | 'status'>): Promise<Lead> => {
       await delay(500);
       // In production: return (await apiClient.post<Lead>('/leads', lead)).data;
@@ -154,7 +162,7 @@ export const apiService = {
       mockLeads.push(newLead);
       return newLead;
     },
-    
+
     update: async (id: string, updates: Partial<Lead>): Promise<Lead> => {
       await delay(500);
       // In production: return (await apiClient.patch<Lead>(`/leads/${id}`, updates)).data;
@@ -163,7 +171,7 @@ export const apiService = {
       mockLeads[index] = { ...mockLeads[index], ...updates };
       return mockLeads[index];
     },
-    
+
     updateStatus: async (id: string, status: Lead['status']): Promise<Lead> => {
       await delay(300);
       // In production: return (await apiClient.patch<Lead>(`/leads/${id}`, { status })).data;
@@ -172,7 +180,7 @@ export const apiService = {
       mockLeads[index].status = status;
       return mockLeads[index];
     },
-    
+
     delete: async (id: string): Promise<void> => {
       await delay(300);
       // In production: await apiClient.delete(`/leads/${id}`);
@@ -187,7 +195,7 @@ export const apiService = {
       // In production: return (await apiClient.get<BlogPost[]>('/blog-posts')).data;
       return [...mockBlogPosts];
     },
-    
+
     getById: async (id: string): Promise<BlogPost> => {
       await delay(300);
       // In production: return (await apiClient.get<BlogPost>(`/blog-posts/${id}`)).data;
@@ -195,7 +203,7 @@ export const apiService = {
       if (!post) throw new Error('Blog post not found');
       return post;
     },
-    
+
     getBySlug: async (slug: string): Promise<BlogPost> => {
       await delay(300);
       // In production: return (await apiClient.get<BlogPost>(`/blog-posts/slug/${slug}`)).data;
@@ -203,7 +211,7 @@ export const apiService = {
       if (!post) throw new Error('Blog post not found');
       return post;
     },
-    
+
     create: async (post: Omit<BlogPost, 'id'>): Promise<BlogPost> => {
       await delay(500);
       // In production: return (await apiClient.post<BlogPost>('/blog-posts', post)).data;
@@ -211,7 +219,7 @@ export const apiService = {
       mockBlogPosts.push(newPost);
       return newPost;
     },
-    
+
     update: async (id: string, updates: Partial<BlogPost>): Promise<BlogPost> => {
       await delay(500);
       // In production: return (await apiClient.patch<BlogPost>(`/blog-posts/${id}`, updates)).data;
@@ -220,7 +228,7 @@ export const apiService = {
       mockBlogPosts[index] = { ...mockBlogPosts[index], ...updates };
       return mockBlogPosts[index];
     },
-    
+
     delete: async (id: string): Promise<void> => {
       await delay(300);
       // In production: await apiClient.delete(`/blog-posts/${id}`);
@@ -235,7 +243,7 @@ export const apiService = {
       // In production: return (await apiClient.get<PricingPackage[]>('/pricing-packages')).data;
       return [...mockPricingPackages];
     },
-    
+
     getById: async (id: string): Promise<PricingPackage> => {
       await delay(300);
       // In production: return (await apiClient.get<PricingPackage>(`/pricing-packages/${id}`)).data;
@@ -243,7 +251,7 @@ export const apiService = {
       if (!pkg) throw new Error('Pricing package not found');
       return pkg;
     },
-    
+
     create: async (pkg: Omit<PricingPackage, 'id'>): Promise<PricingPackage> => {
       await delay(500);
       // In production: return (await apiClient.post<PricingPackage>('/pricing-packages', pkg)).data;
@@ -251,7 +259,7 @@ export const apiService = {
       mockPricingPackages.push(newPkg);
       return newPkg;
     },
-    
+
     update: async (id: string, updates: Partial<PricingPackage>): Promise<PricingPackage> => {
       await delay(500);
       // In production: return (await apiClient.patch<PricingPackage>(`/pricing-packages/${id}`, updates)).data;
@@ -260,7 +268,7 @@ export const apiService = {
       mockPricingPackages[index] = { ...mockPricingPackages[index], ...updates };
       return mockPricingPackages[index];
     },
-    
+
     delete: async (id: string): Promise<void> => {
       await delay(300);
       // In production: await apiClient.delete(`/pricing-packages/${id}`);
@@ -275,7 +283,7 @@ export const apiService = {
       // In production: return (await apiClient.get<FAQItem[]>('/faqs')).data;
       return [...mockFAQs];
     },
-    
+
     getById: async (id: string): Promise<FAQItem> => {
       await delay(300);
       // In production: return (await apiClient.get<FAQItem>(`/faqs/${id}`)).data;
@@ -283,7 +291,7 @@ export const apiService = {
       if (!faq) throw new Error('FAQ not found');
       return faq;
     },
-    
+
     create: async (faq: Omit<FAQItem, 'id'>): Promise<FAQItem> => {
       await delay(500);
       // In production: return (await apiClient.post<FAQItem>('/faqs', faq)).data;
@@ -291,7 +299,7 @@ export const apiService = {
       mockFAQs.push(newFAQ);
       return newFAQ;
     },
-    
+
     update: async (id: string, updates: Partial<FAQItem>): Promise<FAQItem> => {
       await delay(500);
       // In production: return (await apiClient.patch<FAQItem>(`/faqs/${id}`, updates)).data;
@@ -300,7 +308,7 @@ export const apiService = {
       mockFAQs[index] = { ...mockFAQs[index], ...updates };
       return mockFAQs[index];
     },
-    
+
     delete: async (id: string): Promise<void> => {
       await delay(300);
       // In production: await apiClient.delete(`/faqs/${id}`);
@@ -315,13 +323,13 @@ export const apiService = {
       // In production: 
       // const response = await apiClient.post('/auth/login', { username, password });
       // return response.data;
-      
+
       const MOCK_USER = {
         username: 'admin',
         password: 'admin123',
         email: 'admin@aureus.com'
       };
-      
+
       if (username === MOCK_USER.username && password === MOCK_USER.password) {
         const user = { username: MOCK_USER.username, email: MOCK_USER.email };
         const token = 'mock_token_' + Date.now();
@@ -329,43 +337,43 @@ export const apiService = {
         localStorage.setItem('auth_token', token);
         return { success: true, user, token };
       }
-      
+
       return { success: false, error: 'Identifiants incorrects' };
     },
-    
+
     register: async (username: string, email: string, password: string): Promise<{ success: boolean; user?: { username: string; email: string }; error?: string; token?: string }> => {
       await delay(800);
       // In production: 
       // const response = await apiClient.post('/auth/register', { username, email, password });
       // return response.data;
-      
+
       // Mock: Check if user exists (simplified - in production this would check a database)
       const existingUsers = JSON.parse(localStorage.getItem('registered_users') || '[]');
       if (existingUsers.find((u: any) => u.username === username || u.email === email)) {
         return { success: false, error: 'Un utilisateur avec ce nom d\'utilisateur ou cet email existe déjà' };
       }
-      
+
       if (password.length < 6) {
         return { success: false, error: 'Le mot de passe doit contenir au moins 6 caractères' };
       }
-      
+
       const user = { username, email };
       existingUsers.push({ username, email, password });
       localStorage.setItem('registered_users', JSON.stringify(existingUsers));
-      
+
       const token = 'mock_token_' + Date.now();
       localStorage.setItem('auth_user', JSON.stringify(user));
       localStorage.setItem('auth_token', token);
       return { success: true, user, token };
     },
-    
+
     logout: async (): Promise<void> => {
       await delay(200);
       // In production: await apiClient.post('/auth/logout');
       localStorage.removeItem('auth_user');
       localStorage.removeItem('auth_token');
     },
-    
+
     getCurrentUser: async (): Promise<{ username: string; email: string } | null> => {
       await delay(200);
       // In production: return (await apiClient.get('/auth/me')).data;
@@ -379,7 +387,7 @@ export const apiService = {
       }
       return null;
     },
-    
+
     isAuthenticated: (): boolean => {
       return !!localStorage.getItem('auth_token');
     },
@@ -392,7 +400,7 @@ export const apiService = {
       // In production: return (await apiClient.get<Testimonial[]>('/testimonials')).data;
       return [...mockTestimonials];
     },
-    
+
     getById: async (id: string): Promise<Testimonial> => {
       await delay(300);
       // In production: return (await apiClient.get<Testimonial>(`/testimonials/${id}`)).data;
@@ -400,13 +408,13 @@ export const apiService = {
       if (!testimonial) throw new Error('Testimonial not found');
       return testimonial;
     },
-    
+
     getByDivision: async (division: Division): Promise<Testimonial[]> => {
       await delay(300);
       // In production: return (await apiClient.get<Testimonial[]>(`/testimonials?division=${division}`)).data;
       return mockTestimonials.filter(t => t.division === division);
     },
-    
+
     create: async (testimonial: Omit<Testimonial, 'id'>): Promise<Testimonial> => {
       await delay(500);
       // In production: return (await apiClient.post<Testimonial>('/testimonials', testimonial)).data;
@@ -414,7 +422,7 @@ export const apiService = {
       mockTestimonials.push(newTestimonial);
       return newTestimonial;
     },
-    
+
     update: async (id: string, updates: Partial<Testimonial>): Promise<Testimonial> => {
       await delay(500);
       // In production: return (await apiClient.patch<Testimonial>(`/testimonials/${id}`, updates)).data;
@@ -423,7 +431,7 @@ export const apiService = {
       mockTestimonials[index] = { ...mockTestimonials[index], ...updates };
       return mockTestimonials[index];
     },
-    
+
     delete: async (id: string): Promise<void> => {
       await delay(300);
       // In production: await apiClient.delete(`/testimonials/${id}`);
@@ -438,7 +446,7 @@ export const apiService = {
       // In production: return (await apiClient.get<TeamMember[]>('/team-members')).data;
       return [...mockTeamMembers];
     },
-    
+
     getById: async (id: string): Promise<TeamMember> => {
       await delay(300);
       // In production: return (await apiClient.get<TeamMember>(`/team-members/${id}`)).data;
@@ -446,19 +454,19 @@ export const apiService = {
       if (!member) throw new Error('Team member not found');
       return member;
     },
-    
+
     getByDivision: async (division: Division): Promise<TeamMember[]> => {
       await delay(300);
       // In production: return (await apiClient.get<TeamMember[]>(`/team-members?division=${division}`)).data;
       return mockTeamMembers.filter(m => m.division === division);
     },
-    
+
     getFeatured: async (): Promise<TeamMember[]> => {
       await delay(300);
       // In production: return (await apiClient.get<TeamMember[]>('/team-members?featured=true')).data;
       return mockTeamMembers.filter(m => m.featured);
     },
-    
+
     create: async (member: Omit<TeamMember, 'id'>): Promise<TeamMember> => {
       await delay(500);
       // In production: return (await apiClient.post<TeamMember>('/team-members', member)).data;
@@ -466,7 +474,7 @@ export const apiService = {
       mockTeamMembers.push(newMember);
       return newMember;
     },
-    
+
     update: async (id: string, updates: Partial<TeamMember>): Promise<TeamMember> => {
       await delay(500);
       // In production: return (await apiClient.patch<TeamMember>(`/team-members/${id}`, updates)).data;
@@ -475,7 +483,7 @@ export const apiService = {
       mockTeamMembers[index] = { ...mockTeamMembers[index], ...updates };
       return mockTeamMembers[index];
     },
-    
+
     delete: async (id: string): Promise<void> => {
       await delay(300);
       // In production: await apiClient.delete(`/team-members/${id}`);
@@ -490,7 +498,7 @@ export const apiService = {
       // In production: return (await apiClient.get<Devis[]>('/devis')).data;
       return [...mockDevis];
     },
-    
+
     getById: async (id: string): Promise<Devis> => {
       await delay(300);
       // In production: return (await apiClient.get<Devis>(`/devis/${id}`)).data;
@@ -498,13 +506,13 @@ export const apiService = {
       if (!devis) throw new Error('Devis not found');
       return devis;
     },
-    
+
     getByUserId: async (userId: string): Promise<Devis[]> => {
       await delay(300);
       // In production: return (await apiClient.get<Devis[]>(`/devis?userId=${userId}`)).data;
       return mockDevis.filter(d => d.userId === userId);
     },
-    
+
     create: async (devis: Omit<Devis, 'id' | 'createdAt'>): Promise<Devis> => {
       await delay(500);
       // In production: return (await apiClient.post<Devis>('/devis', devis)).data;
@@ -517,7 +525,7 @@ export const apiService = {
       mockDevis.push(newDevis);
       return newDevis;
     },
-    
+
     update: async (id: string, updates: Partial<Devis>): Promise<Devis> => {
       await delay(500);
       // In production: return (await apiClient.patch<Devis>(`/devis/${id}`, updates)).data;
@@ -526,11 +534,211 @@ export const apiService = {
       mockDevis[index] = { ...mockDevis[index], ...updates };
       return mockDevis[index];
     },
-    
+
     delete: async (id: string): Promise<void> => {
       await delay(300);
       // In production: await apiClient.delete(`/devis/${id}`);
       mockDevis = mockDevis.filter(d => d.id !== id);
+    },
+  },
+
+  // ============ NEWSLETTER SUBSCRIPTIONS ============
+  newsletter: {
+    subscribe: async (email: string, source: string = 'unknown'): Promise<NewsletterSubscription> => {
+      await delay(500);
+      // In production: return (await apiClient.post<NewsletterSubscription>('/newsletter/subscribe', { email, source })).data;
+
+      // Check if already subscribed
+      const existing = mockNewsletterSubscriptions.find(s => s.email === email && s.isActive);
+      if (existing) {
+        return existing;
+      }
+
+      const subscription: NewsletterSubscription = {
+        id: Date.now().toString(),
+        email,
+        source,
+        subscribedAt: new Date().toISOString(),
+        isActive: true,
+      };
+      mockNewsletterSubscriptions.push(subscription);
+      return subscription;
+    },
+
+    unsubscribe: async (email: string): Promise<NewsletterSubscription> => {
+      await delay(300);
+      // In production: return (await apiClient.post<NewsletterSubscription>('/newsletter/unsubscribe', { email })).data;
+      const subscription = mockNewsletterSubscriptions.find(s => s.email === email && s.isActive);
+      if (!subscription) throw new Error('Subscription not found');
+      subscription.isActive = false;
+      subscription.unsubscribedAt = new Date().toISOString();
+      return subscription;
+    },
+
+    getAll: async (): Promise<NewsletterSubscription[]> => {
+      await delay(300);
+      // In production: return (await apiClient.get<NewsletterSubscription[]>('/newsletter/subscriptions')).data;
+      return [...mockNewsletterSubscriptions];
+    },
+
+    getByEmail: async (email: string): Promise<NewsletterSubscription | null> => {
+      await delay(300);
+      // In production: return (await apiClient.get<NewsletterSubscription>(`/newsletter/subscriptions/${email}`)).data;
+      return mockNewsletterSubscriptions.find(s => s.email === email) || null;
+    },
+  },
+
+  // ============ SEARCH ============
+  search: {
+    search: async (query: string, userId?: string): Promise<{ posts: BlogPost[]; projects: Project[] }> => {
+      await delay(400);
+      // In production: return (await apiClient.post<{ posts: BlogPost[]; projects: Project[] }>('/search', { query, userId })).data;
+
+      // Log search query
+      const searchQuery: SearchQuery = {
+        id: Date.now().toString(),
+        query,
+        resultsCount: 0,
+        searchedAt: new Date().toISOString(),
+        userId,
+      };
+
+      // Perform search
+      const lowerQuery = query.toLowerCase();
+      const allPosts = await apiService.blogPosts.getAll();
+      const allProjects = await apiService.projects.getAll();
+
+      const filteredPosts = allPosts.filter(post =>
+        post.title.toLowerCase().includes(lowerQuery) ||
+        post.excerpt.toLowerCase().includes(lowerQuery) ||
+        post.category.toLowerCase().includes(lowerQuery) ||
+        post.tags?.some(tag => tag.toLowerCase().includes(lowerQuery))
+      );
+
+      const filteredProjects = allProjects.filter(project =>
+        project.title.toLowerCase().includes(lowerQuery) ||
+        project.description.toLowerCase().includes(lowerQuery) ||
+        project.client.toLowerCase().includes(lowerQuery) ||
+        project.tags.some(tag => tag.toLowerCase().includes(lowerQuery))
+      );
+
+      searchQuery.resultsCount = filteredPosts.length + filteredProjects.length;
+      mockSearchQueries.push(searchQuery);
+
+      return {
+        posts: filteredPosts,
+        projects: filteredProjects,
+      };
+    },
+
+    getSearchHistory: async (userId?: string): Promise<SearchQuery[]> => {
+      await delay(300);
+      // In production: return (await apiClient.get<SearchQuery[]>(`/search/history${userId ? `?userId=${userId}` : ''}`)).data;
+      if (userId) {
+        return mockSearchQueries.filter(q => q.userId === userId);
+      }
+      return [...mockSearchQueries];
+    },
+  },
+
+  // ============ CHAT HISTORY ============
+  chat: {
+    saveHistory: async (messages: Array<{ role: 'user' | 'assistant'; content: string }>, userId?: string): Promise<ChatHistory> => {
+      await delay(500);
+      // In production: return (await apiClient.post<ChatHistory>('/chat/history', { messages, userId })).data;
+
+      const now = new Date().toISOString();
+      const history: ChatHistory = {
+        id: Date.now().toString(),
+        userId,
+        messages: messages.map(msg => ({
+          ...msg,
+          timestamp: now,
+        })),
+        createdAt: now,
+        updatedAt: now,
+      };
+
+      // Update existing or create new
+      const existingIndex = mockChatHistories.findIndex(h => h.userId === userId && !userId);
+      if (existingIndex >= 0 && !userId) {
+        // For anonymous users, update the most recent
+        mockChatHistories[existingIndex] = history;
+        return history;
+      }
+
+      mockChatHistories.push(history);
+      return history;
+    },
+
+    getHistory: async (userId?: string): Promise<ChatHistory | null> => {
+      await delay(300);
+      // In production: return (await apiClient.get<ChatHistory>(`/chat/history${userId ? `?userId=${userId}` : ''}`)).data;
+      if (userId) {
+        return mockChatHistories.find(h => h.userId === userId) || null;
+      }
+      // For anonymous, return most recent
+      return mockChatHistories.length > 0 ? mockChatHistories[mockChatHistories.length - 1] : null;
+    },
+
+    getAllHistories: async (): Promise<ChatHistory[]> => {
+      await delay(300);
+      // In production: return (await apiClient.get<ChatHistory[]>('/chat/histories')).data;
+      return [...mockChatHistories];
+    },
+
+    deleteHistory: async (id: string): Promise<void> => {
+      await delay(300);
+      // In production: await apiClient.delete(`/chat/history/${id}`);
+      mockChatHistories = mockChatHistories.filter(h => h.id !== id);
+    },
+  },
+
+  // ============ QUIZ RESULTS ============
+  quiz: {
+    saveResult: async (result: Omit<QuizResult, 'id' | 'completedAt'>): Promise<QuizResult> => {
+      await delay(500);
+      // In production: return (await apiClient.post<QuizResult>('/quiz/results', result)).data;
+
+      const quizResult: QuizResult = {
+        ...result,
+        id: Date.now().toString(),
+        completedAt: new Date().toISOString(),
+      };
+      mockQuizResults.push(quizResult);
+      return quizResult;
+    },
+
+    getResult: async (id: string): Promise<QuizResult> => {
+      await delay(300);
+      // In production: return (await apiClient.get<QuizResult>(`/quiz/results/${id}`)).data;
+      const result = mockQuizResults.find(r => r.id === id);
+      if (!result) throw new Error('Quiz result not found');
+      return result;
+    },
+
+    getResultsByUser: async (userId: string): Promise<QuizResult[]> => {
+      await delay(300);
+      // In production: return (await apiClient.get<QuizResult[]>(`/quiz/results?userId=${userId}`)).data;
+      return mockQuizResults.filter(r => r.userId === userId);
+    },
+
+    getResultsByType: async (quizType: QuizResult['quizType']): Promise<QuizResult[]> => {
+      await delay(300);
+      // In production: return (await apiClient.get<QuizResult[]>(`/quiz/results?type=${quizType}`)).data;
+      return mockQuizResults.filter(r => r.quizType === quizType);
+    },
+
+    getAll: async (): Promise<QuizResult[]> => {
+      await delay(300);
+      // In production: return (await apiClient.get<QuizResult[]>('/quiz/results')).data;
+      return [...mockQuizResults];
+    },
+
+    delete: async (id: string): Promise<void> => {
+      await delay(300);
+      // In production: await apiClient.delete(`/quiz/results/${id}`);
+      mockQuizResults = mockQuizResults.filter(r => r.id !== id);
     },
   },
 };

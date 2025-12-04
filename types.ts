@@ -92,6 +92,46 @@ export interface TeamMember {
   featured?: boolean;
 }
 
+export interface NewsletterSubscription {
+  id: string;
+  email: string;
+  source: string;
+  subscribedAt: string;
+  unsubscribedAt?: string;
+  isActive: boolean;
+}
+
+export interface SearchQuery {
+  id: string;
+  query: string;
+  resultsCount: number;
+  searchedAt: string;
+  userId?: string;
+}
+
+export interface ChatHistory {
+  id: string;
+  userId?: string;
+  messages: Array<{
+    role: 'user' | 'assistant';
+    content: string;
+    timestamp: string;
+  }>;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface QuizResult {
+  id: string;
+  quizType: 'brand_audit' | 'roi_calculator' | 'other';
+  answers: number[];
+  score: number;
+  recommendation?: string;
+  metadata?: Record<string, any>;
+  completedAt: string;
+  userId?: string;
+}
+
 export const DIVISION_CONFIG = {
   [Division.TECH]: {
     color: 'text-cyan-400',
