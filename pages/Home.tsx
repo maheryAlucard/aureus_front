@@ -3,6 +3,10 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Division, DIVISION_CONFIG, BlogPost } from '../types';
 import { ArrowRight, Code, Film, Zap, Activity, Users, Zap as ZapIcon, Terminal, Cpu, Layers, Rocket, Globe, Eye, TrendingUp } from 'lucide-react';
+import { useSEO } from '../hooks/useSEO';
+import { NewsletterSignup } from '../components/NewsletterSignup';
+import { ExitIntentPopup } from '../components/ExitIntentPopup';
+import { Testimonials } from '../components/Testimonials';
 
 // --- MOCK DATA FOR NEW SECTIONS ---
 const TECH_STACK = [
@@ -122,6 +126,12 @@ const DivisionCard: React.FC<DivisionCardProps> = ({
 
 export const Home: React.FC = () => {
   const [activeDivision, setActiveDivision] = useState<Division | null>(null);
+  
+  useSEO({
+    title: "Aureus | La Rencontre de la Créativité & de l'Intelligence",
+    description: "Agence digitale premium spécialisée en développement web/app, production vidéo et branding. Tech, Studio & Brand - Une approche unique pour transformer votre présence digitale.",
+    type: 'website'
+  });
 
   return (
     <div className="pt-20 min-h-screen">
@@ -281,6 +291,11 @@ export const Home: React.FC = () => {
         </div>
       </section>
 
+      {/* Testimonials Section */}
+      <section className="mx-auto px-6 py-24 max-w-7xl">
+        <Testimonials />
+      </section>
+
       {/* NEW SECTION 4: Blog Preview */}
       <section className="mx-auto px-6 py-24 max-w-7xl">
         <div className="flex justify-between items-end mb-12">
@@ -296,7 +311,7 @@ export const Home: React.FC = () => {
         
         <div className="gap-8 grid grid-cols-1 md:grid-cols-3">
             {LATEST_ARTICLES.map((post) => (
-                <Link to="/blog" key={post.id} className="group block">
+                <Link to={`/blog/${post.slug}`} key={post.id} className="group block">
                     <div className="relative mb-4 border border-white/10 rounded-xl aspect-video overflow-hidden">
                         <img 
                             src={post.imageUrl} 
@@ -318,6 +333,11 @@ export const Home: React.FC = () => {
                 </Link>
             ))}
         </div>
+      </section>
+
+      {/* Newsletter Section */}
+      <section className="mx-auto px-6 py-24 max-w-7xl">
+        <NewsletterSignup source="home" />
       </section>
 
       {/* Trust & Why Us (Existing) */}
@@ -378,6 +398,8 @@ export const Home: React.FC = () => {
           </div>
         </div>
       </section>
+      
+      <ExitIntentPopup />
     </div>
   );
 };

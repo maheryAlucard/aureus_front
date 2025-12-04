@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, ChevronDown, Lock } from 'lucide-react';
+import { Menu, X, ChevronDown, Lock, Search } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Division, DIVISION_CONFIG } from '../types';
+import { analytics } from '../utils/analytics';
+import { SearchBar } from './SearchBar';
 
 export const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [solutionsOpen, setSolutionsOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -40,6 +43,13 @@ export const Navbar: React.FC = () => {
 
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center space-x-8">
+            <button
+              onClick={() => setSearchOpen(!searchOpen)}
+              className="p-2 text-gray-300 hover:text-white transition-colors"
+              aria-label="Rechercher"
+            >
+              <Search className="w-5 h-5" />
+            </button>
             <Link to="/" className="font-medium text-gray-300 hover:text-white text-sm transition-colors">Accueil</Link>
             
             <div 
@@ -102,6 +112,7 @@ export const Navbar: React.FC = () => {
             </Link>
             <Link 
               to="/contact"
+              onClick={() => analytics.trackButtonClick('Démarrer un Projet', 'navbar')}
               className="bg-blue-600 hover:bg-blue-700 hover:shadow-[0_0_20px_-5px_rgba(37,99,235,0.5)] px-5 py-2 rounded-full font-bold text-white text-sm transition-all"
             >
               Démarrer un Projet
@@ -118,6 +129,29 @@ export const Navbar: React.FC = () => {
         </div>
       </div>
 
+      {/* Search Bar Overlay */}
+      <AnimatePresence>
+        {searchOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSearchOpen(false)}
+              className="z-40 fixed inset-0 bg-black/80 backdrop-blur-sm"
+            />
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="top-20 left-1/2 z-50 fixed px-6 w-full max-w-2xl -translate-x-1/2"
+            >
+              <SearchBar onClose={() => setSearchOpen(false)} />
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
       {/* Mobile Menu */}
       <AnimatePresence>
         {isOpen && (
@@ -128,6 +162,9 @@ export const Navbar: React.FC = () => {
             className="md:hidden bg-[#050510] border-white/10 border-b overflow-hidden"
           >
             <div className="space-y-6 px-6 py-8">
+              <div className="mb-4">
+                <SearchBar variant="compact" onClose={() => setIsOpen(false)} />
+              </div>
               <Link to="/" className="block font-medium text-white text-lg" onClick={() => setIsOpen(false)}>Accueil</Link>
               
               <div className="space-y-3">

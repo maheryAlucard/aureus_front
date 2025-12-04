@@ -12,6 +12,11 @@ export interface Project {
   tags: string[];
   imageUrl: string;
   description: string;
+  fullDescription?: string;
+  images?: string[];
+  videoUrl?: string;
+  results?: string[];
+  technologies?: string[];
 }
 
 export interface Lead {
@@ -34,6 +39,9 @@ export interface BlogPost {
   date: string;
   imageUrl: string;
   slug: string;
+  content?: string;
+  readingTime?: number;
+  tags?: string[];
 }
 
 export interface PricingTier {
@@ -56,6 +64,19 @@ export interface Devis {
   generatedContent: string;
   createdAt: string;
   userId: string;
+}
+
+export interface Testimonial {
+  id: string;
+  name: string;
+  role: string;
+  company: string;
+  companyLogo?: string;
+  photo?: string;
+  content: string;
+  rating: number;
+  division?: Division;
+  videoUrl?: string;
 }
 
 export const DIVISION_CONFIG = {

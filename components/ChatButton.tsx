@@ -1,53 +1,129 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { MessageCircle, X, Send, Loader2 } from 'lucide-react';
+import { MessageCircle, X, Send, Loader2, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { sendChatMessage, ChatMessage } from '../services/geminiService';
+import { analytics } from '../utils/analytics';
+
+const SUGGESTED_QUESTIONS = [
+  'Quels sont vos tarifs ?',
+  'Comment fonctionne votre processus ?',
+  'Quelle division me convient le mieux ?',
+  'Avez-vous des exemples de projets ?'
+];
+
+const CHAT_STORAGE_KEY = 'aureus_chat_history';
+const CHAT_TIMESTAMP_KEY = 'aureus_chat_timestamp';
 
 export const ChatButton: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<ChatMessage[]>([
-    {
+  const [messages, setMessages] = useState<ChatMessage[]>(() => {
+    // Load chat history from localStorage
+    const saved = localStorage.getItem(CHAT_STORAGE_KEY);
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        // Only restore if less than 24 hours old
+        const timestamp = localStorage.getItem(CHAT_TIMESTAMP_KEY);
+        if (timestamp && Date.now() - parseInt(timestamp) < 24 * 60 * 60 * 1000) {
+          return parsed;
+        }
+      } catch (e) {
+        console.error('Error loading chat history:', e);
+      }
+    }
+    return [{
       role: 'assistant',
       content: 'Bonjour ! Je suis l\'assistant IA d\'Aureus. Comment puis-je vous aider aujourd\'hui ?'
-    }
-  ]);
+    }];
+  });
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
+  const [hasTriggeredProactive, setHasTriggeredProactive] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const proactiveTriggerRef = useRef<NodeJS.Timeout | null>(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  // Save chat history to localStorage
+  useEffect(() => {
+    if (messages.length > 1) {
+      localStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(messages));
+      localStorage.setItem(CHAT_TIMESTAMP_KEY, Date.now().toString());
+    }
+  }, [messages]);
+
+  // Proactive chat trigger after 30 seconds
+  useEffect(() => {
+    if (!isOpen && !hasTriggeredProactive) {
+      proactiveTriggerRef.current = setTimeout(() => {
+        const hasInteracted = localStorage.getItem('aureus_chat_interacted');
+        if (!hasInteracted) {
+          // Show proactive message
+          setHasTriggeredProactive(true);
+          analytics.trackChatInteraction('proactive_trigger');
+        }
+      }, 30000); // 30 seconds
+    }
+
+    return () => {
+      if (proactiveTriggerRef.current) {
+        clearTimeout(proactiveTriggerRef.current);
+      }
+    };
+  }, [isOpen, hasTriggeredProactive]);
+
+  // Exit intent detection
+  useEffect(() => {
+    const handleMouseLeave = (e: MouseEvent) => {
+      if (e.clientY <= 0 && !isOpen && !hasTriggeredProactive) {
+        setHasTriggeredProactive(true);
+        analytics.trackChatInteraction('exit_intent_trigger');
+      }
+    };
+
+    document.addEventListener('mouseleave', handleMouseLeave);
+    return () => document.removeEventListener('mouseleave', handleMouseLeave);
+  }, [isOpen, hasTriggeredProactive]);
+
   useEffect(() => {
     if (isOpen) {
       scrollToBottom();
       inputRef.current?.focus();
+      localStorage.setItem('aureus_chat_interacted', 'true');
+      analytics.trackChatInteraction('chat_opened', messages.length);
     }
   }, [messages, isOpen]);
 
-  const handleSendMessage = async () => {
-    if (!inputValue.trim() || isLoading) return;
+  const handleSendMessage = async (messageText?: string) => {
+    const textToSend = messageText || inputValue.trim();
+    if (!textToSend || isLoading) return;
 
     const userMessage: ChatMessage = {
       role: 'user',
-      content: inputValue.trim()
+      content: textToSend
     };
 
     setMessages(prev => [...prev, userMessage]);
     setInputValue('');
     setIsLoading(true);
+    setIsTyping(true);
 
     try {
       const response = await sendChatMessage(userMessage.content, messages);
+      setIsTyping(false);
       const assistantMessage: ChatMessage = {
         role: 'assistant',
         content: response
       };
       setMessages(prev => [...prev, assistantMessage]);
+      analytics.trackChatInteraction('message_sent', messages.length + 1);
     } catch (error) {
       console.error('Error sending message:', error);
+      setIsTyping(false);
       const errorMessage: ChatMessage = {
         role: 'assistant',
         content: 'Désolé, une erreur s\'est produite. Veuillez réessayer.'
@@ -56,6 +132,10 @@ export const ChatButton: React.FC = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleSuggestedQuestion = (question: string) => {
+    handleSendMessage(question);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -67,6 +147,36 @@ export const ChatButton: React.FC = () => {
 
   return (
     <>
+      {/* Proactive Notification */}
+      {hasTriggeredProactive && !isOpen && (
+        <motion.div
+          initial={{ opacity: 0, y: 20, scale: 0.9 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: 20, scale: 0.9 }}
+          className="right-6 bottom-24 z-40 fixed bg-[#0a0a16] shadow-2xl p-4 border border-blue-500/20 rounded-xl max-w-xs"
+        >
+          <div className="flex items-start space-x-3">
+            <Sparkles className="mt-0.5 w-5 h-5 text-blue-400 shrink-0" />
+            <div className="flex-1">
+              <p className="mb-1 font-medium text-white text-sm">Besoin d'aide ?</p>
+              <p className="mb-2 text-gray-400 text-xs">Posez-moi vos questions sur nos services !</p>
+              <button
+                onClick={() => setIsOpen(true)}
+                className="font-medium text-blue-400 hover:text-blue-300 text-xs"
+              >
+                Ouvrir le chat →
+              </button>
+            </div>
+            <button
+              onClick={() => setHasTriggeredProactive(false)}
+              className="text-gray-400 hover:text-white"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+        </motion.div>
+      )}
+
       {/* Floating Chat Button */}
       <motion.button
         onClick={() => setIsOpen(!isOpen)}
@@ -155,7 +265,22 @@ export const ChatButton: React.FC = () => {
                   </div>
                 </motion.div>
               ))}
-              {isLoading && (
+              {isTyping && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="flex justify-start"
+                >
+                  <div className="bg-white/5 px-4 py-2 border border-white/10 rounded-2xl text-gray-200">
+                    <div className="flex items-center space-x-1">
+                      <span className="bg-gray-400 rounded-full w-2 h-2 animate-bounce" style={{ animationDelay: '0ms' }} />
+                      <span className="bg-gray-400 rounded-full w-2 h-2 animate-bounce" style={{ animationDelay: '150ms' }} />
+                      <span className="bg-gray-400 rounded-full w-2 h-2 animate-bounce" style={{ animationDelay: '300ms' }} />
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+              {isLoading && !isTyping && (
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
@@ -166,6 +291,25 @@ export const ChatButton: React.FC = () => {
                   </div>
                 </motion.div>
               )}
+              
+              {/* Suggested Questions */}
+              {messages.length === 1 && !isLoading && (
+                <div className="space-y-2">
+                  <p className="font-medium text-gray-400 text-xs">Questions suggérées :</p>
+                  <div className="flex flex-wrap gap-2">
+                    {SUGGESTED_QUESTIONS.map((question, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => handleSuggestedQuestion(question)}
+                        className="bg-white/5 hover:bg-white/10 px-3 py-1.5 border border-white/10 rounded-lg text-gray-300 hover:text-white text-xs transition-colors"
+                      >
+                        {question}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+              
               <div ref={messagesEndRef} />
             </div>
 

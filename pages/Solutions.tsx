@@ -1,12 +1,21 @@
 import React from 'react';
 import { useLocation, Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { Division, DIVISION_CONFIG } from '../types';
 import { CheckCircle2, ArrowRight } from 'lucide-react';
+import { Testimonials } from '../components/Testimonials';
+import { useSEO } from '../hooks/useSEO';
 
 export const Solutions: React.FC = () => {
   const query = new URLSearchParams(useLocation().search);
   const activeDivision = (query.get('division') as Division) || Division.TECH;
   const config = DIVISION_CONFIG[activeDivision];
+
+  useSEO({
+    title: `${config.label} - Solutions`,
+    description: config.desc,
+    type: 'website'
+  });
 
   // Visual Vibe config based on strategy
   const isTech = activeDivision === Division.TECH;
@@ -45,7 +54,7 @@ export const Solutions: React.FC = () => {
         {isStudio && <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-10" />}
         
         <div className="max-w-7xl mx-auto px-6 relative z-10">
-          <motion-element initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
             <span className={`inline-block py-1 px-3 rounded-full bg-white/5 border border-white/10 text-xs font-bold tracking-widest mb-6 ${config.color}`}>
                 DIVISION : {config.label.toUpperCase()}
             </span>
@@ -57,7 +66,7 @@ export const Solutions: React.FC = () => {
                 {activeDivision === Division.STUDIO && "Production cinématographique haut de gamme. Nous capturons l'émotion et sculptons la lumière."}
                 {activeDivision === Division.BRAND && "Stratégie de marque impactante. Nous construisons des communautés et des identités mémorables."}
             </p>
-          </motion-element>
+          </motion.div>
         </div>
       </div>
 
@@ -102,6 +111,11 @@ export const Solutions: React.FC = () => {
                 </Link>
             </div>
         </div>
+      </div>
+
+      {/* Testimonials */}
+      <div className="max-w-7xl mx-auto px-6 py-24">
+        <Testimonials filterByDivision={activeDivision} showAll={false} />
       </div>
 
       {/* Cross Pollination */}

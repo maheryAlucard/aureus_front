@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Division, DIVISION_CONFIG, Project } from '../types';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Link } from 'react-router-dom';
+import { useSEO } from '../hooks/useSEO';
 
 const MOCK_PROJECTS: Project[] = [
   { id: '1', title: 'Nebula SaaS', client: 'Nebula Inc', division: Division.TECH, tags: ['React', 'Python', 'IA'], imageUrl: 'https://picsum.photos/seed/nebula/600/400', description: 'Tableau de bord entreprise.' },
@@ -13,20 +15,37 @@ const MOCK_PROJECTS: Project[] = [
 
 export const Work: React.FC = () => {
   const [filter, setFilter] = useState<Division | 'ALL'>('ALL');
+  const [tagFilter, setTagFilter] = useState<string>('ALL');
 
-  const filteredProjects = filter === 'ALL' 
+  useSEO({
+    title: 'Réalisations - Portfolio',
+    description: 'Découvrez nos projets sélectionnés : études de cas en ingénierie, production et stratégie. Des réalisations qui transforment.',
+    type: 'website'
+  });
+
+  const allTags = Array.from(new Set(MOCK_PROJECTS.flatMap(p => p.tags)));
+  
+  let filteredProjects = filter === 'ALL' 
     ? MOCK_PROJECTS 
     : MOCK_PROJECTS.filter(p => p.division === filter);
+  
+  if (tagFilter !== 'ALL') {
+    filteredProjects = filteredProjects.filter(p => p.tags.includes(tagFilter));
+  }
 
   return (
     <div className="min-h-screen pt-32 px-6 max-w-7xl mx-auto">
-      <div className="flex flex-col md:flex-row justify-between items-end mb-12 border-b border-white/10 pb-8">
+      <div className="flex flex-col md:flex-row justify-between items-end mb-8 border-b border-white/10 pb-8">
         <div>
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">Projets Sélectionnés</h1>
           <p className="text-gray-400">Études de cas en ingénierie, production et stratégie.</p>
         </div>
-        
-        <div className="flex space-x-2 mt-6 md:mt-0">
+      </div>
+
+      {/* Filters */}
+      <div className="mb-12 space-y-4">
+        <div className="flex flex-wrap gap-2">
+          <span className="text-gray-400 text-sm font-medium self-center mr-2">Division:</span>
           <button 
             onClick={() => setFilter('ALL')}
             className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${filter === 'ALL' ? 'bg-white text-black' : 'bg-white/5 text-gray-400 hover:text-white'}`}
@@ -43,6 +62,26 @@ export const Work: React.FC = () => {
             </button>
           ))}
         </div>
+        {allTags.length > 0 && (
+          <div className="flex flex-wrap gap-2">
+            <span className="text-gray-400 text-sm font-medium self-center mr-2">Tags:</span>
+            <button 
+              onClick={() => setTagFilter('ALL')}
+              className={`px-3 py-1 rounded-full text-xs font-medium transition-all ${tagFilter === 'ALL' ? 'bg-white/10 text-white border border-white/20' : 'bg-white/5 text-gray-400 hover:text-white'}`}
+            >
+              Tous
+            </button>
+            {allTags.map(tag => (
+              <button 
+                key={tag}
+                onClick={() => setTagFilter(tag)}
+                className={`px-3 py-1 rounded-full text-xs font-medium transition-all ${tagFilter === tag ? 'bg-white/10 text-white border border-white/20' : 'bg-white/5 text-gray-400 hover:text-white'}`}
+              >
+                {tag}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-20">
@@ -54,30 +93,32 @@ export const Work: React.FC = () => {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
               key={project.id}
-              className="group cursor-pointer"
             >
-              <div className="relative aspect-[4/3] rounded-lg overflow-hidden mb-4">
-                <div className="absolute inset-0 bg-blue-900/20 group-hover:bg-transparent transition-colors z-10" />
-                <img 
-                  src={project.imageUrl} 
-                  alt={project.title}
-                  className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
-                />
-                <div className="absolute top-4 left-4 z-20">
-                    <span className={`px-2 py-1 rounded text-xs font-bold bg-black/50 backdrop-blur-md ${DIVISION_CONFIG[project.division].color}`}>
-                        {project.division}
-                    </span>
+              <Link to={`/work/${project.id}`} className="group block">
+                <div className="relative aspect-[4/3] rounded-lg overflow-hidden mb-4">
+                  <div className="absolute inset-0 bg-blue-900/20 group-hover:bg-transparent transition-colors z-10" />
+                  <img 
+                    src={project.imageUrl} 
+                    alt={project.title}
+                    className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
+                    loading="lazy"
+                  />
+                  <div className="absolute top-4 left-4 z-20">
+                      <span className={`px-2 py-1 rounded text-xs font-bold bg-black/50 backdrop-blur-md ${DIVISION_CONFIG[project.division].color}`}>
+                          {project.division}
+                      </span>
+                  </div>
                 </div>
-              </div>
-              <h3 className="text-xl font-bold text-white group-hover:text-blue-400 transition-colors">{project.title}</h3>
-              <p className="text-sm text-gray-500 mb-2">{project.client}</p>
-              <div className="flex flex-wrap gap-2">
-                {project.tags.map(tag => (
-                    <span key={tag} className="text-xs text-gray-600 border border-white/10 px-2 py-1 rounded">
-                        {tag}
-                    </span>
-                ))}
-              </div>
+                <h3 className="text-xl font-bold text-white group-hover:text-blue-400 transition-colors">{project.title}</h3>
+                <p className="text-sm text-gray-500 mb-2">{project.client}</p>
+                <div className="flex flex-wrap gap-2">
+                  {project.tags.map(tag => (
+                      <span key={tag} className="text-xs text-gray-600 border border-white/10 px-2 py-1 rounded">
+                          {tag}
+                      </span>
+                  ))}
+                </div>
+              </Link>
             </motion.div>
           ))}
         </AnimatePresence>

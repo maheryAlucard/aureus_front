@@ -9,5 +9,8 @@ export const env = {
   
   // Gemini AI Configuration
   geminiApiKey: import.meta.env.VITE_GEMINI_API_KEY || '',
+  
+  // Google Analytics Configuration
+  gaMeasurementId: import.meta.env.VITE_GA_MEASUREMENT_ID || '',
 } as const;
 

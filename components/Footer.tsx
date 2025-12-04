@@ -1,18 +1,23 @@
 import React from 'react';
 import { Hexagon, Github, Twitter, Linkedin } from 'lucide-react';
+import { NewsletterSignup } from './NewsletterSignup';
 
 export const Footer: React.FC = () => {
   return (
     <footer className="bg-[#020205] border-t border-white/5 py-12 md:py-20">
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12">
-        <div className="space-y-4">
+        <div className="space-y-4 md:col-span-2">
           <div className="flex items-center space-x-2">
             <Hexagon className="w-6 h-6 text-blue-500" strokeWidth={1.5} />
             <span className="text-lg font-bold tracking-widest text-white">AUREUS</span>
           </div>
-          <p className="text-gray-400 text-sm leading-relaxed">
+          <p className="text-gray-400 text-sm leading-relaxed mb-6">
             La rencontre du code et de l'art pour bâtir la prochaine génération d'infrastructures digitales.
           </p>
+          <div>
+            <h4 className="text-white font-bold mb-3">Newsletter</h4>
+            <NewsletterSignup variant="compact" source="footer" />
+          </div>
         </div>
 
         <div>
