@@ -2,6 +2,7 @@ import React from 'react';
 import { HashRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
+import { ChatButton } from './components/ChatButton';
 import { Home } from './pages/Home';
 import { Solutions } from './pages/Solutions';
 import { Work } from './pages/Work';
@@ -21,6 +22,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       {!isAdmin && <Navbar />}
       {children}
       {!isAdmin && <Footer />}
+      {!isAdmin && <ChatButton />}
     </>
   );
 };

@@ -10,7 +10,7 @@
 - **Aureus Studio** – Vidéo, 3D, VFX, production et post‑production  
 - **Aureus Brand** – Branding, identité visuelle, growth & social media  
 
-Le site inclut une **home cinématique**, des pages dédiées (`Solutions`, `Work`, `Pricing`, `Blog`, `Contact`) ainsi qu’un **tableau de bord Admin** pour gérer projets, leads et contenus. Une intégration à l’API **Gemini** permet de générer automatiquement des descriptions de projets.
+Le site inclut une **home cinématique**, des pages dédiées (`Solutions`, `Work`, `Pricing`, `Blog`, `Contact`) ainsi qu'un **tableau de bord Admin** pour gérer projets, leads et contenus. Une intégration à l'API **Gemini** permet de générer automatiquement des descriptions de projets et alimente un **chat assistant IA** flottant pour répondre aux questions des visiteurs.
 
 ---
 
@@ -37,10 +37,14 @@ Le site inclut une **home cinématique**, des pages dédiées (`Solutions`, `Wor
 2. Ajoutez votre clé Gemini :
 
    ```bash
-   API_KEY="VOTRE_CLE_GEMINI"
+   VITE_GEMINI_API_KEY="VOTRE_CLE_GEMINI"
    ```
 
-> L’API est utilisée dans `services/geminiService.ts` pour générer automatiquement des descriptions de projets (études de cas) en français, ton futuriste et orienté résultats.
+   > **Note** : Vous pouvez aussi utiliser `GEMINI_API_KEY` ou `API_KEY` comme nom de variable, mais `VITE_GEMINI_API_KEY` est recommandé pour Vite.
+
+> L'API est utilisée dans `services/geminiService.ts` pour :
+> - Générer automatiquement des descriptions de projets (études de cas) en français, ton futuriste et orienté résultats
+> - Alimenter le chat assistant IA flottant qui répond aux questions des visiteurs sur les services d'Aureus
 
 ---
 
