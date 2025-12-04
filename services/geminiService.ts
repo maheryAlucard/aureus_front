@@ -1,4 +1,5 @@
 import { GoogleGenAI } from "@google/genai";
+import { env } from '../config/env';
 
 export interface ChatMessage {
   role: 'user' | 'assistant';
@@ -6,7 +7,7 @@ export interface ChatMessage {
 }
 
 const getAiClient = () => {
-  const apiKey = (import.meta as any).env?.VITE_GEMINI_API_KEY || (import.meta as any).env?.GEMINI_API_KEY || (import.meta as any).env?.API_KEY;
+  const apiKey = env.geminiApiKey;
   if (!apiKey) {
     console.warn("API Key not found in environment variables.");
     return null;
@@ -16,7 +17,7 @@ const getAiClient = () => {
 
 export const generateProjectDescription = async (title: string, division: string, tags: string[]): Promise<string> => {
   const ai = getAiClient();
-  if (!ai) return "Configuration AI manquante. Veuillez définir API_KEY.";
+  if (!ai) return "Configuration AI manquante. Veuillez définir VITE_GEMINI_API_KEY.";
 
   try {
     const prompt = `

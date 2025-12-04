@@ -1,6 +1,7 @@
 import axios, { AxiosInstance } from 'axios';
 import { Project, Lead, BlogPost, Division } from '../types';
 import { PricingPackage, FAQItem } from './mockDataService';
+import { env } from '../config/env';
 
 // Mock data storage (in production, this would be API calls)
 let mockProjects: Project[] = [
@@ -31,7 +32,7 @@ let mockFAQs: FAQItem[] = [
 
 // Create axios instance
 const apiClient: AxiosInstance = axios.create({
-  baseURL: (import.meta as any).env.VITE_API_BASE_URL || 'http://localhost:3000/api',
+  baseURL: env.apiBaseUrl,
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
