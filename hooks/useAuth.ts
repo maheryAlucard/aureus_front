@@ -37,7 +37,7 @@ export const useAuth = () => {
     } finally {
       setAuthLoading(false);
     }
-  }, [setUser, setAuthenticated, setAuthLoading, setAuthError]);
+  }, [setUser, setAuthLoading, setAuthError, setAuthenticated]);
 
   const logout = useCallback(async () => {
     setAuthLoading(true);
@@ -45,38 +45,15 @@ export const useAuth = () => {
     try {
       await apiService.auth.logout();
       logoutStore();
+      setAuthenticated(false);
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Failed to logout';
       setAuthError(errorMessage);
+      throw error;
     } finally {
       setAuthLoading(false);
     }
-  }, [logoutStore, setAuthLoading, setAuthError]);
-
-  const checkAuth = useCallback(async () => {
-    setAuthLoading(true);
-    setAuthError(null);
-    try {
-      const isAuth = apiService.auth.isAuthenticated();
-      if (isAuth) {
-        const currentUser = await apiService.auth.getCurrentUser();
-        if (currentUser) {
-          setUser(currentUser);
-          setAuthenticated(true);
-        } else {
-          setAuthenticated(false);
-        }
-      } else {
-        setAuthenticated(false);
-      }
-    } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Failed to check authentication';
-      setAuthError(errorMessage);
-      setAuthenticated(false);
-    } finally {
-      setAuthLoading(false);
-    }
-  }, [setUser, setAuthenticated, setAuthLoading, setAuthError]);
+  }, [logoutStore, setAuthLoading, setAuthError, setAuthenticated]);
 
   const getCurrentUser = useCallback(async () => {
     setAuthLoading(true);
@@ -86,16 +63,38 @@ export const useAuth = () => {
       if (currentUser) {
         setUser(currentUser);
         setAuthenticated(true);
+      } else {
+        setUser(null);
+        setAuthenticated(false);
       }
       return currentUser;
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Failed to get current user';
       setAuthError(errorMessage);
+      setAuthenticated(false);
       throw error;
     } finally {
       setAuthLoading(false);
     }
-  }, [setUser, setAuthenticated, setAuthLoading, setAuthError]);
+  }, [setUser, setAuthLoading, setAuthError, setAuthenticated]);
+
+  const checkAuth = useCallback(() => {
+    const authenticated = apiService.auth.isAuthenticated();
+    setAuthenticated(authenticated);
+    if (authenticated) {
+      const userStr = localStorage.getItem('auth_user');
+      if (userStr) {
+        try {
+          const user = JSON.parse(userStr);
+          setUser(user);
+        } catch {
+          setUser(null);
+          setAuthenticated(false);
+        }
+      }
+    }
+    return authenticated;
+  }, [setUser, setAuthenticated]);
 
   return {
     user,
@@ -104,8 +103,7 @@ export const useAuth = () => {
     isAuthenticated,
     login,
     logout,
-    checkAuth,
     getCurrentUser,
+    checkAuth,
   };
 };
-

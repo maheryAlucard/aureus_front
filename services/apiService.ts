@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import axios, { AxiosInstance } from 'axios';
 import { Project, Lead, BlogPost, Division } from '../types';
 import { PricingPackage, FAQItem } from './mockDataService';
 
