@@ -5,14 +5,23 @@ interface Hero3DBackgroundProps {
   className?: string;
 }
 
+interface DotNode {
+  position: THREE.Vector3;
+  velocity: THREE.Vector3;
+  basePosition: THREE.Vector3;
+}
+
 export const Hero3DBackground: React.FC<Hero3DBackgroundProps> = ({ className = '' }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<THREE.Scene | null>(null);
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
   const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
   const animationFrameRef = useRef<number | null>(null);
-  const mouseRef = useRef({ x: 0, y: 0 });
-  const meshesRef = useRef<THREE.Mesh[]>([]);
+  const mouseRef = useRef({ x: 0, y: 0, z: 0 });
+  const nodesRef = useRef<DotNode[]>([]);
+  const pointsRef = useRef<THREE.Points | null>(null);
+  const linesRef = useRef<THREE.LineSegments | null>(null);
+  const mousePositionRef = useRef(new THREE.Vector3(0, 0, 0));
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -28,155 +37,259 @@ export const Hero3DBackground: React.FC<Hero3DBackgroundProps> = ({ className = 
       0.1,
       1000
     );
-    camera.position.z = 5;
+    camera.position.z = 15;
     cameraRef.current = camera;
 
-    // Renderer setup with performance optimizations
+    // Renderer setup
     const renderer = new THREE.WebGLRenderer({
       antialias: true,
       alpha: true,
       powerPreference: 'high-performance',
     });
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // Limit pixel ratio for performance
-    renderer.setClearColor(0x000000, 0); // Transparent background
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setClearColor(0x000000, 0);
+    renderer.domElement.style.display = 'block';
+    renderer.domElement.style.width = '100%';
+    renderer.domElement.style.height = '100%';
     containerRef.current.appendChild(renderer.domElement);
     rendererRef.current = renderer;
 
-    // Lighting setup
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
-    scene.add(ambientLight);
+    // Create nodes (dots)
+    const nodeCount = 80;
+    const nodes: DotNode[] = [];
+    const nodePositions = new Float32Array(nodeCount * 3);
+    const nodeColors = new Float32Array(nodeCount * 3);
 
-    const pointLight1 = new THREE.PointLight(0x00d4ff, 0.6, 100);
-    pointLight1.position.set(5, 5, 5);
-    scene.add(pointLight1);
+    // Connection distance threshold
+    const connectionDistance = 3.5;
 
-    const pointLight2 = new THREE.PointLight(0x8b5cf6, 0.5, 100);
-    pointLight2.position.set(-5, -5, 5);
-    scene.add(pointLight2);
+    for (let i = 0; i < nodeCount; i++) {
+      const x = (Math.random() - 0.5) * 20;
+      const y = (Math.random() - 0.5) * 20;
+      const z = (Math.random() - 0.5) * 15;
 
-    // Create animated geometric shapes (low-poly for performance)
-    const meshes: THREE.Mesh[] = [];
-    const geometryTypes = [
-      () => new THREE.IcosahedronGeometry(0.3, 0), // Low-poly sphere
-      () => new THREE.OctahedronGeometry(0.3, 0),
-      () => new THREE.TetrahedronGeometry(0.3, 0),
-    ];
+      const position = new THREE.Vector3(x, y, z);
+      const basePosition = position.clone();
+      const velocity = new THREE.Vector3(
+        (Math.random() - 0.5) * 0.02,
+        (Math.random() - 0.5) * 0.02,
+        (Math.random() - 0.5) * 0.02
+      );
 
-    // Create multiple floating shapes
-    for (let i = 0; i < 15; i++) {
-      const geometry = geometryTypes[Math.floor(Math.random() * geometryTypes.length)]();
-      const material = new THREE.MeshStandardMaterial({
-        color: new THREE.Color().setHSL(
-          Math.random() * 0.2 + 0.5, // Cyan to purple range
-          0.7,
-          0.5 + Math.random() * 0.3
-        ),
-        metalness: 0.3,
-        roughness: 0.4,
-        emissive: new THREE.Color().setHSL(
-          Math.random() * 0.2 + 0.5,
-          0.8,
-          0.1
-        ),
-        transparent: true,
-        opacity: 0.6,
+      nodes.push({
+        position,
+        velocity,
+        basePosition,
       });
 
-      const mesh = new THREE.Mesh(geometry, material);
-      
-      // Random initial positions
-      mesh.position.set(
-        (Math.random() - 0.5) * 10,
-        (Math.random() - 0.5) * 10,
-        (Math.random() - 0.5) * 10
-      );
-      
-      // Random rotation speeds
-      (mesh as any).rotationSpeed = {
-        x: (Math.random() - 0.5) * 0.02,
-        y: (Math.random() - 0.5) * 0.02,
-        z: (Math.random() - 0.5) * 0.02,
-      };
-      
-      // Random float animation parameters
-      (mesh as any).floatSpeed = Math.random() * 0.01 + 0.005;
-      (mesh as any).floatAmplitude = Math.random() * 0.5 + 0.3;
-      (mesh as any).floatPhase = Math.random() * Math.PI * 2;
-      
-      scene.add(mesh);
-      meshes.push(mesh);
-    }
-    meshesRef.current = meshes;
+      // Set position
+      nodePositions[i * 3] = x;
+      nodePositions[i * 3 + 1] = y;
+      nodePositions[i * 3 + 2] = z;
 
-    // Create particle system for additional depth
-    const particleGeometry = new THREE.BufferGeometry();
-    const particleCount = 200;
-    const positions = new Float32Array(particleCount * 3);
-
-    for (let i = 0; i < particleCount * 3; i++) {
-      positions[i] = (Math.random() - 0.5) * 20;
+      // Set color (cyan to purple gradient)
+      const hue = 0.5 + (i / nodeCount) * 0.2;
+      const color = new THREE.Color().setHSL(hue, 0.8, 0.6);
+      nodeColors[i * 3] = color.r;
+      nodeColors[i * 3 + 1] = color.g;
+      nodeColors[i * 3 + 2] = color.b;
     }
 
-    particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    nodesRef.current = nodes;
 
-    const particleMaterial = new THREE.PointsMaterial({
-      color: 0x00d4ff,
-      size: 0.05,
+    // Create points geometry
+    const pointsGeometry = new THREE.BufferGeometry();
+    pointsGeometry.setAttribute('position', new THREE.BufferAttribute(nodePositions, 3));
+    pointsGeometry.setAttribute('color', new THREE.BufferAttribute(nodeColors, 3));
+
+    const pointsMaterial = new THREE.PointsMaterial({
+      size: 0.15,
+      vertexColors: true,
       transparent: true,
-      opacity: 0.6,
+      opacity: 0.4,
+      blending: THREE.AdditiveBlending,
+      sizeAttenuation: true,
+    });
+
+    const points = new THREE.Points(pointsGeometry, pointsMaterial);
+    scene.add(points);
+    pointsRef.current = points;
+
+    // Create connections (lines) between nearby nodes
+    // Estimate max connections: each node can connect to many others
+    const maxConnections = nodeCount * 10; // Generous estimate
+    const linePositions = new Float32Array(maxConnections * 6); // 2 points per line, 3 coords each
+    const lineColors = new Float32Array(maxConnections * 6);
+
+    const linesGeometry = new THREE.BufferGeometry();
+    linesGeometry.setAttribute('position', new THREE.BufferAttribute(linePositions, 3));
+    linesGeometry.setAttribute('color', new THREE.BufferAttribute(lineColors, 3));
+
+    const linesMaterial = new THREE.LineBasicMaterial({
+      vertexColors: true,
+      transparent: true,
+      opacity: 0.3,
       blending: THREE.AdditiveBlending,
     });
 
-    const particles = new THREE.Points(particleGeometry, particleMaterial);
-    scene.add(particles);
+    const lines = new THREE.LineSegments(linesGeometry, linesMaterial);
+    scene.add(lines);
+    linesRef.current = lines;
 
     // Mouse interaction
     const handleMouseMove = (event: MouseEvent) => {
       mouseRef.current.x = (event.clientX / window.innerWidth) * 2 - 1;
       mouseRef.current.y = -(event.clientY / window.innerHeight) * 2 + 1;
+      
+      // Convert mouse position to 3D space
+      const vector = new THREE.Vector3(
+        mouseRef.current.x * 10,
+        mouseRef.current.y * 10,
+        0
+      );
+      mousePositionRef.current.lerp(vector, 0.1);
     };
 
     window.addEventListener('mousemove', handleMouseMove);
 
-    // Animation loop with performance optimization
-    let time = 0;
+    // Animation loop
+    let lastTime = performance.now();
     const animate = () => {
       animationFrameRef.current = requestAnimationFrame(animate);
-      time += 0.01;
+      
+      try {
+        const currentTime = performance.now();
+        const rawDeltaTime = (currentTime - lastTime) / 1000;
+        const deltaTime = Math.max(Math.min(rawDeltaTime, 0.1), 0.001);
+        lastTime = currentTime;
+        const time = currentTime / 1000;
 
-      // Animate meshes
-      meshes.forEach((mesh, index) => {
-        // Rotation
-        mesh.rotation.x += (mesh as any).rotationSpeed.x;
-        mesh.rotation.y += (mesh as any).rotationSpeed.y;
-        mesh.rotation.z += (mesh as any).rotationSpeed.z;
+        if (!sceneRef.current || !cameraRef.current || !rendererRef.current) return;
 
-        // Floating animation
-        const floatY = Math.sin(time * (mesh as any).floatSpeed + (mesh as any).floatPhase) * (mesh as any).floatAmplitude;
-        mesh.position.y += floatY * 0.01;
+        const nodes = nodesRef.current;
+        const points = pointsRef.current;
+        const lines = linesRef.current;
+        
+        if (!nodes || !points || !lines) return;
 
-        // Subtle mouse interaction
-        mesh.position.x += (mouseRef.current.x * 0.1 - mesh.position.x * 0.1) * 0.01;
-        mesh.position.y += (mouseRef.current.y * 0.1 - mesh.position.y * 0.1) * 0.01;
-      });
+        const positions = points.geometry.attributes.position.array as Float32Array;
+        const mousePos = mousePositionRef.current;
+        const mouseInfluenceRadius = 4;
+        const mouseRepulsionStrength = 0.8;
 
-      // Animate particles
-      particles.rotation.y += 0.001;
-      particles.rotation.x += 0.0005;
+        // Update node positions
+        for (let i = 0; i < nodes.length; i++) {
+          const node = nodes[i];
+          
+          // Mouse interaction - repulsion effect
+          const mouseDistance = node.position.distanceTo(mousePos);
+          if (mouseDistance < mouseInfluenceRadius && mouseDistance > 0) {
+            const direction = new THREE.Vector3()
+              .subVectors(node.position, mousePos)
+              .normalize();
+            const force = (mouseInfluenceRadius - mouseDistance) / mouseInfluenceRadius;
+            node.velocity.add(direction.multiplyScalar(force * mouseRepulsionStrength * deltaTime * 10));
+          }
 
-      // Subtle camera movement
-      camera.position.x += (mouseRef.current.x * 0.5 - camera.position.x) * 0.05;
-      camera.position.y += (mouseRef.current.y * 0.5 - camera.position.y) * 0.05;
-      camera.lookAt(scene.position);
+          // Smooth return to base position
+          const returnForce = 0.02;
+          node.velocity.x += (node.basePosition.x - node.position.x) * returnForce * deltaTime * 60;
+          node.velocity.y += (node.basePosition.y - node.position.y) * returnForce * deltaTime * 60;
+          node.velocity.z += (node.basePosition.z - node.position.z) * returnForce * deltaTime * 60;
 
-      // Animate lights
-      pointLight1.position.x = Math.sin(time) * 5;
-      pointLight1.position.y = Math.cos(time) * 5;
-      pointLight2.position.x = Math.cos(time * 0.7) * -5;
-      pointLight2.position.y = Math.sin(time * 0.7) * -5;
+          // Floating animation
+          const floatAmount = 0.3;
+          node.velocity.y += Math.sin(time * 0.5 + i * 0.1) * floatAmount * deltaTime;
+          node.velocity.x += Math.cos(time * 0.3 + i * 0.15) * floatAmount * 0.5 * deltaTime;
 
-      renderer.render(scene, camera);
+          // Apply velocity with damping
+          node.position.add(node.velocity);
+          node.velocity.multiplyScalar(0.95);
+
+          // Update positions array
+          positions[i * 3] = node.position.x;
+          positions[i * 3 + 1] = node.position.y;
+          positions[i * 3 + 2] = node.position.z;
+        }
+
+        points.geometry.attributes.position.needsUpdate = true;
+
+        // Update connections dynamically
+        const linePositions = lines.geometry.attributes.position.array as Float32Array;
+        const lineColors = lines.geometry.attributes.color.array as Float32Array;
+        let lineIndex = 0;
+
+        // Find and draw connections between nearby nodes
+        for (let i = 0; i < nodes.length; i++) {
+          for (let j = i + 1; j < nodes.length; j++) {
+            const distance = nodes[i].position.distanceTo(nodes[j].position);
+            
+            if (distance < connectionDistance && lineIndex < linePositions.length - 6) {
+              const nodeA = nodes[i];
+              const nodeB = nodes[j];
+
+              // Update line positions
+              linePositions[lineIndex] = nodeA.position.x;
+              linePositions[lineIndex + 1] = nodeA.position.y;
+              linePositions[lineIndex + 2] = nodeA.position.z;
+              
+              linePositions[lineIndex + 3] = nodeB.position.x;
+              linePositions[lineIndex + 4] = nodeB.position.y;
+              linePositions[lineIndex + 5] = nodeB.position.z;
+
+              // Update line colors based on distance (closer = brighter)
+              const opacity = Math.max(0, (1 - distance / connectionDistance) * 0.3);
+              const hue = 0.5 + (i / nodes.length) * 0.2;
+              const color = new THREE.Color().setHSL(hue, 0.7, 0.5);
+              
+              lineColors[lineIndex] = color.r * opacity;
+              lineColors[lineIndex + 1] = color.g * opacity;
+              lineColors[lineIndex + 2] = color.b * opacity;
+              
+              lineColors[lineIndex + 3] = color.r * opacity;
+              lineColors[lineIndex + 4] = color.g * opacity;
+              lineColors[lineIndex + 5] = color.b * opacity;
+
+              lineIndex += 6;
+            }
+          }
+        }
+
+        // Hide unused line segments by setting them to origin
+        for (let i = lineIndex; i < linePositions.length; i += 3) {
+          linePositions[i] = 0;
+          linePositions[i + 1] = 0;
+          linePositions[i + 2] = 0;
+          if (i < lineColors.length) {
+            lineColors[i] = 0;
+            lineColors[i + 1] = 0;
+            lineColors[i + 2] = 0;
+          }
+        }
+
+        lines.geometry.attributes.position.needsUpdate = true;
+        lines.geometry.attributes.color.needsUpdate = true;
+
+        // Subtle camera movement with mouse
+        const currentCamera = cameraRef.current;
+        if (currentCamera) {
+          const targetX = mouseRef.current.x * 1.5;
+          const targetY = mouseRef.current.y * 1.5;
+          currentCamera.position.x += (targetX - currentCamera.position.x) * 0.03;
+          currentCamera.position.y += (targetY - currentCamera.position.y) * 0.03;
+          currentCamera.lookAt(scene.position);
+        }
+
+        // Render
+        const currentRenderer = rendererRef.current;
+        const currentScene = sceneRef.current;
+        if (currentRenderer && currentScene && currentCamera) {
+          currentRenderer.render(currentScene, currentCamera);
+        }
+      } catch (error) {
+        console.error("Animation error:", error);
+      }
     };
 
     animate();
@@ -202,19 +315,25 @@ export const Hero3DBackground: React.FC<Hero3DBackgroundProps> = ({ className = 
       }
 
       // Dispose geometries and materials
-      meshes.forEach((mesh) => {
-        mesh.geometry.dispose();
-        if (Array.isArray(mesh.material)) {
-          mesh.material.forEach((mat) => mat.dispose());
+      if (pointsRef.current) {
+        pointsRef.current.geometry.dispose();
+        if (Array.isArray(pointsRef.current.material)) {
+          pointsRef.current.material.forEach((mat) => mat.dispose());
         } else {
-          mesh.material.dispose();
+          pointsRef.current.material.dispose();
         }
-        scene.remove(mesh);
-      });
+        scene.remove(pointsRef.current);
+      }
 
-      particleGeometry.dispose();
-      particleMaterial.dispose();
-      scene.remove(particles);
+      if (linesRef.current) {
+        linesRef.current.geometry.dispose();
+        if (Array.isArray(linesRef.current.material)) {
+          linesRef.current.material.forEach((mat) => mat.dispose());
+        } else {
+          linesRef.current.material.dispose();
+        }
+        scene.remove(linesRef.current);
+      }
 
       if (rendererRef.current && containerRef.current && containerRef.current.contains(rendererRef.current.domElement)) {
         containerRef.current.removeChild(rendererRef.current.domElement);
@@ -234,4 +353,3 @@ export const Hero3DBackground: React.FC<Hero3DBackgroundProps> = ({ className = 
     />
   );
 };
-
