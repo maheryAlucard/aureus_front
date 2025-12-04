@@ -296,6 +296,90 @@ export const Home: React.FC = () => {
         <Testimonials />
       </section>
 
+      {/* Team Teaser Section */}
+      <section className="bg-[#020205] py-24 border-y border-white/5">
+        <div className="mx-auto px-6 max-w-7xl">
+          <div className="flex justify-between items-end mb-12">
+            <div>
+              <h2 className="mb-2 font-bold text-white text-3xl md:text-4xl">L'Équipe derrière la Magie</h2>
+              <p className="text-gray-400">Des experts passionnés qui transforment vos idées en réalité.</p>
+            </div>
+            <Link 
+              to="/team" 
+              className="hidden md:flex items-center space-x-1 font-bold text-white hover:text-blue-400 text-sm transition-colors"
+            >
+              <span>Voir toute l'équipe</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+            {[
+              {
+                name: 'Alexandre Dubois',
+                role: 'Lead Developer & Tech Architect',
+                division: Division.TECH,
+                photo: 'https://i.pravatar.cc/300?img=12',
+                bio: 'Expert en architecture cloud et automatisation IA.'
+              },
+              {
+                name: 'Sophie Martin',
+                role: 'Creative Director & Video Producer',
+                division: Division.STUDIO,
+                photo: 'https://i.pravatar.cc/300?img=47',
+                bio: 'Passionnée par la narration visuelle et le color grading.'
+              },
+              {
+                name: 'Thomas Leroy',
+                role: 'Brand Strategist & Growth Hacker',
+                division: Division.BRAND,
+                photo: 'https://i.pravatar.cc/300?img=33',
+                bio: 'Spécialiste en stratégie de marque et croissance.'
+              }
+            ].map((member, idx) => {
+              const config = DIVISION_CONFIG[member.division];
+              return (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: idx * 0.1 }}
+                  className="group relative bg-[#0a0a16] border border-white/10 rounded-2xl overflow-hidden hover:border-white/20 transition-all duration-300"
+                >
+                  <div className="relative aspect-[4/5] overflow-hidden bg-gradient-to-br from-gray-800 to-gray-900">
+                    <img
+                      src={member.photo}
+                      alt={member.name}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                    />
+                    <div className={`absolute inset-0 bg-gradient-to-t ${config.gradient} opacity-0 group-hover:opacity-20 transition-opacity duration-300`} />
+                  </div>
+                  <div className="p-6">
+                    <div className="mb-2">
+                      <span className={`text-xs font-bold ${config.color}`}>{config.label}</span>
+                    </div>
+                    <h3 className="text-xl font-bold text-white mb-1">{member.name}</h3>
+                    <p className="text-gray-400 text-sm mb-3">{member.role}</p>
+                    <p className="text-gray-300 text-sm leading-relaxed">{member.bio}</p>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
+
+          <div className="text-center md:hidden">
+            <Link 
+              to="/team" 
+              className="inline-flex items-center space-x-2 font-bold text-white hover:text-blue-400 text-sm transition-colors"
+            >
+              <span>Voir toute l'équipe</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* NEW SECTION 4: Blog Preview */}
       <section className="mx-auto px-6 py-24 max-w-7xl">
         <div className="flex justify-between items-end mb-12">

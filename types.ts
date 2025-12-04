@@ -79,6 +79,19 @@ export interface Testimonial {
   videoUrl?: string;
 }
 
+export interface TeamMember {
+  id: string;
+  name: string;
+  role: string;
+  division: Division;
+  bio: string;
+  photo: string;
+  expertise: string[];
+  linkedin?: string;
+  email?: string;
+  featured?: boolean;
+}
+
 export const DIVISION_CONFIG = {
   [Division.TECH]: {
     color: 'text-cyan-400',

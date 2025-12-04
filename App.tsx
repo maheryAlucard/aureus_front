@@ -13,6 +13,7 @@ import { Blog } from './pages/Blog';
 import { BlogPost } from './pages/BlogPost';
 import { ProjectDetail } from './pages/ProjectDetail';
 import { SearchResults } from './pages/SearchResults';
+import { Team } from './pages/Team';
 import { AdminDashboard } from './pages/Admin';
 import { Login } from './pages/Login';
 import { Register } from './pages/Register';
@@ -55,6 +56,7 @@ export default function App() {
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:slug" element={<BlogPost />} />
           <Route path="/search" element={<SearchResults />} />
+          <Route path="/team" element={<Team />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/admin/login" element={<Login />} />
           <Route path="/register" element={<Register />} />

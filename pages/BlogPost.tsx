@@ -226,7 +226,7 @@ En conclusion, ${post.title.toLowerCase()} représente une opportunité signific
         <LeadMagnet
           title="Guide Gratuit"
           description="Vous avez aimé cet article ? Téléchargez notre guide complet sur le même sujet."
-          offer="Guide Complet : " + post.title
+          offer={`Guide Complet : ${post.title}`}
         />
       </div>
 

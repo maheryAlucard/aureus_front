@@ -90,6 +90,7 @@ export const Navbar: React.FC = () => {
 
             <Link to="/work" className="font-medium text-gray-300 hover:text-white text-sm transition-colors">Réalisations</Link>
             <Link to="/pricing" className="font-medium text-gray-300 hover:text-white text-sm transition-colors">Tarifs</Link>
+            <Link to="/team" className="font-medium text-gray-300 hover:text-white text-sm transition-colors">Équipe</Link>
             <Link to="/blog" className="font-medium text-gray-300 hover:text-white text-sm transition-colors">Blog</Link>
           </div>
 
@@ -183,6 +184,7 @@ export const Navbar: React.FC = () => {
 
               <Link to="/work" className="block font-medium text-white text-lg" onClick={() => setIsOpen(false)}>Réalisations</Link>
               <Link to="/pricing" className="block font-medium text-white text-lg" onClick={() => setIsOpen(false)}>Tarifs</Link>
+              <Link to="/team" className="block font-medium text-white text-lg" onClick={() => setIsOpen(false)}>Équipe</Link>
               <Link to="/blog" className="block font-medium text-white text-lg" onClick={() => setIsOpen(false)}>Blog</Link>
               <Link to="/contact" className="block font-medium text-white text-lg" onClick={() => setIsOpen(false)}>Contact</Link>
               
