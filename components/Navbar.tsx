@@ -3,7 +3,6 @@ import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, ChevronDown, Lock } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Division, DIVISION_CONFIG } from '../types';
-import aureusLogo from '@public/images/logo aureus.png';
 
 export const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -33,7 +32,7 @@ export const Navbar: React.FC = () => {
           {/* Logo */}
           <Link to="/" className="group flex items-center space-x-2">
             <img
-              src={aureusLogo}
+              src="/images/logo aureus.png"
               alt="Aureus logo"
               className="w-auto h-9 group-hover:scale-105 transition-transform duration-500"
             />
