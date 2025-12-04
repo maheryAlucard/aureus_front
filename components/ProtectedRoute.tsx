@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import { authService } from '../services/authService';
 
 interface ProtectedRouteProps {
@@ -7,8 +7,13 @@ interface ProtectedRouteProps {
 }
 
 export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
-  if (!authService.isAuthenticated()) {
-    return <Navigate to="/admin/login" replace />;
+  const location = useLocation();
+  const isAuthenticated = authService.isAuthenticated();
+
+  if (!isAuthenticated) {
+    // Redirect to register for devis generator, login for admin
+    const redirectTo = location.pathname === '/devis' ? '/register' : '/admin/login';
+    return <Navigate to={redirectTo} state={{ from: location }} replace />;
   }
 
   return <>{children}</>;

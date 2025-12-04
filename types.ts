@@ -43,6 +43,21 @@ export interface PricingTier {
   highlight?: boolean;
 }
 
+export interface Devis {
+  id: string;
+  clientName: string;
+  clientEmail: string;
+  companyName?: string;
+  division: Division;
+  projectDescription: string;
+  budget?: string;
+  deadline?: string;
+  additionalRequirements?: string;
+  generatedContent: string;
+  createdAt: string;
+  userId: string;
+}
+
 export const DIVISION_CONFIG = {
   [Division.TECH]: {
     color: 'text-cyan-400',

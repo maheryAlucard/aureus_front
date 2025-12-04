@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { authService } from '../services/authService';
 import { Lock, User, AlertCircle } from 'lucide-react';
 
@@ -9,6 +9,7 @@ export const Login: React.FC = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -18,7 +19,9 @@ export const Login: React.FC = () => {
     try {
       const result = await authService.login(username, password);
       if (result.success) {
-        navigate('/admin');
+        // Redirect to the intended destination or default to /admin
+        const from = (location.state as any)?.from?.pathname || '/admin';
+        navigate(from === '/devis' ? '/devis' : '/admin');
       } else {
         setError(result.error || 'Erreur de connexion');
       }
@@ -92,6 +95,15 @@ export const Login: React.FC = () => {
               {loading ? 'Connexion...' : 'Se connecter'}
             </button>
           </form>
+
+          <div className="mt-6 text-center">
+            <p className="text-gray-500 text-sm">
+              Vous n'avez pas de compte ?{' '}
+              <Link to="/register" className="font-medium text-cyan-400 hover:text-cyan-300 transition-colors">
+                S'inscrire
+              </Link>
+            </p>
+          </div>
 
           <div className="bg-white/5 mt-6 p-4 border border-white/5 rounded-lg">
             <p className="text-gray-500 text-xs text-center">

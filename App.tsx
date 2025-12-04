@@ -11,6 +11,8 @@ import { Pricing } from './pages/Pricing';
 import { Blog } from './pages/Blog';
 import { AdminDashboard } from './pages/Admin';
 import { Login } from './pages/Login';
+import { Register } from './pages/Register';
+import { DevisGenerator } from './pages/DevisGenerator';
 import { ProtectedRoute } from './components/ProtectedRoute';
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -39,11 +41,20 @@ export default function App() {
           <Route path="/blog" element={<Blog />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/admin/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
           <Route 
             path="/admin" 
             element={
               <ProtectedRoute>
                 <AdminDashboard />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/devis" 
+            element={
+              <ProtectedRoute>
+                <DevisGenerator />
               </ProtectedRoute>
             } 
           />

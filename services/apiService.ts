@@ -319,6 +319,32 @@ export const apiService = {
       return { success: false, error: 'Identifiants incorrects' };
     },
     
+    register: async (username: string, email: string, password: string): Promise<{ success: boolean; user?: { username: string; email: string }; error?: string; token?: string }> => {
+      await delay(800);
+      // In production: 
+      // const response = await apiClient.post('/auth/register', { username, email, password });
+      // return response.data;
+      
+      // Mock: Check if user exists (simplified - in production this would check a database)
+      const existingUsers = JSON.parse(localStorage.getItem('registered_users') || '[]');
+      if (existingUsers.find((u: any) => u.username === username || u.email === email)) {
+        return { success: false, error: 'Un utilisateur avec ce nom d\'utilisateur ou cet email existe déjà' };
+      }
+      
+      if (password.length < 6) {
+        return { success: false, error: 'Le mot de passe doit contenir au moins 6 caractères' };
+      }
+      
+      const user = { username, email };
+      existingUsers.push({ username, email, password });
+      localStorage.setItem('registered_users', JSON.stringify(existingUsers));
+      
+      const token = 'mock_token_' + Date.now();
+      localStorage.setItem('auth_user', JSON.stringify(user));
+      localStorage.setItem('auth_token', token);
+      return { success: true, user, token };
+    },
+    
     logout: async (): Promise<void> => {
       await delay(200);
       // In production: await apiClient.post('/auth/logout');

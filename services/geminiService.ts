@@ -82,3 +82,72 @@ Historique de la conversation :
     return "Erreur lors de l'envoi du message. Veuillez réessayer.";
   }
 };
+
+export interface DevisGenerationParams {
+  clientName: string;
+  clientEmail: string;
+  companyName?: string;
+  division: string;
+  projectDescription: string;
+  budget?: string;
+  deadline?: string;
+  additionalRequirements?: string;
+}
+
+export const generateDevis = async (params: DevisGenerationParams): Promise<string> => {
+  const ai = getAiClient();
+  if (!ai) {
+    return "Configuration AI manquante. Veuillez définir VITE_GEMINI_API_KEY.";
+  }
+
+  try {
+    const divisionInfo = {
+      'TECH': 'Aureus Tech - Développement web/app, automatisation & IA, consulting tech',
+      'STUDIO': 'Aureus Studio - Vidéo, 3D, VFX, production et post-production',
+      'BRAND': 'Aureus Brand - Branding, identité visuelle, growth & social media'
+    };
+
+    const prompt = `Tu es un expert en rédaction de devis professionnels pour Aureus, une agence digitale premium.
+
+Génère un devis complet et professionnel en français pour le projet suivant :
+
+**Informations client :**
+- Nom : ${params.clientName}
+- Email : ${params.clientEmail}
+${params.companyName ? `- Entreprise : ${params.companyName}` : ''}
+
+**Projet :**
+- Division : ${divisionInfo[params.division as keyof typeof divisionInfo] || params.division}
+- Description : ${params.projectDescription}
+${params.budget ? `- Budget estimé : ${params.budget}` : ''}
+${params.deadline ? `- Délai souhaité : ${params.deadline}` : ''}
+${params.additionalRequirements ? `- Exigences supplémentaires : ${params.additionalRequirements}` : ''}
+
+**Instructions :**
+1. Structure le devis de manière professionnelle avec :
+   - Un en-tête avec les informations de contact d'Aureus
+   - Une section "Objet du devis" décrivant le projet
+   - Une section "Prestations proposées" détaillant les services
+   - Une section "Délais de réalisation"
+   - Une section "Tarification" (si budget fourni, l'utiliser comme référence, sinon proposer une estimation)
+   - Une section "Conditions générales"
+   - Une section "Prochaines étapes"
+
+2. Sois précis, professionnel et orienté résultats
+3. Adapte le ton selon la division (Tech = technique et précis, Studio = créatif et visuel, Brand = stratégique et marketing)
+4. Inclus des détails pertinents basés sur la description du projet
+5. Utilise un format clair et structuré avec des titres de sections
+
+Génère maintenant le devis complet :`;
+
+    const response = await ai.models.generateContent({
+      model: 'gemini-2.5-flash',
+      contents: prompt,
+    });
+
+    return response.text || "Échec de la génération du devis.";
+  } catch (error) {
+    console.error("Gemini Devis Generation Error:", error);
+    return "Erreur lors de la génération du devis. Veuillez réessayer.";
+  }
+};

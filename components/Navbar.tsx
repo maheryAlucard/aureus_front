@@ -86,6 +86,13 @@ export const Navbar: React.FC = () => {
           {/* CTA & Login */}
           <div className="hidden md:flex items-center space-x-4">
             <Link 
+              to="/devis"
+              className="flex items-center space-x-2 text-cyan-400 hover:text-cyan-300 text-sm transition-colors"
+              title="Générateur de Devis"
+            >
+              <span>Devis IA</span>
+            </Link>
+            <Link 
               to="/admin/login"
               className="flex items-center space-x-2 text-gray-400 hover:text-white text-sm transition-colors"
               title="Connexion Admin"
@@ -141,6 +148,14 @@ export const Navbar: React.FC = () => {
               <Link to="/pricing" className="block font-medium text-white text-lg" onClick={() => setIsOpen(false)}>Tarifs</Link>
               <Link to="/blog" className="block font-medium text-white text-lg" onClick={() => setIsOpen(false)}>Blog</Link>
               <Link to="/contact" className="block font-medium text-white text-lg" onClick={() => setIsOpen(false)}>Contact</Link>
+              
+              <Link 
+                to="/devis"
+                onClick={() => setIsOpen(false)}
+                className="block py-3 border border-cyan-500/20 rounded-lg w-full font-medium text-cyan-400 hover:text-cyan-300 text-center transition-colors"
+              >
+                Générateur de Devis IA
+              </Link>
               
               <Link 
                 to="/admin/login"
