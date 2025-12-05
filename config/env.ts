@@ -5,12 +5,12 @@
 
 export const env = {
   // API Configuration
-  apiBaseUrl: import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api',
-  
+  apiBaseUrl: (import.meta as any).env.VITE_API_BASE_URL || 'http://localhost:3000/api',
+
   // Gemini AI Configuration
-  geminiApiKey: import.meta.env.VITE_GEMINI_API_KEY || '',
-  
+  geminiApiKey: (import.meta as any).env.VITE_GEMINI_API_KEY || '',
+
   // Google Analytics Configuration
-  gaMeasurementId: import.meta.env.VITE_GA_MEASUREMENT_ID || '',
+  gaMeasurementId: (import.meta as any).env.VITE_GA_MEASUREMENT_ID || '',
 } as const;
 

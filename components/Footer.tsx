@@ -24,7 +24,7 @@ export const Footer: React.FC = () => {
   const defaultDescription = "La rencontre du code et de l'art pour bâtir la prochaine génération d'infrastructures digitales.";
   const footerDescription = settings?.footerDescription || defaultDescription;
   const socialLinks = settings?.socialLinks || {};
-  const isProduction = import.meta.env.PROD;
+  const isProduction = (import.meta as any).env.PROD;
 
   // Helper function to get link path - returns 404 in production, actual path in dev
   const getLinkPath = (path: string) => {
@@ -81,8 +81,8 @@ export const Footer: React.FC = () => {
               const config = DIVISION_CONFIG[div];
               return (
                 <li key={div} className="transition-colors">
-                  <Link 
-                    to={getLinkPath(`/solutions?division=${div}`)} 
+                  <Link
+                    to={getLinkPath(`/solutions?division=${div}`)}
                     className={`${config.color} hover:opacity-80 transition-colors`}
                   >
                     {config.label}
@@ -114,13 +114,13 @@ export const Footer: React.FC = () => {
           </div>
         </div>
       </div>
-      
+
       {/* SEO Cloud (Subtle/Hidden for aesthetics but present for semantics) */}
       <div className="mx-auto mt-12 px-6 pt-8 border-white/5 border-t max-w-7xl">
         <div className="flex flex-wrap justify-center gap-2 opacity-10 text-[10px] text-gray-500 select-none">
-           <span>Développement Web Paris</span> • <span>Agence IA</span> • <span>Production Vidéo Mariage</span> • 
-           <span>Agence Branding Startup</span> • <span>Développement App Mobile</span> • <span>Montage Vidéo Corporate</span> • 
-           <span>Automatisation Business</span> • <span>Transformation Digitale</span> • <span>Design UX/UI</span>
+          <span>Développement Web Paris</span> • <span>Agence IA</span> • <span>Production Vidéo Mariage</span> •
+          <span>Agence Branding Startup</span> • <span>Développement App Mobile</span> • <span>Montage Vidéo Corporate</span> •
+          <span>Automatisation Business</span> • <span>Transformation Digitale</span> • <span>Design UX/UI</span>
         </div>
         <div className="mt-4 text-gray-600 text-xs text-center">
           &copy; {new Date().getFullYear()} Agence Digitale Aureus. Tous droits réservés.
