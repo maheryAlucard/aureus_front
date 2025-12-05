@@ -4,98 +4,6 @@ import { Division, DIVISION_CONFIG, TeamMember } from '../types';
 import { Linkedin, Mail, Code, Film, Zap, Filter, Loader2 } from 'lucide-react';
 import { useSEO } from '../hooks/useSEO';
 import { useTeamMembers } from '../hooks/useTeamMembers';
-  {
-    id: '1',
-    name: 'Alexandre Dubois',
-    role: 'Lead Developer & Tech Architect',
-    division: Division.TECH,
-    bio: 'Expert en architecture cloud et automatisation IA. Transforme les idées complexes en systèmes scalables.',
-    photo: 'https://i.pravatar.cc/300?img=12',
-    expertise: ['React', 'Python', 'AWS', 'IA/ML'],
-    linkedin: 'https://linkedin.com',
-    email: 'alexandre@aureus.digital',
-    featured: true
-  },
-  {
-    id: '2',
-    name: 'Sophie Martin',
-    role: 'Creative Director & Video Producer',
-    division: Division.STUDIO,
-    bio: 'Passionnée par la narration visuelle et le color grading. Crée des expériences cinématographiques mémorables.',
-    photo: 'https://i.pravatar.cc/300?img=47',
-    expertise: ['DaVinci Resolve', 'After Effects', 'Cinema 4D', 'Direction Artistique'],
-    linkedin: 'https://linkedin.com',
-    email: 'sophie@aureus.digital',
-    featured: true
-  },
-  {
-    id: '3',
-    name: 'Thomas Leroy',
-    role: 'Brand Strategist & Growth Hacker',
-    division: Division.BRAND,
-    bio: 'Spécialiste en stratégie de marque et croissance. Construit des communautés engagées et des identités fortes.',
-    photo: 'https://i.pravatar.cc/300?img=33',
-    expertise: ['Branding', 'Social Media', 'Growth Marketing', 'UX/UI'],
-    linkedin: 'https://linkedin.com',
-    email: 'thomas@aureus.digital',
-    featured: true
-  },
-  {
-    id: '4',
-    name: 'Marie Chen',
-    role: 'Full-Stack Developer',
-    division: Division.TECH,
-    bio: 'Développeuse polyvalente spécialisée en applications modernes et interfaces utilisateur intuitives.',
-    photo: 'https://i.pravatar.cc/300?img=20',
-    expertise: ['Next.js', 'TypeScript', 'PostgreSQL', 'Docker'],
-    linkedin: 'https://linkedin.com',
-    email: 'marie@aureus.digital'
-  },
-  {
-    id: '5',
-    name: 'Lucas Bernard',
-    role: 'VFX Artist & Motion Designer',
-    division: Division.STUDIO,
-    bio: 'Artiste VFX créant des effets visuels époustouflants et des animations fluides pour le web et le cinéma.',
-    photo: 'https://i.pravatar.cc/300?img=51',
-    expertise: ['VFX', 'Motion Design', 'Unreal Engine', 'Blender'],
-    linkedin: 'https://linkedin.com',
-    email: 'lucas@aureus.digital'
-  },
-  {
-    id: '6',
-    name: 'Emma Rousseau',
-    role: 'UI/UX Designer & Brand Designer',
-    division: Division.BRAND,
-    bio: 'Designer créative transformant les concepts en identités visuelles cohérentes et interfaces utilisateur élégantes.',
-    photo: 'https://i.pravatar.cc/300?img=32',
-    expertise: ['Figma', 'Branding', 'UI/UX', 'Design System'],
-    linkedin: 'https://linkedin.com',
-    email: 'emma@aureus.digital'
-  },
-  {
-    id: '7',
-    name: 'Nicolas Petit',
-    role: 'DevOps Engineer & Automation Specialist',
-    division: Division.TECH,
-    bio: 'Expert en infrastructure cloud et CI/CD. Automatise les déploiements pour une livraison continue.',
-    photo: 'https://i.pravatar.cc/300?img=15',
-    expertise: ['Kubernetes', 'Terraform', 'CI/CD', 'Monitoring'],
-    linkedin: 'https://linkedin.com',
-    email: 'nicolas@aureus.digital'
-  },
-  {
-    id: '8',
-    name: 'Camille Moreau',
-    role: 'Video Editor & Colorist',
-    division: Division.STUDIO,
-    bio: 'Monteuse et étalonneuse passionnée. Donne vie aux images avec un sens aigu du rythme et de la couleur.',
-    photo: 'https://i.pravatar.cc/300?img=45',
-    expertise: ['Montage', 'Color Grading', 'Sound Design', 'Post-Production'],
-    linkedin: 'https://linkedin.com',
-    email: 'camille@aureus.digital'
-  }
-];
 
 const getDivisionIcon = (division: Division) => {
   switch (division) {
@@ -118,8 +26,8 @@ export const Team: React.FC = () => {
     fetchTeamMembers();
   }, [fetchTeamMembers]);
 
-  const filteredMembers = selectedDivision === 'ALL' 
-    ? teamMembers 
+  const filteredMembers = selectedDivision === 'ALL'
+    ? teamMembers
     : teamMembers.filter(member => member.division === selectedDivision);
 
   useSEO({
@@ -149,7 +57,7 @@ export const Team: React.FC = () => {
             L'Équipe Aureus
           </h1>
           <p className="mx-auto max-w-2xl text-gray-400 text-xl leading-relaxed">
-            Des experts passionnés qui transforment vos idées en réalité. 
+            Des experts passionnés qui transforment vos idées en réalité.
             Une fusion unique de créativité, technologie et stratégie.
           </p>
         </motion.div>
@@ -161,11 +69,10 @@ export const Team: React.FC = () => {
           <Filter className="w-5 h-5 text-gray-400" />
           <button
             onClick={() => setSelectedDivision('ALL')}
-            className={`px-6 py-2 rounded-full font-medium text-sm transition-all ${
-              selectedDivision === 'ALL'
+            className={`px-6 py-2 rounded-full font-medium text-sm transition-all ${selectedDivision === 'ALL'
                 ? 'bg-white/10 text-white border border-white/20'
                 : 'bg-white/5 text-gray-400 hover:text-white border border-white/5'
-            }`}
+              }`}
           >
             Tous
           </button>
@@ -176,11 +83,10 @@ export const Team: React.FC = () => {
               <button
                 key={div}
                 onClick={() => setSelectedDivision(div)}
-                className={`px-6 py-2 rounded-full font-medium text-sm transition-all flex items-center space-x-2 ${
-                  selectedDivision === div
+                className={`px-6 py-2 rounded-full font-medium text-sm transition-all flex items-center space-x-2 ${selectedDivision === div
                     ? `${config.bg} ${config.color} border ${config.border}`
                     : 'bg-white/5 text-gray-400 hover:text-white border border-white/5'
-                }`}
+                  }`}
               >
                 <Icon className="w-4 h-4" />
                 <span>{config.label}</span>
@@ -201,7 +107,7 @@ export const Team: React.FC = () => {
             {filteredMembers.map((member, index) => {
               const config = DIVISION_CONFIG[member.division];
               const Icon = getDivisionIcon(member.division);
-              
+
               return (
                 <motion.div
                   key={member.id}
@@ -302,7 +208,7 @@ export const Team: React.FC = () => {
             Rejoignez Notre Équipe
           </h2>
           <p className="mx-auto mb-8 max-w-2xl text-gray-400">
-            Vous êtes passionné par la technologie, la créativité ou le marketing ? 
+            Vous êtes passionné par la technologie, la créativité ou le marketing ?
             Nous recherchons toujours des talents pour renforcer nos divisions.
           </p>
           <a
