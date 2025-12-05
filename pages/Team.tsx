@@ -70,8 +70,8 @@ export const Team: React.FC = () => {
           <button
             onClick={() => setSelectedDivision('ALL')}
             className={`px-6 py-2 rounded-full font-medium text-sm transition-all ${selectedDivision === 'ALL'
-                ? 'bg-white/10 text-white border border-white/20'
-                : 'bg-white/5 text-gray-400 hover:text-white border border-white/5'
+              ? 'bg-white/10 text-white border border-white/20'
+              : 'bg-white/5 text-gray-400 hover:text-white border border-white/5'
               }`}
           >
             Tous
@@ -84,8 +84,8 @@ export const Team: React.FC = () => {
                 key={div}
                 onClick={() => setSelectedDivision(div)}
                 className={`px-6 py-2 rounded-full font-medium text-sm transition-all flex items-center space-x-2 ${selectedDivision === div
-                    ? `${config.bg} ${config.color} border ${config.border}`
-                    : 'bg-white/5 text-gray-400 hover:text-white border border-white/5'
+                  ? `${config.bg} ${config.color} border ${config.border}`
+                  : 'bg-white/5 text-gray-400 hover:text-white border border-white/5'
                   }`}
               >
                 <Icon className="w-4 h-4" />

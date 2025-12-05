@@ -16,6 +16,7 @@ import { SearchResults } from './pages/SearchResults';
 import { Team } from './pages/Team';
 import { Register } from './pages/Register';
 import { DevisGenerator } from './pages/DevisGenerator';
+import { NotFound } from './pages/NotFound';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { BackToTop } from './components/BackToTop';
 import { CookieConsent } from './components/CookieConsent';
@@ -59,6 +60,7 @@ export default function App() {
               </ProtectedRoute>
             }
           />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Layout>
     </Router>

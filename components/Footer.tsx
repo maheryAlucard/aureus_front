@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Hexagon, Github, Twitter, Linkedin } from 'lucide-react';
 import { NewsletterSignup } from './NewsletterSignup';
 import { apiService } from '../services/apiService';
 import { SiteSettings } from '../types';
+import { Division, DIVISION_CONFIG } from '../types';
 
 export const Footer: React.FC = () => {
   const [settings, setSettings] = useState<SiteSettings | null>(null);
@@ -22,6 +24,12 @@ export const Footer: React.FC = () => {
   const defaultDescription = "La rencontre du code et de l'art pour bâtir la prochaine génération d'infrastructures digitales.";
   const footerDescription = settings?.footerDescription || defaultDescription;
   const socialLinks = settings?.socialLinks || {};
+  const isProduction = import.meta.env.PROD;
+
+  // Helper function to get link path - returns 404 in production, actual path in dev
+  const getLinkPath = (path: string) => {
+    return isProduction ? '/404' : path;
+  };
 
   return (
     <footer className="bg-[#020205] py-12 md:py-20 border-white/5 border-t">
@@ -42,39 +50,48 @@ export const Footer: React.FC = () => {
           </div>
         </div>
 
-        {settings?.footerLinks && (
-          <>
-            {settings.footerLinks.filter(link => link.category === 'divisions').length > 0 && (
-              <div>
-                <h4 className="mb-4 font-bold text-white">Divisions</h4>
-                <ul className="space-y-2 text-gray-400 text-sm">
-                  {settings.footerLinks
-                    .filter(link => link.category === 'divisions')
-                    .map(link => (
-                      <li key={link.id} className="hover:text-cyan-400 transition-colors">
-                        <a href={link.url}>{link.label}</a>
-                      </li>
-                    ))}
-                </ul>
-              </div>
-            )}
+        <div>
+          <h4 className="mb-4 font-bold text-white">Navigation</h4>
+          <ul className="space-y-2 text-gray-400 text-sm">
+            <li className="hover:text-white transition-colors">
+              <Link to={getLinkPath('/')}>Accueil</Link>
+            </li>
+            <li className="hover:text-white transition-colors">
+              <Link to={getLinkPath('/work')}>Réalisations</Link>
+            </li>
+            <li className="hover:text-white transition-colors">
+              <Link to={getLinkPath('/pricing')}>Tarifs</Link>
+            </li>
+            <li className="hover:text-white transition-colors">
+              <Link to={getLinkPath('/team')}>Équipe</Link>
+            </li>
+            <li className="hover:text-white transition-colors">
+              <Link to={getLinkPath('/blog')}>Blog</Link>
+            </li>
+            <li className="hover:text-white transition-colors">
+              <Link to={getLinkPath('/contact')}>Contact</Link>
+            </li>
+          </ul>
+        </div>
 
-            {settings.footerLinks.filter(link => link.category === 'company').length > 0 && (
-              <div>
-                <h4 className="mb-4 font-bold text-white">Entreprise</h4>
-                <ul className="space-y-2 text-gray-400 text-sm">
-                  {settings.footerLinks
-                    .filter(link => link.category === 'company')
-                    .map(link => (
-                      <li key={link.id} className="hover:text-white transition-colors">
-                        <a href={link.url}>{link.label}</a>
-                      </li>
-                    ))}
-                </ul>
-              </div>
-            )}
-          </>
-        )}
+        <div>
+          <h4 className="mb-4 font-bold text-white">Solutions</h4>
+          <ul className="space-y-2 text-gray-400 text-sm">
+            {Object.values(Division).map((div) => {
+              const config = DIVISION_CONFIG[div];
+              return (
+                <li key={div} className="transition-colors">
+                  <Link 
+                    to={getLinkPath(`/solutions?division=${div}`)} 
+                    className={`${config.color} hover:opacity-80 transition-colors`}
+                  >
+                    {config.label}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
 
         <div>
           <h4 className="mb-4 font-bold text-white">Réseaux</h4>
