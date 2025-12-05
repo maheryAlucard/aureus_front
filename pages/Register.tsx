@@ -135,7 +135,7 @@ export const Register: React.FC = () => {
             <button
               type="submit"
               disabled={authLoading}
-              className="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 disabled:opacity-50 py-3 rounded-lg w-full font-bold text-white transition-all disabled:cursor-not-allowed"
+              className="bg-gradient-to-r from-cyan-500 hover:from-cyan-400 to-blue-600 hover:to-blue-500 disabled:opacity-50 py-3 rounded-lg w-full font-bold text-white transition-all disabled:cursor-not-allowed"
             >
               {authLoading ? 'Inscription...' : 'S\'inscrire'}
             </button>
@@ -144,8 +144,8 @@ export const Register: React.FC = () => {
           <div className="mt-6 text-center">
             <p className="text-gray-500 text-sm">
               Vous avez déjà un compte ?{' '}
-              <Link to="/admin/login" className="text-cyan-400 hover:text-cyan-300 font-medium transition-colors">
-                Se connecter
+              <Link to="/devis" className="font-medium text-cyan-400 hover:text-cyan-300 transition-colors">
+                Accéder au générateur de devis
               </Link>
             </p>
           </div>

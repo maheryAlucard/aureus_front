@@ -26,9 +26,8 @@ export const Navbar: React.FC = () => {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled || isOpen ? 'bg-[#050510]/90 backdrop-blur-xl border-b border-white/5' : 'bg-transparent'
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled || isOpen ? 'bg-[#050510]/90 backdrop-blur-xl border-b border-white/5' : 'bg-transparent'
+        }`}
     >
       <div className="mx-auto px-6 max-w-7xl">
         <div className="flex justify-between items-center h-20">
@@ -51,8 +50,8 @@ export const Navbar: React.FC = () => {
               <Search className="w-5 h-5" />
             </button>
             <Link to="/" className="font-medium text-gray-300 hover:text-white text-sm transition-colors">Accueil</Link>
-            
-            <div 
+
+            <div
               className="group relative"
               onMouseEnter={() => setSolutionsOpen(true)}
               onMouseLeave={() => setSolutionsOpen(false)}
@@ -61,7 +60,7 @@ export const Navbar: React.FC = () => {
                 <span>Solutions</span>
                 <ChevronDown className={`w-4 h-4 transition-transform ${solutionsOpen ? 'rotate-180' : ''}`} />
               </button>
-              
+
               <AnimatePresence>
                 {solutionsOpen && (
                   <motion.div
@@ -72,8 +71,8 @@ export const Navbar: React.FC = () => {
                   >
                     <div className="gap-4 grid grid-cols-3 bg-[#0a0a16] shadow-2xl shadow-blue-900/10 p-6 border border-white/10 rounded-xl">
                       {Object.values(Division).map((div) => (
-                        <Link 
-                          key={div} 
+                        <Link
+                          key={div}
                           to={`/solutions?division=${div}`}
                           className="group/card block hover:bg-white/5 p-4 rounded-lg text-center transition-colors"
                         >
@@ -96,22 +95,24 @@ export const Navbar: React.FC = () => {
 
           {/* CTA & Login */}
           <div className="hidden md:flex items-center space-x-4">
-            <Link 
+            <Link
               to="/devis"
               className="flex items-center space-x-2 text-cyan-400 hover:text-cyan-300 text-sm transition-colors"
               title="Générateur de Devis"
             >
               <span>Devis IA</span>
             </Link>
-            <Link 
-              to="/admin/login"
+            <a
+              href="https://admin.aureus.mg"
+              target="_blank"
+              rel="noopener noreferrer"
               className="flex items-center space-x-2 text-gray-400 hover:text-white text-sm transition-colors"
               title="Connexion Admin"
             >
               <Lock className="w-4 h-4" />
               <span>Admin</span>
-            </Link>
-            <Link 
+            </a>
+            <Link
               to="/contact"
               onClick={() => analytics.trackButtonClick('Démarrer un Projet', 'navbar')}
               className="bg-blue-600 hover:bg-blue-700 hover:shadow-[0_0_20px_-5px_rgba(37,99,235,0.5)] px-5 py-2 rounded-full font-bold text-white text-sm transition-all"
@@ -121,7 +122,7 @@ export const Navbar: React.FC = () => {
           </div>
 
           {/* Mobile Toggle */}
-          <button 
+          <button
             className="md:hidden text-gray-300 hover:text-white"
             onClick={() => setIsOpen(!isOpen)}
           >
@@ -167,12 +168,12 @@ export const Navbar: React.FC = () => {
                 <SearchBar variant="compact" onClose={() => setIsOpen(false)} />
               </div>
               <Link to="/" className="block font-medium text-white text-lg" onClick={() => setIsOpen(false)}>Accueil</Link>
-              
+
               <div className="space-y-3">
                 <p className="font-bold text-gray-500 text-xs uppercase tracking-widest">Solutions</p>
                 {Object.values(Division).map((div) => (
-                  <Link 
-                    key={div} 
+                  <Link
+                    key={div}
                     to={`/solutions?division=${div}`}
                     className={`block text-base ${DIVISION_CONFIG[div].color}`}
                     onClick={() => setIsOpen(false)}
@@ -187,25 +188,27 @@ export const Navbar: React.FC = () => {
               <Link to="/team" className="block font-medium text-white text-lg" onClick={() => setIsOpen(false)}>Équipe</Link>
               <Link to="/blog" className="block font-medium text-white text-lg" onClick={() => setIsOpen(false)}>Blog</Link>
               <Link to="/contact" className="block font-medium text-white text-lg" onClick={() => setIsOpen(false)}>Contact</Link>
-              
-              <Link 
+
+              <Link
                 to="/devis"
                 onClick={() => setIsOpen(false)}
                 className="block py-3 border border-cyan-500/20 rounded-lg w-full font-medium text-cyan-400 hover:text-cyan-300 text-center transition-colors"
               >
                 Générateur de Devis IA
               </Link>
-              
-              <Link 
-                to="/admin/login"
+
+              <a
+                href="https://admin.aureus.mg"
+                target="_blank"
+                rel="noopener noreferrer"
                 onClick={() => setIsOpen(false)}
                 className="flex justify-center items-center space-x-2 py-3 border border-white/10 rounded-lg w-full text-gray-400 hover:text-white transition-colors"
               >
                 <Lock className="w-4 h-4" />
                 <span>Connexion Admin</span>
-              </Link>
-              
-              <Link 
+              </a>
+
+              <Link
                 to="/contact"
                 onClick={() => setIsOpen(false)}
                 className="block bg-blue-600 py-3 rounded-lg w-full font-bold text-white text-center"

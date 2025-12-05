@@ -72,9 +72,9 @@ Le site inclut une **home cinématique**, des pages dédiées (`Solutions`, `Wor
 - **`/solutions`** – Présentation des offres par division (`Tech`, `Studio`, `Brand`).  
 - **`/work`** – Études de cas / portfolio (projets structurés par `Division`, tags, etc.).  
 - **`/pricing`** – Grilles tarifaires et offres packagées.  
-- **`/blog`** – Articles d’analyse et de veille.  
+- **`/blog`** – Articles d'analyse et de veille.  
 - **`/contact`** – Formulaire de prise de brief et de collecte de leads.  
-- **`/admin`** – Tableau de bord admin (gestion des projets, leads, contenus), sans `Navbar`/`Footer` publics.
+- **`/devis`** – Générateur de devis (protégé, nécessite une inscription).
 
 > La navigation est gérée dans `App.tsx` via `HashRouter` pour un déploiement simple sur des hébergeurs statiques.
 

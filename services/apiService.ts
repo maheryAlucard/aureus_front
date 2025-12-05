@@ -141,10 +141,13 @@ apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      // Handle unauthorized - clear auth and redirect
+      // Handle unauthorized - clear auth
       localStorage.removeItem('auth_token');
       localStorage.removeItem('auth_user');
-      window.location.href = '/admin/login';
+      // Redirect to register page for protected routes
+      if (window.location.pathname === '/devis') {
+        window.location.href = '/register';
+      }
     }
     return Promise.reject(error);
   }

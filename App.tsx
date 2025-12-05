@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { HashRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import { useAnalytics } from './hooks/useAnalytics';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
@@ -14,8 +14,6 @@ import { BlogPost } from './pages/BlogPost';
 import { ProjectDetail } from './pages/ProjectDetail';
 import { SearchResults } from './pages/SearchResults';
 import { Team } from './pages/Team';
-import { AdminDashboard } from './pages/Admin';
-import { Login } from './pages/Login';
 import { Register } from './pages/Register';
 import { DevisGenerator } from './pages/DevisGenerator';
 import { ProtectedRoute } from './components/ProtectedRoute';
@@ -23,22 +21,16 @@ import { BackToTop } from './components/BackToTop';
 import { CookieConsent } from './components/CookieConsent';
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const location = useLocation();
-  const isAdmin = location.pathname.startsWith('/admin');
-  
-  // Track analytics for non-admin pages
-  if (!isAdmin) {
-    useAnalytics();
-  }
+  useAnalytics();
 
   return (
     <>
-      {!isAdmin && <Navbar />}
+      <Navbar />
       {children}
-      {!isAdmin && <Footer />}
-      {!isAdmin && <ChatButton />}
-      {!isAdmin && <BackToTop />}
-      {!isAdmin && <CookieConsent />}
+      <Footer />
+      <ChatButton />
+      <BackToTop />
+      <CookieConsent />
     </>
   );
 };
@@ -58,23 +50,14 @@ export default function App() {
           <Route path="/search" element={<SearchResults />} />
           <Route path="/team" element={<Team />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/admin/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route 
-            path="/admin" 
-            element={
-              <ProtectedRoute>
-                <AdminDashboard />
-              </ProtectedRoute>
-            } 
-          />
-          <Route 
-            path="/devis" 
+          <Route
+            path="/devis"
             element={
               <ProtectedRoute>
                 <DevisGenerator />
               </ProtectedRoute>
-            } 
+            }
           />
         </Routes>
       </Layout>
