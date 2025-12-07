@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Division, DIVISION_CONFIG, Project } from '../types';
-import { CheckCircle2, ArrowRight, Video, Music, Lightbulb, Play, ChevronLeft, ChevronRight, Phone, Mail, Twitter, Github, Linkedin, Settings, Zap, Headphones, Star } from 'lucide-react';
+import { CheckCircle2, ArrowRight, Video, Music, Lightbulb, Play, ChevronLeft, ChevronRight, Phone, Mail, Twitter, Github, Linkedin, Settings, Zap, Headphones, Star, Search, Network, PenTool, Rocket, Eye, MessageSquare, TrendingUp, Building, FileText } from 'lucide-react';
 import { Testimonials } from '../components/Testimonials';
 import { useSEO } from '../hooks/useSEO';
 import { useTeamMembers } from '../hooks/useTeamMembers';
@@ -43,6 +43,7 @@ export const Solutions: React.FC = () => {
   // Visual Vibe config based on strategy
   const isTech = activeDivision === Division.TECH;
   const isStudio = activeDivision === Division.STUDIO;
+  const isBrand = activeDivision === Division.BRAND;
 
   const themeClasses = isTech
     ? "font-mono"
@@ -72,7 +73,7 @@ export const Solutions: React.FC = () => {
   const studioTeamMembers = isStudio ? teamMembers.filter(m => m.division === Division.STUDIO).slice(0, 3) : [];
 
   return (
-    <div className={`pt-20 min-h-screen ${isStudio ? 'bg-[#0D0914]' : ''}`}>
+    <div className={`pt-20 min-h-screen ${isStudio ? 'bg-[#0D0914]' : isBrand ? 'bg-[#0D1117]' : ''}`}>
       {/* Hero */}
       <motion.div
         className={`relative py-24 overflow-hidden text-center ${isStudio ? 'hero-bg' : ''}`}
@@ -132,7 +133,7 @@ export const Solutions: React.FC = () => {
               initial={{ opacity: 0, scale: 0.8, y: -10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2, type: "spring", stiffness: 200 }}
-              className={`inline-block py-1 px-3 rounded-full ${isStudio ? `${config.bg} border ${config.border} ${config.color}` : 'bg-white/5 border border-white/10'} text-xs font-semibold mb-6`}
+              className={`inline-block py-1 px-3 rounded-full ${isStudio ? `${config.bg} border ${config.border} ${config.color}` : isTech ? `${config.bg} border ${config.border} ${config.color}` : 'bg-white/5 border border-white/10'} text-xs font-semibold mb-6`}
             >
               {isStudio ? 'DIVISION: AUREUS STUDIO' : `DIVISION : ${config.label.toUpperCase()}`}
             </motion.span>
@@ -227,58 +228,76 @@ export const Solutions: React.FC = () => {
             </div>
           </>
         ) : (
-          <div className="gap-8 grid grid-cols-1 md:grid-cols-3">
-            {config.subServices?.map((service, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, y: 40, rotateX: -15 }}
-                whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{
-                  duration: 0.6,
-                  delay: idx * 0.15,
-                  type: "spring",
-                  stiffness: 100
-                }}
-                whileHover={{
-                  y: -8,
-                  scale: 1.02,
-                  rotateY: 2,
-                  transition: { duration: 0.3 }
-                }}
-                className="group bg-[#0a0a16] p-8 border border-white/5 hover:border-white/20 rounded-xl perspective-1000 transition-all duration-300"
+          <>
+            {isBrand && (
+              <motion.h2
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+                className="mb-8 font-bold text-white text-3xl"
               >
-                <motion.div
-                  className={`w-12 h-12 rounded-lg bg-white/5 flex items-center justify-center mb-6 ${config.color} group-hover:scale-110 transition-transform`}
-                  whileHover={{
-                    rotate: 360,
-                    scale: 1.15,
-                    transition: { duration: 0.5, type: "spring" }
-                  }}
-                >
-                  <CheckCircle2 className="w-6 h-6" />
-                </motion.div>
-                <motion.h3
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: idx * 0.15 + 0.2 }}
-                  className="mb-3 font-bold text-white text-xl"
-                >
-                  {service.title}
-                </motion.h3>
-                <motion.p
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: idx * 0.15 + 0.3 }}
-                  className="text-gray-400 text-sm leading-relaxed"
-                >
-                  {service.desc}
-                </motion.p>
-              </motion.div>
-            ))}
-          </div>
+                Nos Services
+              </motion.h2>
+            )}
+            <div className="gap-8 grid grid-cols-1 md:grid-cols-3">
+              {config.subServices?.map((service, idx) => {
+                // Brand-specific icons
+                const brandIcons = isBrand ? [Eye, MessageSquare, TrendingUp] : [];
+                const Icon = isBrand ? (brandIcons[idx] || CheckCircle2) : CheckCircle2;
+                return (
+                  <motion.div
+                    key={idx}
+                    initial={{ opacity: 0, y: 40, rotateX: -15 }}
+                    whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+                    viewport={{ once: true, margin: "-50px" }}
+                    transition={{
+                      duration: 0.6,
+                      delay: idx * 0.15,
+                      type: "spring",
+                      stiffness: 100
+                    }}
+                    whileHover={{
+                      y: -8,
+                      scale: 1.02,
+                      rotateY: 2,
+                      transition: { duration: 0.3 }
+                    }}
+                    className={`group ${isBrand ? 'bg-[#161B22] border-gray-800' : 'bg-[#0a0a16] border-white/5'} p-8 border hover:border-white/20 rounded-xl perspective-1000 transition-all duration-300`}
+                  >
+                    <motion.div
+                      className={`w-12 h-12 rounded-lg ${isBrand ? 'bg-gray-800 border border-gray-700 rounded-full' : 'bg-white/5'} flex items-center justify-center mb-6 ${config.color} group-hover:scale-110 transition-transform`}
+                      whileHover={{
+                        rotate: 360,
+                        scale: 1.15,
+                        transition: { duration: 0.5, type: "spring" }
+                      }}
+                    >
+                      <Icon className="w-6 h-6" />
+                    </motion.div>
+                    <motion.h3
+                      initial={{ opacity: 0 }}
+                      whileInView={{ opacity: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: idx * 0.15 + 0.2 }}
+                      className="mb-3 font-bold text-white text-xl"
+                    >
+                      {service.title}
+                    </motion.h3>
+                    <motion.p
+                      initial={{ opacity: 0 }}
+                      whileInView={{ opacity: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: idx * 0.15 + 0.3 }}
+                      className="text-gray-400 text-sm leading-relaxed"
+                    >
+                      {service.desc}
+                    </motion.p>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </>
         )}
       </motion.div>
 
@@ -1070,6 +1089,408 @@ export const Solutions: React.FC = () => {
         <div className="mx-auto px-6 py-24 max-w-7xl">
           <Testimonials filterByDivision={activeDivision} showAll={false} />
         </div>
+      )}
+
+      {/* About Us Section - Brand Only */}
+      {isBrand && (
+        <motion.section
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mx-auto px-4 sm:px-6 lg:px-8 py-16 max-w-7xl"
+          id="about"
+        >
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="mb-8 font-bold text-white text-3xl"
+          >
+            À propos de nous
+          </motion.h2>
+          <div className="items-center gap-12 grid grid-cols-1 lg:grid-cols-2">
+            {/* Team Image */}
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="w-full"
+            >
+              <motion.img
+                alt="Aureus Brand Team"
+                className="rounded-2xl w-full h-full object-cover"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCXbGwziKY0fr3In_r1FcZNGY8NMkiTc11raZC1z_5Ao0FqFs6_B_2RfC3QfspKBw2Sy1mpXIEEgCYxP1G3IZ7RjwlxN71JM9H3iJUVMhj9N5A_4W6NAeJsjr2SNcYzD5kYFilU15zgElu_PneOl-mveWhVaDRWJvwH_lHvGbJUcutB8hvGSZuuQ031I3VlKi--GhPq8iIoANYR1swrw0eWyjWYhURgAdqalR-WY2opYvGRx4DerP0VCUMwGFy9uv08gjMkUF5GcVg"
+                whileHover={{ scale: 1.02 }}
+                transition={{ duration: 0.3 }}
+              />
+            </motion.div>
+            {/* Mission and Values */}
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <motion.h3
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2 }}
+                className="mb-2 font-semibold text-white text-xl"
+              >
+                Mission : Construire des marques impactantes et des identités mémorables.
+              </motion.h3>
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.3 }}
+                className="mb-6 text-gray-400"
+              >
+                Analysez votre présence actuelle et découvrez les leviers de croissance inexploités. Nous transformons votre vision en identité de marque forte et engageante.
+              </motion.p>
+              <motion.h3
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.4 }}
+                className="mb-4 font-semibold text-white text-xl"
+              >
+                Valeurs core :
+              </motion.h3>
+              <motion.ul
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.5 }}
+                className="space-y-2 text-gray-400"
+              >
+                <li className="before:left-0 before:absolute relative pl-4 before:text-indigo-400 before:content-['•']">
+                  Créativité et innovation au service de votre marque.
+                </li>
+                <li className="before:left-0 before:absolute relative pl-4 before:text-indigo-400 before:content-['•']">
+                  Engagement client et résultats mesurables.
+                </li>
+                <li className="before:left-0 before:absolute relative pl-4 before:text-indigo-400 before:content-['•']">
+                  Excellence dans chaque détail, service sur mesure.
+                </li>
+              </motion.ul>
+            </motion.div>
+          </div>
+        </motion.section>
+      )}
+
+      {/* Process Section - Brand Only */}
+      {isBrand && (
+        <motion.section
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mx-auto px-4 sm:px-6 lg:px-8 py-16 max-w-7xl"
+          id="process"
+        >
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="mb-8 font-bold text-white text-3xl"
+          >
+            Notre Processus
+          </motion.h2>
+          <div className="gap-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              {
+                icon: Search,
+                title: 'Découverte',
+                desc: 'Analyse de votre présence actuelle et de vos complexités.'
+              },
+              {
+                icon: Network,
+                title: 'Stratégie',
+                desc: 'Stratégie Social Media et stratégie de management.'
+              },
+              {
+                icon: PenTool,
+                title: 'Création',
+                desc: 'Analyse de votre identité et création de votre marque.'
+              },
+              {
+                icon: Rocket,
+                title: 'Lancement',
+                desc: 'Lancement de votre projet et déploiement en toute simplicité.'
+              }
+            ].map((step, idx) => {
+              const Icon = step.icon;
+              return (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: idx * 0.1 }}
+                  whileHover={{ y: -5, scale: 1.02 }}
+                  className="bg-[#161B22] p-8 border border-gray-800 rounded-2xl"
+                >
+                  <motion.div
+                    className="flex justify-center items-center bg-gray-800 mb-4 border border-gray-700 rounded-full w-12 h-12"
+                    whileHover={{ rotate: 360, scale: 1.1 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <Icon className="w-6 h-6 text-indigo-400" />
+                  </motion.div>
+                  <h3 className="mb-2 font-semibold text-white text-xl">{step.title}</h3>
+                  <p className="text-gray-400">{step.desc}</p>
+                </motion.div>
+              );
+            })}
+          </div>
+        </motion.section>
+      )}
+
+      {/* Portfolio Section - Brand Only */}
+      {isBrand && (
+        <motion.section
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mx-auto px-4 sm:px-6 lg:px-8 py-16 max-w-7xl"
+          id="portfolio"
+        >
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="mb-8 font-bold text-white text-3xl"
+          >
+            Portfolio / Études de Cas
+          </motion.h2>
+          <div className="gap-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            {[
+              {
+                title: 'Cecine Name',
+                imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuC3EAg0KkoCw6kTRfr0MOoN2pTtjxEsy8VBt56k5LxOs96ok5DrH5MEeyW0EwT0vEn1LXIPh6yKTA9hyh7i5DE29JqoD_L27_ka2fqtYllb68qtzglQpHzHvw-AWf1aaFZHoBJuFpsFVnaB5HtWTxG7HeWlaSECH85q2JT5Gug2Elg0IGo0cysBaJuxiDU-n-qQDcJoeBAJkEAku_-I76J6JXjRFNPZy7QUXDXo0NYZlfWS2S7uimtgwGFzRmxWmYmPhQkuibsQ_bI',
+                metrics: [
+                  { label: "Nouveau client", value: 100 },
+                  { label: "Succès d'action", value: 83 }
+                ]
+              },
+              {
+                title: 'Chevleo Brovecbs',
+                imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDpTyvuQaJTQ3crXV9eZV50fjXuiQgRgLwW62MPs6Y2FOk7ySbpGM6GlzIVXYJcl0Y4gWaJKxYSVPnYTEiFWLGevZTGRhxH9S7IYp8b_iJoz88stbRCYhLbbJhLoOp326Z4w30to34EWn-8tIVkA1W8b6FfSG-s_PLAYv6nUhZhCCFnG1mn3Jn2Q3mSmv74TjYedAP2J4Dr0Tq2RLQ4hq7vW0fBifOzUvJPdp2aCOWXMKzFbyql7GpaxBJxFCyrqe4QzUIxNCgzD0Q',
+                metrics: [
+                  { label: "Succès client", value: 49 },
+                  { label: "Success vléstion", value: 60 }
+                ]
+              },
+              {
+                title: 'Oomlns Fana',
+                imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCQ1MPylGZHKpAbS1fJ9oWmLLZRVA0uJX93i6Map1nw68pWa-uWbgjMDLkXriaQU79cfV5O4YLqEnifwyn_6dExg69NaEam0fRlDIygpvEmBYlkZeCofy-2QpnVT-EoUGO6DRbxWVmAOzhpOsaVYy3p75cAAugNt01EwBFUVhleCs0w7BDBwnLp9XEboOdaRMYEI4OsnGwp9CEkOOmBAy5BQuFNYz0TxepQtiNEKooXo49mPmC9X0XlzIzZifu1YIj3zaHe_cKaFhc',
+                metrics: [
+                  { label: "Succès client", value: 100 },
+                  { label: "Success fidélen", value: 85 }
+                ]
+              }
+            ].map((project, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: idx * 0.15 }}
+                whileHover={{ y: -10, scale: 1.02 }}
+                className="bg-[#161B22] border border-gray-800 rounded-2xl overflow-hidden"
+              >
+                <motion.img
+                  alt={`Portfolio image ${idx + 1}`}
+                  className="w-full h-48 object-cover"
+                  src={project.imageUrl}
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ duration: 0.4 }}
+                />
+                <div className="p-6">
+                  <h3 className="mb-4 font-semibold text-white text-xl">{project.title}</h3>
+                  <div className="gap-4 grid grid-cols-2 text-sm">
+                    {project.metrics.map((metric, metricIdx) => (
+                      <div key={metricIdx}>
+                        <p className="mb-1 text-gray-400">{metric.label}</p>
+                        <div className="bg-gray-700 rounded-full w-full h-5">
+                          <motion.div
+                            initial={{ width: 0 }}
+                            whileInView={{ width: `${metric.value}%` }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 1, delay: idx * 0.15 + metricIdx * 0.1 }}
+                            className="relative flex justify-center items-center bg-green-500 rounded-full h-5"
+                          >
+                            <span className="absolute inset-0 flex justify-center items-center font-bold text-white text-xs">
+                              {metric.value}%
+                            </span>
+                          </motion.div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.section>
+      )}
+
+      {/* Blog Section - Brand Only */}
+      {isBrand && (
+        <motion.section
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mx-auto px-4 sm:px-6 lg:px-8 py-16 max-w-7xl"
+          id="blog"
+        >
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="mb-2 font-bold text-white text-3xl"
+          >
+            Blog / Insights
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="mb-8 text-gray-400"
+          >
+            Découvrez nos articles récents
+          </motion.p>
+          <div className="gap-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            {[
+              {
+                title: "Analyse pour communiquer : marque développement branding",
+                excerpt: "Analyse votre présence actuelle et découvrez les leviers de croissance inexploités. Nous transformons votre vision...",
+                date: "19 Nov, 2023"
+              },
+              {
+                title: "Les meilleures stratégies : une description complète et moderne",
+                excerpt: "Découvrez les meilleures stratégies entre les différentes approches de développement de votre marque.",
+                date: "22 Nov, 2023"
+              },
+              {
+                title: "Faut-il fournir de site complet des nouvelles",
+                excerpt: "Découvrez comment créer une identité de marque forte et engageante, ergonomique et moderne...",
+                date: "28 Nov, 2023"
+              }
+            ].map((post, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: idx * 0.1 }}
+                whileHover={{ y: -5, scale: 1.02 }}
+                className="bg-[#161B22] p-8 border border-gray-800 rounded-2xl"
+              >
+                <h3 className="mb-2 font-semibold text-white text-xl">{post.title}</h3>
+                <p className="mb-4 text-gray-400 text-sm leading-relaxed">{post.excerpt}</p>
+                <p className="text-gray-500 text-xs">{post.date}</p>
+              </motion.div>
+            ))}
+          </div>
+        </motion.section>
+      )}
+
+      {/* Contact Us Section - Brand Only */}
+      {isBrand && (
+        <motion.section
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mx-auto px-4 sm:px-6 lg:px-8 py-16 max-w-7xl"
+          id="contact"
+        >
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="flex lg:flex-row flex-col justify-between items-center gap-8"
+          >
+            {/* Left side: Title, subtitle, and button */}
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              className="lg:text-left text-center"
+            >
+              <h2 className="mb-2 font-bold text-white text-3xl">Contactez-nous</h2>
+              <p className="mb-6 text-gray-400">Découvrez ce que nos clients disent de nous</p>
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Link
+                  to="/contact"
+                  className={`gradient-button text-white font-semibold py-3 px-8 rounded-lg inline-block transition hover:opacity-90 bg-gradient-to-r ${config.gradient}`}
+                >
+                  Contactez-nous
+                </Link>
+              </motion.div>
+            </motion.div>
+            {/* Right side: Contact details */}
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3 }}
+              className="flex sm:flex-row flex-col gap-8 sm:text-left text-center"
+            >
+              <div className="space-y-4">
+                <motion.div
+                  className="flex items-center gap-3"
+                  whileHover={{ x: 5 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                >
+                  <Mail className="w-5 h-5 text-indigo-400" />
+                  <div>
+                    <p className="text-gray-400 text-sm">Email</p>
+                    <p className="font-semibold text-white">aureus@aureusbrand.com</p>
+                  </div>
+                </motion.div>
+                <motion.div
+                  className="flex items-center gap-3"
+                  whileHover={{ x: 5 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                >
+                  <Phone className="w-5 h-5 text-indigo-400" />
+                  <div>
+                    <p className="text-gray-400 text-sm">Téléphone</p>
+                    <p className="font-semibold text-white">+44 07 238 30 00</p>
+                  </div>
+                </motion.div>
+              </div>
+              <motion.div
+                className="flex items-center gap-3"
+                whileHover={{ x: 5 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
+                <Building className="w-5 h-5 text-indigo-400" />
+                <div>
+                  <p className="text-gray-400 text-sm">Office</p>
+                  <p className="font-semibold text-white">
+                    188 Geoteansmin Street,<br /> Aureus 88986
+                  </p>
+                </div>
+              </motion.div>
+            </motion.div>
+          </motion.div>
+        </motion.section>
       )}
 
       {/* Contact Us Section - Studio Only */}
