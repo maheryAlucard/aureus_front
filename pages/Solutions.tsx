@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Division, DIVISION_CONFIG, Project } from '../types';
-import { CheckCircle2, ArrowRight, Video, Music, Lightbulb, Play, ChevronLeft, ChevronRight, Phone, Mail, Twitter, Github, Linkedin } from 'lucide-react';
+import { CheckCircle2, ArrowRight, Video, Music, Lightbulb, Play, ChevronLeft, ChevronRight, Phone, Mail, Twitter, Github, Linkedin, Settings, Zap, Headphones, Star } from 'lucide-react';
 import { Testimonials } from '../components/Testimonials';
 import { useSEO } from '../hooks/useSEO';
 import { useTeamMembers } from '../hooks/useTeamMembers';
@@ -74,27 +74,104 @@ export const Solutions: React.FC = () => {
   return (
     <div className={`pt-20 min-h-screen ${isStudio ? 'bg-[#0D0914]' : ''}`}>
       {/* Hero */}
-      <div className={`relative py-24 overflow-hidden text-center ${isStudio ? 'hero-bg' : ''}`} style={isStudio ? { background: 'linear-gradient(to bottom, rgba(47, 26, 91, 0.4), rgba(13, 9, 20, 0) 70%)' } : {}}>
-        <div className={`absolute inset-0 bg-gradient-to-b ${config.gradient} opacity-5`} />
-        {isTech && <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10" />}
-        {isStudio && <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-10" />}
+      <motion.div
+        className={`relative py-24 overflow-hidden text-center ${isStudio ? 'hero-bg' : ''}`}
+        style={isStudio ? { background: 'linear-gradient(to bottom, rgba(47, 26, 91, 0.4), rgba(13, 9, 20, 0) 70%)' } : {}}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
+      >
+        <motion.div
+          className={`absolute inset-0 bg-gradient-to-b ${config.gradient} opacity-5`}
+          animate={{
+            backgroundPosition: ["0% 0%", "100% 100%"],
+          }}
+          transition={{
+            duration: 20,
+            repeat: Infinity,
+            repeatType: "reverse",
+            ease: "linear"
+          }}
+        />
+        {isTech && (
+          <motion.div
+            className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"
+            animate={{
+              backgroundPosition: ["0% 0%", "100% 100%"],
+            }}
+            transition={{
+              duration: 30,
+              repeat: Infinity,
+              repeatType: "reverse",
+              ease: "linear"
+            }}
+          />
+        )}
+        {isStudio && (
+          <motion.div
+            className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-10"
+            animate={{
+              backgroundPosition: ["0% 0%", "100% 100%"],
+            }}
+            transition={{
+              duration: 40,
+              repeat: Infinity,
+              repeatType: "reverse",
+              ease: "linear"
+            }}
+          />
+        )}
 
         <div className="z-10 relative mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-            <span className={`inline-block py-1 px-3 rounded-full ${isStudio ? `${config.bg} border ${config.border} ${config.color}` : 'bg-white/5 border border-white/10'} text-xs font-semibold mb-6`}>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+          >
+            <motion.span
+              initial={{ opacity: 0, scale: 0.8, y: -10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2, type: "spring", stiffness: 200 }}
+              className={`inline-block py-1 px-3 rounded-full ${isStudio ? `${config.bg} border ${config.border} ${config.color}` : 'bg-white/5 border border-white/10'} text-xs font-semibold mb-6`}
+            >
               {isStudio ? 'DIVISION: AUREUS STUDIO' : `DIVISION : ${config.label.toUpperCase()}`}
-            </span>
-            <h1 className={`text-6xl md:text-8xl font-medium text-white tracking-tight mb-6 ${themeClasses}`}>
+            </motion.span>
+            <motion.h1
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.3, type: "spring", stiffness: 100 }}
+              className={`text-6xl md:text-8xl font-medium text-white tracking-tight mb-6 ${themeClasses}`}
+            >
               {config.slogan}
-            </h1>
-            <p className="mx-auto max-w-2xl text-[#D1D1D1] text-lg leading-relaxed">
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.5 }}
+              className="mx-auto max-w-2xl text-[#D1D1D1] text-lg leading-relaxed"
+            >
               {activeDivision === Division.TECH && "Transformation digitale de bout en bout. Nous codons vos idées et automatisons vos processus."}
               {activeDivision === Division.STUDIO && "Production cinématographique haut de gamme. Nous capturons l'émotion et sculptons la lumière."}
               {activeDivision === Division.BRAND && "Stratégie de marque impactante. Nous construisons des communautés et des identités mémorables."}
-            </p>
+            </motion.p>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 0.7, type: "spring", stiffness: 200 }}
+              className="mt-8"
+            >
+              <motion.a
+                href="#services"
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+                className={`inline-block px-8 py-3 rounded-lg font-semibold text-white bg-gradient-to-r ${config.gradient} shadow-lg hover:shadow-xl transition-all`}
+              >
+                Demander un Devis
+              </motion.a>
+            </motion.div>
           </motion.div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Sub-Services Details */}
       <motion.div
@@ -152,17 +229,256 @@ export const Solutions: React.FC = () => {
         ) : (
           <div className="gap-8 grid grid-cols-1 md:grid-cols-3">
             {config.subServices?.map((service, idx) => (
-              <div key={idx} className="group bg-[#0a0a16] p-8 border border-white/5 hover:border-white/20 rounded-xl transition-all duration-300">
-                <div className={`w-12 h-12 rounded-lg bg-white/5 flex items-center justify-center mb-6 ${config.color} group-hover:scale-110 transition-transform`}>
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 40, rotateX: -15 }}
+                whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{
+                  duration: 0.6,
+                  delay: idx * 0.15,
+                  type: "spring",
+                  stiffness: 100
+                }}
+                whileHover={{
+                  y: -8,
+                  scale: 1.02,
+                  rotateY: 2,
+                  transition: { duration: 0.3 }
+                }}
+                className="group bg-[#0a0a16] p-8 border border-white/5 hover:border-white/20 rounded-xl perspective-1000 transition-all duration-300"
+              >
+                <motion.div
+                  className={`w-12 h-12 rounded-lg bg-white/5 flex items-center justify-center mb-6 ${config.color} group-hover:scale-110 transition-transform`}
+                  whileHover={{
+                    rotate: 360,
+                    scale: 1.15,
+                    transition: { duration: 0.5, type: "spring" }
+                  }}
+                >
                   <CheckCircle2 className="w-6 h-6" />
-                </div>
-                <h3 className="mb-3 font-bold text-white text-xl">{service.title}</h3>
-                <p className="text-gray-400 text-sm leading-relaxed">{service.desc}</p>
-              </div>
+                </motion.div>
+                <motion.h3
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: idx * 0.15 + 0.2 }}
+                  className="mb-3 font-bold text-white text-xl"
+                >
+                  {service.title}
+                </motion.h3>
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: idx * 0.15 + 0.3 }}
+                  className="text-gray-400 text-sm leading-relaxed"
+                >
+                  {service.desc}
+                </motion.p>
+              </motion.div>
             ))}
           </div>
         )}
       </motion.div>
+
+      {/* Pourquoi Nous Section - Tech Only */}
+      {isTech && (
+        <motion.section
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mx-auto px-4 sm:px-6 lg:px-8 py-16 max-w-7xl"
+        >
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="mb-12 font-bold text-white text-3xl md:text-4xl"
+          >
+            Pourquoi Nous
+          </motion.h2>
+          <div className="gap-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+            {[
+              {
+                icon: ArrowRight,
+                title: "Expertise Technique",
+                desc: "Expertise Technique de bout en bout, pour concrétiser et automatiser vos processus."
+              },
+              {
+                icon: Settings,
+                title: "Approche Sur Mesure",
+                desc: "Découvrez comment nous avons une approche Sur Mesure. Solutions précises."
+              },
+              {
+                icon: Zap,
+                title: "Innovation Continue",
+                desc: "Workflows Make/Zapier, Innovation continue et renforcement de l'innovation et de l'apprentissage."
+              },
+              {
+                icon: Headphones,
+                title: "Support Dédié",
+                desc: "Découvrez comment nos agents IA peuvent réduire votre charge de support."
+              }
+            ].map((feature, idx) => {
+              const Icon = feature.icon;
+              return (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, y: 50, x: idx % 2 === 0 ? -20 : 20 }}
+                  whileInView={{ opacity: 1, y: 0, x: 0 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{
+                    duration: 0.7,
+                    delay: idx * 0.12,
+                    type: "spring",
+                    stiffness: 80
+                  }}
+                  whileHover={{
+                    y: -8,
+                    scale: 1.03,
+                    transition: { duration: 0.3, type: "spring", stiffness: 300 }
+                  }}
+                  className="group text-left"
+                >
+                  <motion.div
+                    className="mb-4"
+                    whileHover={{
+                      scale: 1.2,
+                      rotate: [0, -10, 10, -10, 0],
+                      transition: { duration: 0.5 }
+                    }}
+                    whileTap={{ scale: 0.9 }}
+                    animate={{
+                      y: [0, -5, 0],
+                    }}
+                    transition={{
+                      duration: 2,
+                      repeat: Infinity,
+                      repeatDelay: 3,
+                      ease: "easeInOut"
+                    }}
+                  >
+                    <Icon className="drop-shadow-lg w-8 h-8 text-[#2F81F7]" />
+                  </motion.div>
+                  <motion.h3
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: idx * 0.12 + 0.2 }}
+                    whileHover={{ x: 5 }}
+                    className="mb-2 font-semibold text-white text-xl"
+                  >
+                    {feature.title}
+                  </motion.h3>
+                  <motion.p
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: idx * 0.12 + 0.3 }}
+                    className="text-gray-400 text-sm leading-relaxed"
+                  >
+                    {feature.desc}
+                  </motion.p>
+                </motion.div>
+              );
+            })}
+          </div>
+        </motion.section>
+      )}
+
+      {/* Portfolio/Case Studies Section - Tech Only */}
+      {isTech && (
+        <motion.section
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 max-w-7xl"
+        >
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="mb-12 font-bold text-white text-3xl md:text-4xl"
+          >
+            Portfolio/Case Studies
+          </motion.h2>
+          <div className="gap-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            {[
+              {
+                title: "Refonte E-commerce BioStore",
+                imageUrl: "https://lh3.googleusercontent.com/aida-public/AB6AXuAt7gG0s0ZGSiNX0MqBlBbdd8dj0QBN6NSlRcdiCKiiq4pJ_GT2mrY7nSRNE4Zhmg970FrtUITw6X1LlW252_SIVMztTigN8sYXvRIaNjWzHFZRRJiqm970U-o3VKLbEqDUBSHziUvEnHH2Keq1W7hpq_UJ2nPnZ93GLJKvUWm5XsB1M-6tzpkUGognt1OKdJqfssU864LCUWy27dERdxClUu421nXwRs5hM9tG_pZigEdajYdZsQl0DtmlTUxtp7LT2OpagjUGXKw"
+              },
+              {
+                title: "Chatbot IA de Service Client",
+                imageUrl: "https://lh3.googleusercontent.com/aida-public/AB6AXuC8FNlWZA8gKjS4Idunb-txar-4AUotO54t761oYevsrm82BjGXPimaVADkiN3MOxcMsfIruVQtStsYt-Q3K7-OHwSnpsEG92G7s5_7lnvKxMexPXcF87_w_2NGUIs02xogsRdiy450sSBIXk0xekw6kEZa7xT3M5aKLEiSmVQk02eO8zGyHZDGVkeBtbkGaDpqYKTUPSDJ-wr1QLOsHGiEVpG8p_7XyTjrt1cht1P1WuPwRZT5HqNrx86udyA_5sk48o8Dvzq9eqQ"
+              },
+              {
+                title: "Automatisation des Flux Logistiques",
+                imageUrl: "https://lh3.googleusercontent.com/aida-public/AB6AXuC1Z5ywd76UEzTrfMhHsv1ES1YT0aRaRTm42a9im6Xz5qjEqCOs8MGxbr61QJrwGQOr2f0ooocwObF0UzZzkALLjRG-F3rkx2hkWRmFPnsM28NMbBuApdDTpt4Jg37n-fc5SRc75F2H4ouWBtF6dyIfjc8IhcQ07En7zSAE-7pWxVRqh1cE8PXJgpkmXuTWF2mHpQ79RDgWRccJYcxd7s3mp8ujsZbBywH0REOTYEAddFPWmbYIEekdGLFXmMKa2Sy0q4MYOULZkc8"
+              }
+            ].map((project, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 50, scale: 0.9, rotateY: -15 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1, rotateY: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{
+                  duration: 0.7,
+                  delay: idx * 0.15,
+                  type: "spring",
+                  stiffness: 100
+                }}
+                whileHover={{
+                  y: -10,
+                  scale: 1.02,
+                  rotateY: 5,
+                  transition: { duration: 0.3, type: "spring" }
+                }}
+                className="group perspective-1000"
+              >
+                <motion.div
+                  className="mb-4 border border-[#30363D] rounded-xl overflow-hidden"
+                  whileHover={{
+                    boxShadow: "0 20px 40px rgba(47, 129, 247, 0.3)",
+                    borderColor: "#2F81F7"
+                  }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <motion.img
+                    alt={project.title}
+                    className="w-full h-auto object-cover"
+                    src={project.imageUrl}
+                    whileHover={{
+                      scale: 1.1,
+                      filter: "brightness(1.1)"
+                    }}
+                    transition={{ duration: 0.4, ease: "easeOut" }}
+                  />
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    initial={false}
+                  />
+                </motion.div>
+                <motion.h3
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: idx * 0.15 + 0.3 }}
+                  whileHover={{ x: 5, color: "#39D3F3" }}
+                  className="font-semibold text-white text-xl transition-colors"
+                >
+                  {project.title}
+                </motion.h3>
+              </motion.div>
+            ))}
+          </div>
+        </motion.section>
+      )}
 
       {/* Latest Work Section - Studio Only */}
       {isStudio && (
@@ -403,28 +719,77 @@ export const Solutions: React.FC = () => {
           </motion.div>
         </motion.section>
       ) : (
-        <div className="bg-white/5 py-20 border-white/5 border-y">
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="bg-white/5 py-20 border-white/5 border-y"
+        >
           <div className="items-center gap-16 grid grid-cols-1 md:grid-cols-2 mx-auto px-6 max-w-7xl">
-            <div className="order-2 md:order-1">
-              <img
+            <motion.div
+              initial={{ opacity: 0, x: -50, rotateY: -20 }}
+              whileInView={{ opacity: 1, x: 0, rotateY: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, type: "spring", stiffness: 100 }}
+              whileHover={{ scale: 1.05, rotateY: 5 }}
+              className="order-2 md:order-1 perspective-1000"
+            >
+              <motion.img
                 src={`https://picsum.photos/seed/${activeDivision}feat/800/600`}
                 alt="Feature"
                 className="opacity-80 shadow-2xl rounded-2xl"
+                whileHover={{
+                  scale: 1.05,
+                  filter: "brightness(1.1) contrast(1.1)",
+                  boxShadow: "0 25px 50px rgba(0,0,0,0.5)"
+                }}
+                transition={{ duration: 0.4 }}
               />
-            </div>
-            <div className="order-1 md:order-2">
-              <h2 className="mb-6 font-bold text-white text-3xl">
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.2, type: "spring", stiffness: 100 }}
+              className="order-1 md:order-2"
+            >
+              <motion.h2
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.3 }}
+                className="mb-6 font-bold text-white text-3xl"
+              >
                 {isTech ? "Audit Gratuit : Êtes-vous prêt pour l'IA ?" : "Audit de Marque Gratuit"}
-              </h2>
-              <p className="mb-8 text-gray-400 text-lg">
+              </motion.h2>
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.4 }}
+                className="mb-8 text-gray-400 text-lg"
+              >
                 {isTech ? "Découvrez comment nos agents IA peuvent réduire votre charge de support client de 70%." : "Analysez votre présence actuelle et découvrez les leviers de croissance inexploités."}
-              </p>
-              <Link to="/contact" className={`px-8 py-3 rounded-lg font-bold text-white bg-gradient-to-r ${config.gradient} hover:opacity-90 transition-opacity`}>
-                {isTech ? "Demander un Audit" : "Télécharger"}
-              </Link>
-            </div>
+              </motion.p>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.5, type: "spring", stiffness: 200 }}
+              >
+                <motion.div
+                  whileHover={{ scale: 1.05, y: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Link to="/contact" className={`px-8 py-3 rounded-lg font-bold text-white bg-gradient-to-r ${config.gradient} hover:opacity-90 transition-opacity inline-block shadow-lg hover:shadow-xl`}>
+                    {isTech ? "Demander un Audit" : "Télécharger"}
+                  </Link>
+                </motion.div>
+              </motion.div>
+            </motion.div>
           </div>
-        </div>
+        </motion.div>
       )}
 
       {/* Testimonials */}
@@ -515,6 +880,190 @@ export const Solutions: React.FC = () => {
                 />
               ))}
             </motion.div>
+          </div>
+        </motion.section>
+      ) : isTech ? (
+        <motion.section
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 max-w-7xl"
+        >
+          <div className="mx-auto mb-12 max-w-2xl text-center">
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="mb-4 font-bold text-white text-3xl md:text-4xl"
+            >
+              Ils nous font confiance
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="text-gray-400"
+            >
+              Découvrez ce que nos clients disent de nous
+            </motion.p>
+          </div>
+          <div className="gap-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            {[
+              {
+                name: 'Sarah Chen',
+                role: 'CEO',
+                company: 'TeckStart',
+                content: "Aureus a transformé notre présence digitale. Leur expertise technique est",
+                avatar: 'S',
+                avatarBg: 'bg-purple-500'
+              },
+              {
+                name: 'Martin L.',
+                role: 'CTO',
+                company: 'FKEdge',
+                content: "Excellente équipe, résultats rapides.",
+                avatar: 'ML',
+                avatarBg: 'bg-[#2F81F7]',
+                photo: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBivK8tFIZWq2wpqNfyRqzfSSAmazMS5XXiF3TzhHRS7zErEcMiph5WJZJZzdvsPowhePbiDYPn9FvLMbGH0fwqxOkJS2_Uby9Nb85SoAChtifRcwapkxVdZ3ik2oVvWbXOOalvxkIMqTCJvVZrsb9h0hQQYv04NqVga-Pv_mavG4mRi9x1tOoBgUispCmRnXDIkfTPA7_SoB4OKc7bKimcdcT1lrYSVgXci1ASQLerdNw-Lu0hx67B0HTyjC1cqcBiaucUASP6NcI'
+              },
+              {
+                name: 'Elodie K.',
+                role: 'Directrice Marketing',
+                company: 'GreenPath',
+                content: "L'automatisation a décuplé notre efficacité.",
+                avatar: 'EK',
+                avatarBg: 'bg-[#2F81F7]',
+                photo: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDaLGjNp2QDUYZPoihfIylIXEQ-Wufvap1mBatvgdG1UouJKacTHpypf6Ice37hmhlsIz1vWC4m2TO0z9dgsFu6VROb5kACkRPNn1oXzBRouoCwtjCBK5el50Sy1irFKsTkwehSwqMnHwDISxpg31r0wtm0SMm5HfFzf6cvwMBOhrNVQv-3LRCiRyZWgvVPqcN_4icClMX1G7v6-iJg1x_NEgDS-tu1iaIPIbUmUMYPqi8A-pQqwcbrT-dC6SgYJbxNSe8j1ZGTJRg'
+              }
+            ].map((testimonial, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 50, scale: 0.9, rotateX: -10 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1, rotateX: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{
+                  duration: 0.7,
+                  delay: idx * 0.15,
+                  type: "spring",
+                  stiffness: 100
+                }}
+                whileHover={{
+                  y: -10,
+                  scale: 1.03,
+                  rotateY: 2,
+                  boxShadow: "0 20px 40px rgba(47, 129, 247, 0.2)",
+                  borderColor: "#2F81F7",
+                  transition: { duration: 0.3 }
+                }}
+                className="flex flex-col justify-between bg-[#161B22] p-8 border border-[#30363D] rounded-xl h-full perspective-1000"
+              >
+                <div>
+                  {/* Stars */}
+                  <motion.div
+                    className="flex mb-4 text-yellow-400"
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: idx * 0.15 + 0.2 }}
+                  >
+                    {[...Array(5)].map((_, i) => (
+                      <motion.div
+                        key={i}
+                        initial={{ opacity: 0, scale: 0, rotate: -180 }}
+                        whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+                        viewport={{ once: true }}
+                        transition={{
+                          delay: idx * 0.15 + 0.3 + i * 0.1,
+                          type: "spring",
+                          stiffness: 200
+                        }}
+                        whileHover={{ scale: 1.3, rotate: 360 }}
+                      >
+                        <Star className="fill-current w-5 h-5" />
+                      </motion.div>
+                    ))}
+                  </motion.div>
+
+                  {/* Quote Icon */}
+                  <motion.div
+                    className="mb-4"
+                    initial={{ opacity: 0, scale: 0, rotate: -180 }}
+                    whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+                    viewport={{ once: true }}
+                    transition={{
+                      delay: idx * 0.15 + 0.4,
+                      type: "spring",
+                      stiffness: 150
+                    }}
+                    whileHover={{ scale: 1.2, rotate: 5 }}
+                  >
+                    <span className="font-bold text-[#2F81F7] text-3xl">"</span>
+                  </motion.div>
+
+                  {/* Testimonial Text */}
+                  <motion.p
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: idx * 0.15 + 0.5 }}
+                    className="mb-6 text-[#C9D1D9]"
+                  >
+                    {testimonial.content}
+                  </motion.p>
+                </div>
+
+                {/* Client Info */}
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: idx * 0.15 + 0.6 }}
+                  whileHover={{ x: 5 }}
+                  className="flex items-center"
+                >
+                  {testimonial.photo ? (
+                    <motion.img
+                      alt={`Portrait of ${testimonial.name}`}
+                      className="mr-4 rounded-full w-12 h-12 object-cover"
+                      src={testimonial.photo}
+                      whileHover={{ scale: 1.2, rotate: 360 }}
+                      transition={{ duration: 0.6 }}
+                    />
+                  ) : (
+                    <motion.div
+                      className={`${testimonial.avatarBg} rounded-full w-12 h-12 flex items-center justify-center mr-4 text-white font-bold text-lg`}
+                      whileHover={{ scale: 1.2, rotate: 360 }}
+                      transition={{ duration: 0.6 }}
+                    >
+                      {testimonial.avatar}
+                    </motion.div>
+                  )}
+                  <div>
+                    <motion.p
+                      initial={{ opacity: 0 }}
+                      whileInView={{ opacity: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: idx * 0.15 + 0.7 }}
+                      className="font-semibold text-white"
+                    >
+                      {testimonial.name}
+                    </motion.p>
+                    <motion.p
+                      initial={{ opacity: 0 }}
+                      whileInView={{ opacity: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: idx * 0.15 + 0.8 }}
+                      className="text-gray-400 text-sm"
+                    >
+                      {testimonial.role}, {testimonial.company}
+                    </motion.p>
+                  </div>
+                </motion.div>
+              </motion.div>
+            ))}
           </div>
         </motion.section>
       ) : (
